@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.repair.dao.BmsAssetsRepairDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.repair.entity.BmsAssetsRepairEntity" id="bmsAssetsRepairMap">
+        <result property="id" column="id"/>
+        <result property="assetsId" column="assets_id"/>
+        <result property="assetsCode" column="assets_code"/>
+        <result property="assetsName" column="assets_name"/>
+        <result property="area" column="area"/>
+        <result property="title" column="title"/>
+        <result property="imgs" column="imgs"/>
+        <result property="content" column="content"/>
+        <result property="status" column="status"/>
+        <result property="isDispatch" column="is_dispatch"/>
+        <result property="dealUserId" column="deal_user_id"/>
+        <result property="dealResult" column="deal_result"/>
+        <result property="repairImgs" column="repair_imgs"/>
+        <result property="repairEvaluation" column="repair_evaluation"/>
+        <result property="repairGrade" column="repair_grade"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.repair.dto.BmsAssetsRepairDTO">
+        select r.id, r.title, r.create_date, r.status
+        , u.real_name as creatorName, u.work_no as creatorWorkNo
+        , d.name as creatorDept
+        from bms_assets_repair r
+        left join sys_user u on u.id = r.creator
+        left join sys_dept d on u.dept_id = d.id
+        <where>
+            r.del = 0
+            <if test="params.record != null and params.record != ''">
+                and (r.creator = #{params.recordUserId}
+                or r.id in (select assets_repair_id from bms_assets_repair_record where status = 0 and to_user_id = #{params.recordUserId})
+                <if test="params.isProperty != null and params.isProperty != ''">
+                    or r.status in (2,3,4,5)
+                </if>
+                )
+            </if>
+            <if test="params.statusList != null and params.statusList.size() > 0">
+                and r.status in
+                <foreach item="status" collection="params.statusList" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="params.toUserId != null and params.toUserId != ''">
+                and r.id in (select assets_repair_id from bms_assets_repair_record where status = 0 and to_user_id =
+                #{params.toUserId})
+            </if>
+            <if test="params.isVerify != null and params.isVerify">
+                and r.status in ()
+            </if>
+            <if test="params.id != null and params.id != ''">
+                and r.id like concat('%',#{params.id},'%')
+            </if>
+            <if test="params.title != null and params.title != ''">
+                and r.title like concat('%',#{params.title},'%')
+            </if>
+            <if test="params.creatorName != null and params.creatorName != ''">
+                and u.real_name like concat('%',#{params.creatorName},'%')
+            </if>
+            <if test="params.creatorWorkNo != null and params.creatorWorkNo != ''">
+                and u.work_no like concat('%',#{params.creatorWorkNo},'%')
+            </if>
+            <if test="params.creator != null and params.creator != ''">
+                and r.creator = #{params.creator}
+            </if>
+            <if test="params.deptId != null and params.deptId != ''">
+                and u.dept_id = #{params.deptId}
+            </if>
+            <if test="params.status != null and params.status != '' and params.status != '-1'">
+                and r.status = #{params.status}
+            </if>
+            <if test="params.createDate != null and params.createDate != ''">
+                and date(r.create_date) = #{params.createDate}
+            </if>
+            <if test="params.searchBeginDate != null and params.searchBeginDate != ''">
+                and r.create_date &gt;= #{params.searchBeginDate}
+            </if>
+            <if test="params.searchEndDate != null and params.searchEndDate != ''">
+                and r.create_date &lt;= #{params.searchEndDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAssetsRepairById" parameterType="Long"
+            resultType="cn.amigosoft.modules.bms.repair.dto.BmsAssetsRepairDTO">
+        select r.id, r.area, r.title, r.content, r.imgs, r.assets_name as assetsName, r.remark
+        , r.assets_code as assetsCode, r.create_date as createDate, r.status, r.repair_imgs
+        , u.mobile as creatorMobile, u.real_name as creatorName, u.work_no as creatorWorkNo
+        from bms_assets_repair r
+        left join sys_user u on r.creator = u.id
+        where r.id = #{id}
+    </select>
+
+    <select id="selectExportList" resultType="cn.amigosoft.modules.bms.repair.dto.BmsAssetsRepairDTO">
+        select r.id, r.title, r.create_date, r.status, r.remark
+        , u.real_name as creatorName, u.work_no as creatorWorkNo
+        , d.name as creatorDept
+        from bms_assets_repair r
+        left join sys_user u on u.id = r.creator
+        left join sys_dept d on u.dept_id = d.id
+        <where>
+            r.del = 0
+            <if test="record != null and record != ''">
+                and (r.creator = #{recordUserId}
+                  or r.id in (select assets_repair_id from bms_assets_repair_record where status = 0 and to_user_id = #{recordUserId})
+                <if test="isProperty != null and isProperty != ''">
+                    or r.status in (2,3,4,5)
+                </if>
+                )
+            </if>
+            <if test="statusList != null and statusList.size() > 0">
+                and r.status in
+                <foreach item="status" collection="statusList" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                and r.id in (select assets_repair_id from bms_assets_repair_record where status = 0 and to_user_id =
+                #{toUserId})
+            </if>
+            <if test="id != null and id != ''">
+                and r.id like concat('%',#{id},'%')
+            </if>
+            <if test="title != null and title != ''">
+                and r.title like concat('%',#{title},'%')
+            </if>
+            <if test="status != null and status != '' and status != '-1'">
+                and r.status = #{status}
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                and u.real_name like concat('%',#{creatorName},'%')
+            </if>
+            <if test="creatorWorkNo != null and creatorWorkNo != ''">
+                and u.work_no like concat('%',#{creatorWorkNo},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and r.creator = #{creator}
+            </if>
+            <if test="deptId != null and deptId != ''">
+                and u.dept_id = #{deptId}
+            </if>
+            <if test="createDate != null and createDate != ''">
+                and date(r.create_date) = #{createDate}
+            </if>
+            <if test="searchBeginDate != null and searchBeginDate != ''">
+                and r.create_date &gt;= #{searchBeginDate}
+            </if>
+            <if test="searchEndDate != null and searchEndDate != ''">
+                and r.create_date &lt;= #{searchEndDate}
+            </if>
+        </where>
+    </select>
+
+</mapper>

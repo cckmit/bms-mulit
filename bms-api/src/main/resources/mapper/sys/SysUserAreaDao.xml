@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.sys.dao.SysUserAreaDao">
+
+    <resultMap type="cn.amigosoft.modules.sys.entity.SysUserAreaEntity" id="sysUserAreaMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="areaId" column="area_id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+
+    <select id="getAreaList" resultType="long">
+        select area_id from sys_user_area where user_id = #{value}
+    </select>
+
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.dinning.dao.BmsDishesDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.dinning.entity.BmsDishesEntity" id="bmsDishesMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="typeId" column="type_id"/>
+        <result property="canteenId" column="canteen_id"/>
+        <result property="img" column="img"/>
+        <result property="richText" column="rich_text"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsDishesDTO">
+        select d.id, d.name, d.img, c.name as canteenName, t.name as typeName
+        from bms_dishes d
+        left join bms_canteen c on d.canteen_id = c.id
+        left join bms_dishes_type t on d.type_id = t.id
+        <where>
+            d.del = 0
+            <if test="params.name != null and params.name != ''">
+                and d.name like concat('%',#{params.name},'%')
+            </if>
+            <if test="params.canteenId != null and params.canteenId != '' and params.canteenId != '-1'">
+                and d.canteen_id = #{params.canteenId}
+            </if>
+            <if test="params.typeId != null and params.typeId != '' and params.typeId != '-1'">
+                and d.type_id = #{params.typeId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDishes" parameterType="Long" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsDishesDTO">
+        select d.id, d.remark, d.name, d.canteen_id, d.type_id, d.img, c.name as canteenName, t.name as typeName
+        from bms_dishes d
+        left join bms_canteen c on d.canteen_id = c.id
+        left join bms_dishes_type t on d.type_id = t.id
+        where d.id = #{id} and d.del = 0
+    </select>
+
+    <select id="export" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsDishesDTO">
+        select d.name, d.remark, c.name as canteenName, t.name as typeName
+        from bms_dishes d
+        left join bms_canteen c on d.canteen_id = c.id
+        left join bms_dishes_type t on d.type_id = t.id
+        <where>
+            d.del = 0
+            <if test="name != null and name != ''">
+                and d.name like concat('%',#{name},'%')
+            </if>
+            <if test="canteenId != null and canteenId != '' and canteenId != '-1'">
+                and d.canteen_id = #{canteenId}
+            </if>
+            <if test="typeId != null and typeId != '' and typeId != '-1'">
+                and d.type_id = #{typeId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBaseDishesInfo" parameterType="cn.amigosoft.modules.bms.dinning.dto.BmsDishesDTO"
+            resultType="cn.amigosoft.modules.bms.dinning.dto.BmsDishesDTO">
+        select id, name
+        from bms_dishes
+        where del = 0
+        and canteen_id = #{canteenId}
+        and name like concat('%',#{name},'%')
+    </select>
+
+</mapper>

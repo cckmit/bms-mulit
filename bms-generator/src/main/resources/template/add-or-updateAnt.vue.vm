@@ -1,0 +1,117 @@
+<template>
+    <a-drawer
+            :visible="visible"
+            :title="!dataForm.${pk.attrname} ? $t('add') : $t('update')"
+            :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px'}"
+             width="700"
+            @close="visible=false"
+    >
+        <a-spin :spinning="confirmLoading">
+            <a-form :form="form">
+              #foreach($column in $columns)
+                  #if(!($column.attrname == $pk.attrname || $column.attrname == "creator" || $column.attrname == "updater" || $column.attrname == "createDate" || $column.attrname == "updateDate" || $column.attrname == "del" || $column.attrname == "deptId"))
+                    <a-form-item :label="'${column.comments}'" :label-col="labelCol" :wrapper-col="wrapperCol" >
+                        <a-input v-decorator="[ '${column.attrname}', validatorRules.${column.attrname}]" :placeholder="'${column.comments}'"></a-input>
+                    </a-form-item>
+                #end
+              #end
+            </a-form>
+            <a-row :style="{textAlign:'right'}">
+                <a-button :style="{marginRight: '8px'}" @click="visible=false">
+                    {{ $t('cancel') }}
+                </a-button>
+                <a-button type="primary" @click="dataFormSubmitHandle()">{{ $t('confirm') }}</a-button>
+            </a-row>
+        </a-spin>
+
+    </a-drawer>
+
+</template>
+
+<script>
+import debounce from 'lodash/debounce'
+import AFormItem from 'ant-design-vue/es/form/FormItem'
+import pick from 'lodash/pick'
+export default {
+  components: { AFormItem },
+  data() {
+    return {
+        visible: false,
+        confirmLoading: false,
+        dataForm: {
+#foreach($column in $columns)
+        ${column.attrname}: ''#if($velocityCount != $columns.size()),#end
+
+#end
+      },
+      form: this.$form.createForm(this),
+      labelCol: {
+          xs: { span: 24 },
+          sm: { span: 5 }
+      },
+      wrapperCol: {
+          xs: { span: 24 },
+          sm: { span: 16 }
+      },
+      validatorRules: {
+        #foreach($column in $columns)
+            ${column.attrname}: {
+                rules: [
+                    {required: true, message: this.$t('validate.required')}
+              ] }#if($velocityCount != $columns.size()),
+          #end
+        #end
+
+      }
+    }
+  },
+  methods: {
+    init() {
+      this.visible = true
+      this.$nextTick(() => {
+         this.form.resetFields()
+        if (this.dataForm.${pk.attrname}) {
+          this.getInfo()
+        }
+      })
+    },
+    // 获取信息-ant
+    getInfo() {
+      #[[this.$http.get(]]#`/${moduleName}/${pathName}/#[[${]]#this.dataForm.${pk.attrname}}`).then(({ data: res }) => {
+        if (res.code !== 0) {
+          #[[return this.$message.error(res.msg)]]#
+        }
+        this.dataForm = {
+          ...this.dataForm,
+          ...res.data
+        }
+        this.form.setFieldsValue(
+            pick({ ...this.dataForm },
+    #foreach($column in $columns)
+        '${column.attrname}'#if($velocityCount != $columns.size()),
+    #end
+    #end
+
+    ))
+      }).catch(() => {})
+    },
+    // 表单提交
+    dataFormSubmitHandle: debounce(function() {
+      #[[this.form.validateFields((error, values) => {]]#
+          if (error) {
+              return false
+          }
+        #[[this.$http]]#[!this.dataForm.${pk.attrname} ? 'post' : 'put']('/${moduleName}/${pathName}/', Object.assign(this.dataForm, values)).then(({ data: res }) => {
+          if (res.code !== 0) {
+            #[[return this.$message.error(res.msg)]]#
+          }
+        #[[this.$message.success(this.$t('prompt.success'), 0.5, () => {]]#
+            this.visible = false
+            this.$emit('refreshDataList')
+          })
+        }).catch(() => {})
+      })
+    }, 1000, { 'leading': true, 'trailing': false })
+  }
+}
+</script>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.dining.dao.DiningFoodCommentDao">
+
+    <resultMap type="cn.amigosoft.modules.dining.entity.DiningFoodCommentEntity" id="diningFoodCommentMap">
+        <result property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="diningFoodDailyMenuId" column="dining_food_daily_menu_id"/>
+        <result property="score" column="score"/>
+        <result property="reviewerUserId" column="reviewer_user_id"/>
+        <result property="content" column="content"/>
+        <result property="commentDate" column="comment_date"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+    <select id="getCommentPage" resultType="cn.amigosoft.modules.dining.dto.DiningFoodCommentPageDTO">
+        SELECT
+            m.id,
+            l.lib_no AS libNo,
+            dr.name AS diningRoomName,
+            l.name,
+            m.menu_date AS menuDate,
+            m.dining_type AS diningType,
+            sum(if(c.score>'0',1,0 )) AS commentTotal,
+            sum(if(c.score='1',1,0 )) AS countByOne,
+            sum(if(c.score='2',1,0 )) AS countByTwo,
+            sum(if(c.score='3',1,0 )) AS countByThree,
+            sum(if(c.score='4',1,0 )) AS countByFour,
+            sum(if(c.score='5',1,0 )) AS countByFive
+        FROM iotsaas_dining_food_daily_menu AS m
+        LEFT JOIN iotsaas_dining_food_comment AS c ON m.id = c.dining_food_daily_menu_id and c.tenant_id = #{params.tenantId}
+        LEFT JOIN iotsaas_dining_food_lib AS l ON m.dining_food_lib_id = l.id and l.tenant_id = #{params.tenantId}
+        LEFT JOIN iotsaas_dining_room AS dr ON l.dining_room_id = dr.id and dr.tenant_id = #{params.tenantId}
+        WHERE
+            m.tenant_id = #{params.tenantId}
+            and l.name is not null
+            and (l.type != 9 or l.type is null)
+            <if test="params.name != null and params.name.trim() != ''">
+                and l.name like #{params.name}
+            </if>
+            <if test="params.startMenuDate != null and params.startMenuDate.trim() != ''">
+                and m.menu_date >= #{params.startMenuDate}
+            </if>
+            <if test="params.endMenuData != null and params.endMenuData.trim() != ''">
+                <![CDATA[and m.menu_date <= #{params.endMenuData}]]>
+            </if>
+            <if test="params.diningRoomId != null and params.diningRoomId.trim() != ''">
+                and dr.id = #{params.diningRoomId}
+            </if>
+
+        GROUP BY
+            m.id
+        ORDER BY
+            m.menu_date DESC,m.id DESC,m.dining_type DESC
+    </select>
+    <select id="getCommentList" resultType="cn.amigosoft.modules.dining.dto.DiningFoodCommentPageDTO">
+        SELECT
+            m.id,
+            l.lib_no AS libNo,
+            dr.name AS diningRoomName,
+            l.name,
+            m.menu_date AS menuDate,
+            m.dining_type AS diningType,
+            sum(if(c.score>'0',1,0 )) AS commentTotal,
+            sum(if(c.score='1',1,0 )) AS countByOne,
+            sum(if(c.score='2',1,0 )) AS countByTwo,
+            sum(if(c.score='3',1,0 )) AS countByThree,
+            sum(if(c.score='4',1,0 )) AS countByFour,
+            sum(if(c.score='5',1,0 )) AS countByFive
+        FROM iotsaas_dining_food_daily_menu AS m
+        LEFT JOIN iotsaas_dining_food_comment AS c ON m.id = c.dining_food_daily_menu_id and c.tenant_id = #{params.tenantId}
+        LEFT JOIN iotsaas_dining_food_lib AS l ON m.dining_food_lib_id = l.id and l.tenant_id = #{params.tenantId}
+        LEFT JOIN iotsaas_dining_room AS dr ON l.dining_room_id = dr.id and dr.tenant_id = #{params.tenantId}
+        WHERE
+            m.tenant_id = #{params.tenantId}
+            and l.name is not null
+            and (l.type != 9 or l.type is null)
+            <if test="params.name != null and params.name.trim() != ''">
+                and l.name like #{params.name}
+            </if>
+            <if test="params.startMenuDate != null and params.startMenuDate.trim() != ''">
+                and m.menu_date >= #{params.startMenuDate}
+            </if>
+            <if test="params.endMenuData != null and params.endMenuData.trim() != ''">
+                <![CDATA[and m.menu_date <= #{params.endMenuData}]]>
+            </if>
+        <if test="params.diningRoomId != null and params.diningRoomId.trim() != ''">
+            and dr.id = #{params.diningRoomId}
+        </if>
+        GROUP BY
+            m.id
+        ORDER BY
+            m.menu_date DESC,m.id DESC,m.dining_type DESC
+    </select>
+
+</mapper>

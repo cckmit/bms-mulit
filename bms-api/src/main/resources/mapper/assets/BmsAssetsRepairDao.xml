@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.assets.dao.BmsAssetsRepairDao">
+
+    <resultMap type="cn.amigosoft.modules.assets.entity.BmsAssetsRepairEntity" id="bmsAssetsRepairMap">
+        <result property="id" column="id"/>
+        <result property="assetsId" column="assets_id"/>
+        <result property="assetsCode" column="assets_code"/>
+        <result property="assetsName" column="assets_name"/>
+        <result property="area" column="area"/>
+        <result property="title" column="title"/>
+        <result property="imgs" column="imgs"/>
+        <result property="content" column="content"/>
+        <result property="status" column="status"/>
+        <result property="isDispatch" column="is_dispatch"/>
+        <result property="dealUserId" column="deal_user_id"/>
+        <result property="dealResult" column="deal_result"/>
+        <result property="repairImgs" column="repair_imgs"/>
+        <result property="repairEvaluation" column="repair_evaluation"/>
+        <result property="repairGrade" column="repair_grade"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="queryPage" resultType="cn.amigosoft.modules.assets.dto.BmsAssetsRepairDTO">
+        SELECT a.id,a.title,a.area,a.create_date,a.`status`
+        FROM bms_assets_repair a
+        WHERE a.del = 0 AND a.creator = #{creator}
+        <if test="status != null and status != '' and status == 0">
+            AND a.status IN (0,2,3)
+        </if>
+        <if test="status != null and status != '' and status != -1 and status != 0">
+            AND a.status = #{status}
+        </if>
+        <if test="title != null and title != ''">
+            AND (a.title LIKE CONCAT('%',#{title},'%')
+            OR a.area LIKE CONCAT('%',#{title},'%'))
+        </if>
+    </select>
+
+    <select id="queryVerifyPage" resultType="cn.amigosoft.modules.assets.dto.BmsAssetsRepairDTO">
+        SELECT a.id,a.title,a.area,a.create_date,a.`status`
+        FROM bms_assets_repair a
+        WHERE a.del = 0
+        <if test="status != null and status != '' and status == -1">
+            AND a.id IN (SELECT assets_repair_id FROM bms_assets_repair_record WHERE to_user_id = #{toUserId} AND is_dispatch IS NULL)
+        </if>
+        <if test="status != null and status != '' and status == 0">
+            AND a.deal_user_id = #{toUserId}
+            AND a.`status` = #{status}
+        </if>
+        <if test="status != null and status != '' and status == 1">
+            AND a.id IN (SELECT assets_repair_id FROM bms_assets_repair_record WHERE to_user_id = #{toUserId} AND is_dispatch IS NULL)
+            AND a.`status` IN (1,2,3,4,5)
+        </if>
+        <if test="title != null and title != ''">
+            AND (a.title LIKE CONCAT('%',#{title},'%')
+            OR a.area LIKE CONCAT('%',#{title},'%'))
+        </if>
+    </select>
+
+    <select id="queryDealPage" resultType="cn.amigosoft.modules.assets.dto.BmsAssetsRepairDTO">
+        SELECT a.id,a.title,a.area,a.create_date,a.`status`
+        FROM bms_assets_repair a
+        WHERE a.del = 0
+        <if test="status != null and status != '' and status == -1">
+            AND a.`status` IN (2,3,4,5)
+        </if>
+        <if test="status != null and status != '' and status == 0">
+            AND a.`status` = 2
+        </if>
+        <if test="status != null and status != '' and status == 1">
+            AND a.`status` IN (3,4,5)
+        </if>
+        <if test="title != null and title != ''">
+            AND (a.title LIKE CONCAT('%',#{title},'%')
+            OR a.area LIKE CONCAT('%',#{title},'%'))
+        </if>
+    </select>
+
+    <select id="queryServicePage" resultType="cn.amigosoft.modules.assets.dto.BmsAssetsRepairDTO">
+        SELECT a.id,a.title,a.area,a.create_date,a.`status`,a.deal_user_id
+        FROM bms_assets_repair a
+        WHERE a.del = 0
+        <if test="status != null and status != '' and status == -1">
+            AND a.id IN (SELECT assets_repair_id FROM bms_assets_repair_record WHERE is_dispatch = 1 AND to_user_id = #{toUserId})
+            AND a.`status` in (3,4,5)
+        </if>
+        <if test="status != null and status != '' and status == 0">
+            AND a.deal_user_id = #{toUserId} AND a.`status` = 3
+        </if>
+        <if test="status != null and status != '' and status == 1">
+            AND (a.id IN (SELECT assets_repair_id FROM bms_assets_repair_record WHERE is_dispatch = 1 AND to_user_id = #{toUserId})
+            AND a.`status` in (4,5))
+            OR (a.id IN (SELECT assets_repair_id FROM bms_assets_repair_record WHERE is_dispatch = 1 AND creator = #{toUserId})
+            AND a.status = 3 AND a.deal_user_id != #{toUserId})
+        </if>
+        <if test="title != null and title != ''">
+            AND (a.title LIKE CONCAT('%',#{title},'%')
+            OR a.area LIKE CONCAT('%',#{title},'%'))
+        </if>
+    </select>
+
+    <select id="getDetail" resultType="cn.amigosoft.modules.assets.dto.BmsAssetsRepairDTO">
+        SELECT a.id,a.area,a.title,a.imgs,a.content,a.create_date,a.`status`,a.deal_user_id,a.repair_imgs,
+        a.assets_code,a.assets_name,a.remark,a.creator,
+        b.real_name creator_name,b.work_no creator_work_no,b.mobile creator_mobile
+        FROM bms_assets_repair a
+        LEFT JOIN sys_user b ON b.id = a.creator
+        WHERE a.id = #{id}
+    </select>
+
+</mapper>

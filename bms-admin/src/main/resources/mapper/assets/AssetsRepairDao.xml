@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.assets.dao.AssetsRepairDao">
+
+    <resultMap type="cn.amigosoft.modules.assets.entity.AssetsRepairEntity" id="assetsRepairMap">
+        <result property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="assetsEquipmentId" column="assets_equipment_id"/>
+        <result property="assetsEquipmentCode" column="assets_equipment_code"/>
+        <result property="assetsEquipmentType" column="assets_equipment_type"/>
+        <result property="assetsEquipmentName" column="assets_equipment_name"/>
+        <result property="content" column="content"/>
+        <result property="imgs" column="imgs"/>
+        <result property="remark" column="remark"/>
+        <result property="status" column="status"/>
+        <result property="isDispatch" column="is_dispatch"/>
+        <result property="dealPersonId" column="deal_person_id"/>
+        <result property="dealResult" column="deal_result"/>
+        <result property="dealImgs" column="deal_imgs"/>
+        <result property="dealDate" column="deal_date"/>
+        <result property="grade" column="grade"/>
+        <result property="gradeDesc" column="grade_desc"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="getAssetsRepairPageList" resultType="cn.amigosoft.modules.assets.dto.AssetsRepairPageListDTO">
+        SELECT
+        ar.id,
+        ar.assets_equipment_name  as assetsEquipmentName,
+        ar.assets_equipment_code  as assetsEquipmentCode,
+        IFNULL(ae.area_id,d.area_id)  as areaId,
+        ar.content as assetsRepairContent,
+        p.name as assentsApplicant,
+        p.phone,
+        ar.`status`,
+        ar.`create_date` as createDate
+        FROM
+        iotsaas_assets_repair AS ar
+        LEFT JOIN iotsaas_assets_equipment AS ae ON ae.id = ar.assets_equipment_id
+        LEFT JOIN iotsaas_device as d on d.id = ae.device_id
+        LEFT JOIN iotsaas_person  as p on p.app_user_id = ar.creator
+        LEFT JOIN iotsaas_person_staff as ps  on ps.person_id = p.id
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
+
+    <select id="getAssetsRepairDetail" resultType="cn.amigosoft.modules.assets.dto.AssetsRepairDetailDTO">
+        SELECT
+        ar.id,
+        ar.assets_equipment_code as assetsEquipmentCode,
+        ar.assets_equipment_type as assetsEquipmentType,
+        ar.assets_equipment_name as assetsEquipmentName,
+        IFNULL(ae.area_id,d.area_id)  as areaId,
+        p.`name` as creatorName,
+        p.phone,
+        ar.creator,
+        ar.create_date as createDate,
+        ar.imgs,
+        ar.content,
+        ar.`status`,
+        ar.is_dispatch as isDispatch,
+        ar.deal_person_id as dealPersonId,
+        ar.deal_imgs as dealImgs,
+        ar.deal_result as dealResult,
+        ar.deal_date as dealDate,
+        ar.grade,
+        ar.grade_desc,
+        ar.update_date as updateDate
+        FROM
+        iotsaas_assets_repair AS ar
+        LEFT JOIN iotsaas_assets_equipment AS ae ON ae.id = ar.assets_equipment_id
+        LEFT JOIN iotsaas_person AS p ON p.app_user_id = ar.creator
+        LEFT JOIN iotsaas_device as d on d.id = ae.device_id
+        LEFT JOIN iotsaas_person_staff as ps  on ps.person_id = p.id
+        <where>
+            ar.id = #{id} and p.del = 0 and ps.id is NOT NULL
+        </where>
+    </select>
+
+    <update id="dealAssetsRepair">
+        UPDATE iotsaas_assets_repair
+        SET deal_person_id = #{params.dealPersonId},
+        <if test="params.dealImgs != null  and params.dealImgs.trim() != '' ">
+            deal_imgs = #{params.dealImgs},
+        </if>
+        deal_result = #{params.dealResult},
+        is_dispatch = #{params.isDispath},
+        updater = #{params.updater},
+        status = #{params.status},
+        deal_date = #{params.dealDate}
+        WHERE
+        id = #{params.id};
+    </update>
+
+    <update id="evaluateAssetsRepair">
+        UPDATE iotsaas_assets_repair
+        SET grade = #{params.grade},
+        <if test="params.gradeDesc != null and params.gradeDesc.trim() != '' ">
+            grade_desc = #{params.gradeDesc},
+        </if>
+        updater = #{params.updater},
+        status = #{params.status}
+        WHERE
+        id = #{params.id};
+    </update>
+</mapper>

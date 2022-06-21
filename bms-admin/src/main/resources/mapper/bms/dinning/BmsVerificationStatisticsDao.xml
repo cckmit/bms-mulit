@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.dinning.dao.BmsVerificationStatisticsDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.dinning.entity.BmsVerificationStatisticsEntity"
+               id="bmsVerificationStatisticsMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="eatDate" column="eat_date"/>
+        <result property="mealTypeId" column="meal_type_id"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="swipeCardCount" column="swipe_card_count"/>
+        <result property="businessMoney" column="business_money"/>
+        <result property="status" column="status"/>
+        <result property="orderDetailId" column="order_detail_id"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <insert id="batchInsertVerificationStatistics">
+        insert into bms_verification_statistics
+        (id, user_id, eat_date, meal_type_id, order_status, swipe_card_count, business_money, status, creator, create_date)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.userId}, #{item.eatDate}, #{item.mealTypeId}, #{item.orderStatus}, #{item.swipeCardCount}
+            , #{item.businessMoney}, 0, #{creator}, #{createDate})
+        </foreach>
+    </insert>
+
+    <select id="selectDataFromCardLog" parameterType="String" resultMap="bmsVerificationStatisticsMap">
+        select x.user_id, x.eat_date, x.meal_type_id, x.swipe_card_count, x.business_money
+        , case (select count(0)
+          from bms_order_detail
+          where creator = x.user_id and del = 0 and x.meal_type_id = meal_type_id and x.eat_date = eat_date)
+          when 0 then 0 else 1 end
+          as order_status
+        from (
+          select u.id as user_id, c.account, c.real_name, date(c.business_date) as eat_date, c.meal_type_id
+          , count(0) as swipe_card_count, sum(c.business_money) as business_money
+          from bms_card_log c, sys_user u
+          where c.del = 0 and c.account = u.card_account and c.import_code = #{importCode}
+          group by c.account, c.real_name, date(c.business_date), c.meal_type_id, u.id
+        ) x
+    </select>
+
+    <delete id="deleteDuplicateData">
+        update bms_verification_statistics
+        set del = 1
+        where del = 0 and id not in (
+		select t.max_id from
+		(select max(id) as max_id from bms_verification_statistics where del = 0 group by user_id, eat_date, meal_type_id) as t
+		)
+    </delete>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsVerificationStatisticsDTO">
+        select d.name as deptName, u.real_name as userName, m.name as mealTypeName, v.create_date as createDate
+        , v.id, v.eat_date as eatDate, v.order_status as orderStatus, v.swipe_card_count as swipeCardCount
+        , v.business_money as businessMoney, v.status, c.name as canteenName, u.card_account as cardAccount
+        from bms_verification_statistics v
+        left join sys_user u on u.id = v.user_id
+        left join sys_dept d on d.id = u.dept_id
+        left join bms_meal_type m on m.id = v.meal_type_id
+        left join bms_order_detail od on od.id = v.order_detail_id
+        left join bms_canteen c on c.id = od.canteen_id
+        <where>
+            v.del = 0
+            <if test="params.deptId != null and params.deptId != ''">
+                and d.id = #{params.deptId}
+            </if>
+            <if test="params.userName != null and params.userName != ''">
+                and u.real_name like concat('%',#{params.userName},'%')
+            </if>
+            <if test="params.searchBeginDate != null and params.searchBeginDate != ''">
+                and v.eat_date &gt;= #{params.searchBeginDate}
+            </if>
+            <if test="params.searchEndDate != null and params.searchEndDate != ''">
+                and v.eat_date &lt;= #{params.searchEndDate}
+            </if>
+            <if test="params.mealTypeId != null and params.mealTypeId != '' and params.mealTypeId != '-1'">
+                and v.meal_type_id = #{params.mealTypeId}
+            </if>
+            <if test="params.orderStatus != null and params.orderStatus != '' and params.orderStatus != '-1'">
+                and v.order_status = #{params.orderStatus}
+            </if>
+            <if test="params.status != null and params.status != '' and params.status != '-1'">
+                and v.status = #{params.status}
+            </if>
+            <if test="params.canteenId != null and params.canteenId != '' and params.canteenId != '-1'">
+                and c.id = #{params.canteenId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectExportList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsVerificationStatisticsDTO">
+        select d.name as deptName, u.real_name as userName, m.name as mealTypeName, v.create_date as createDate
+        , v.id, v.eat_date as eatDate, v.swipe_card_count as swipeCardCount, v.business_money as businessMoney, v.status
+        , case v.order_status when 0 then '未报' else '已报' end as orderStatusName, c.name as canteenName, u.card_account as cardAccount
+        from bms_verification_statistics v
+        left join sys_user u on u.id = v.user_id
+        left join sys_dept d on d.id = u.dept_id
+        left join bms_meal_type m on m.id = v.meal_type_id
+        left join bms_order_detail od on od.id = v.order_detail_id
+        left join bms_canteen c on c.id = od.canteen_id
+        <where>
+            v.del = 0
+            <if test="deptId != null and deptId != ''">
+                and d.id = #{deptId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and u.real_name like concat('%',#{userName},'%')
+            </if>
+            <if test="searchBeginDate != null and searchBeginDate != ''">
+                and v.eat_date &gt;= #{searchBeginDate}
+            </if>
+            <if test="searchEndDate != null and searchEndDate != ''">
+                and v.eat_date &lt;= #{searchEndDate}
+            </if>
+            <if test="mealTypeId != null and mealTypeId != '' and mealTypeId != '-1'">
+                and v.meal_type_id = #{mealTypeId}
+            </if>
+            <if test="orderStatus != null and orderStatus != '' and orderStatus != '-1'">
+                and v.order_status = #{orderStatus}
+            </if>
+            <if test="status != null and status != '' and status != '-1'">
+                and v.status = #{status}
+            </if>
+            <if test="canteenId != null and canteenId != '' and canteenId != '-1'">
+                and c.id = #{canteenId}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateStatus">
+        update bms_verification_statistics
+        set status = 1
+        where order_status = 1 and status = 0
+    </update>
+
+    <update id="updateOrderDetailId">
+        update bms_verification_statistics v, bms_order_detail od
+        set v.order_detail_id = od.id
+        where v.del = 0 and od.del = 0 and v.meal_type_id = od.meal_type_id and v.eat_date = od.eat_date and v.user_id = od.creator
+    </update>
+
+</mapper>

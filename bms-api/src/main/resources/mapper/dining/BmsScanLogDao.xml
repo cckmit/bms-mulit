@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.dining.dao.BmsScanLogDao">
+
+    <resultMap type="cn.amigosoft.modules.dining.entity.BmsScanLogEntity" id="bmsScanLogMap">
+        <result property="id" column="id"/>
+        <result property="scanType" column="scan_type"/>
+        <result property="scanParam" column="scan_param"/>
+        <result property="remark" column="remark"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+
+</mapper>

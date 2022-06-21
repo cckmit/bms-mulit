@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.other.dao.BmsShopDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.other.entity.BmsShopEntity" id="bmsShopMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="address" column="address"/>
+        <result property="linkUserId" column="link_user_id"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.other.dto.BmsShopDTO">
+        select s.id, s.name, s.code, s.address, s.remark
+        , u.real_name as linkUserName, u.mobile as linkUserMobile
+        from bms_shop s
+        left join sys_user u on s.link_user_id = u.id
+        <where>
+            s.del = 0
+            <if test="params.name != null and params.name != ''">
+                and s.name like concat('%',#{params.name},'%')
+            </if>
+            <if test="params.code != null and params.code != ''">
+                and s.code like concat('%',#{params.code},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectExportList" resultType="cn.amigosoft.modules.bms.other.dto.BmsShopDTO">
+        select s.id, s.name, s.code, s.address, s.remark
+        , u.real_name as linkUserName, u.mobile as linkUserMobile
+        from bms_shop s
+        left join sys_user u on s.link_user_id = u.id
+        <where>
+            s.del = 0
+            <if test="name != null and name != ''">
+                and s.name like concat('%',#{name},'%')
+            </if>
+            <if test="code != null and code != ''">
+                and s.code like concat('%',#{code},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectShopById" parameterType="Long" resultType="cn.amigosoft.modules.bms.other.dto.BmsShopDTO">
+        select s.id, s.name, s.code, s.address, s.remark, s.link_user_id as linkUserId
+        , u.real_name as linkUserName, u.mobile as linkUserMobile
+        from bms_shop s
+        left join sys_user u on s.link_user_id = u.id
+        where s.id = #{id}
+    </select>
+</mapper>

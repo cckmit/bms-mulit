@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.dining.dao.BmsOrderDao">
+
+    <resultMap type="cn.amigosoft.modules.dining.entity.BmsOrderEntity" id="bmsOrderMap">
+        <result property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="queryPage" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDTO">
+        SELECT a.id,a.create_date,b.order_id, count(1) num,GROUP_CONCAT(d.img SEPARATOR ';') images
+        FROM bms_order_detail b
+        LEFT JOIN bms_order a ON a.id = b.order_id
+        LEFT JOIN bms_item d ON d.id = b.item_id
+        WHERE a.del = 0
+        AND a.creator = #{creator}
+        <if test="id != null and id != ''">
+            AND a.id LIKE CONCAT('%',#{id},'%')
+        </if>
+        GROUP BY b.order_id
+    </select>
+
+    <select id="getBaseInfo" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDTO">
+        SELECT a.id, a.create_date,
+        u.real_name staff_name,u.work_no,
+        d.`name` dept_name
+        FROM bms_order a
+        LEFT JOIN sys_user u ON u.id = a.creator
+        LEFT JOIN sys_dept d ON d.id = u.dept_id
+        WHERE a.del = 0
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+    </select>
+
+    <update id="updateDelDetails">
+        UPDATE bms_order_detail
+        SET del = 1
+        WHERE order_id = #{orderId}
+    </update>
+
+    <select id="getAdvanceAndBeginTime" resultType="cn.amigosoft.modules.dining.dto.BmsMealTypeDTO">
+        SELECT b.advance_order_time,b.begin_time
+        FROM bms_meal_type b
+        WHERE b.id = #{id}
+    </select>
+
+    <select id="getAlreadyOrderDate" resultType="java.lang.String">
+        SELECT a.eat_date, b.meal_type_id
+        FROM bms_order_detail a
+        LEFT JOIN bms_item b ON a.item_id = b.id
+        LEFT JOIN bms_order c ON c.id = a.order_id
+        WHERE a.creator = #{creator}
+        AND a.del = 0
+        AND c.del = 0
+        AND b.meal_type_id = #{mealTypeId}
+        AND a.eat_date <![CDATA[>=]]> #{beginDate}
+        AND a.eat_date <![CDATA[<=]]> #{endDate}
+    </select>
+</mapper>

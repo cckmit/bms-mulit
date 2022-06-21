@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.dinning.dao.BmsOrderDetailDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.dinning.entity.BmsOrderDetailEntity" id="bmsOrderDetailMap">
+        <result property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="canteenId" column="canteen_id"/>
+        <result property="mealTypeId" column="meal_type_id"/>
+        <result property="eatDate" column="eat_date"/>
+        <result property="status" column="status"/>
+        <result property="scanStatus" column="scan_status"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectOrderDetailByOrderId" parameterType="Long"
+            resultType="cn.amigosoft.modules.bms.dinning.dto.BmsOrderDetailDTO">
+        select od.id, od.eat_date as eatDate, od.status, od.del, od.scan_status as scanStatus
+        , m.name as mealTypeName, m.advance_order_time as advanceOrderTime, m.begin_time as beginTime
+        , i.name as itemName
+        , c.name as canteenName
+        from bms_order_detail od
+        left join bms_item i on od.item_id = i.id
+        left join bms_meal_type m on i.meal_type_id = m.id
+        left join bms_canteen c on i.canteen_id = c.id
+        where od.order_id = #{orderId}
+        order by od.eat_date
+    </select>
+
+    <select id="selectOrderDetailByIds" parameterType="cn.amigosoft.modules.bms.dinning.dto.BmsOrderDetailDTO"
+            resultType="cn.amigosoft.modules.bms.dinning.dto.BmsOrderDetailDTO">
+        select od.id, od.eat_date as eatDate, od.status, od.del, od.order_id as orderId, od.scan_status as scanStatus
+        , m.name as mealTypeName, m.advance_order_time as advanceOrderTime, m.begin_time as beginTime
+        , i.name as itemName
+        , c.name as canteenName
+        from bms_order_detail od
+        left join bms_item i on od.item_id = i.id
+        left join bms_meal_type m on i.meal_type_id = m.id
+        left join bms_canteen c on i.canteen_id = c.id
+        where od.id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsOrderDetailDTO">
+        select od.id, od.eat_date as eatDate, case od.status when 0 then '未核销' when 1 then '已核销' end as statusName, od.create_date as createDate, od.scan_status as scanStatus
+        , u.real_name as orderUserName, u.work_no as orderUserWorkNo, u.identity as orderUserIdentity, u.card_account as cardAccount
+        , case i.type when 0 then '套餐' when 1 then '自助餐' end as itemTypeName, i.name as itemName
+        , c.name as canteenName
+        , mt.name as mealTypeName
+        , d.name as orderUserDept
+        from bms_order_detail od
+        inner join bms_order o on od.order_id = o.id and o.del = 0
+        left join sys_user u on od.creator = u.id
+        left join sys_dept d on u.dept_id = d.id
+        left join bms_item i on od.item_id = i.id
+        left join bms_canteen c on i.canteen_id = c.id
+        left join bms_meal_type mt on i.meal_type_id = mt.id
+        <where>
+            od.del = 0
+            <if test="params.mealTypeId != null and params.mealTypeId != '' and params.mealTypeId != '-1'">
+                and i.meal_type_id = #{params.mealTypeId}
+            </if>
+            <if test="params.orderUserDeptId != null and params.orderUserDeptId != '' and params.orderUserDeptId != '-1'">
+                and d.id = #{params.orderUserDeptId}
+            </if>
+            <if test="params.canteenId != null and params.canteenId != '' and params.canteenId != '-1'">
+                and c.id = #{params.canteenId}
+            </if>
+            <if test="params.itemName != null and params.itemName != ''">
+                and i.name = #{params.itemName}
+            </if>
+            <if test="params.status != null and params.status != '' and params.status != '-1'">
+                and od.status = #{params.status}
+            </if>
+            <if test="params.itemType != null and params.itemType != '' and params.itemType != '-1'">
+                and i.type = #{params.itemType}
+            </if>
+            <if test="params.searchBeginDate != null and params.searchBeginDate != ''">
+                and od.eat_date &gt;= #{params.searchBeginDate}
+            </if>
+            <if test="params.searchEndDate != null and params.searchEndDate != ''">
+                and od.eat_date &lt;= #{params.searchEndDate}
+            </if>
+            <if test="params.orderUserName != null and params.orderUserName != ''">
+                and u.real_name like concat('%', #{params.orderUserName} ,'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectExportList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsOrderDetailDTO">
+        select od.id, od.eat_date as eatDate, case od.status when 0 then '未核销' when 1 then '已核销' end as statusName, od.create_date as createDate, od.scan_status as scanStatus
+        , u.real_name as orderUserName, u.work_no as orderUserWorkNo, u.identity as orderUserIdentity, u.card_account as cardAccount
+        , case i.type when 0 then '套餐' when 1 then '自助餐' end as itemTypeName, i.name as itemName
+        , c.name as canteenName
+        , mt.name as mealTypeName
+        , d.name as orderUserDept
+        from bms_order_detail od
+        inner join bms_order o on od.order_id = o.id and o.del = 0
+        left join sys_user u on od.creator = u.id
+        left join sys_dept d on u.dept_id = d.id
+        left join bms_item i on od.item_id = i.id
+        left join bms_canteen c on i.canteen_id = c.id
+        left join bms_meal_type mt on i.meal_type_id = mt.id
+        <where>
+            od.del = 0
+            <if test="mealTypeId != null and mealTypeId != '' and mealTypeId != '-1'">
+                and i.meal_type_id = #{mealTypeId}
+            </if>
+            <if test="orderUserDeptId != null and orderUserDeptId != '' and orderUserDeptId != '-1'">
+                and d.id = #{orderUserDeptId}
+            </if>
+            <if test="canteenId != null and canteenId != '' and canteenId != '-1'">
+                and c.id = #{canteenId}
+            </if>
+            <if test="itemName != null and itemName != ''">
+                and i.name = #{itemName}
+            </if>
+            <if test="status != null and status != '' and status != '-1'">
+                and od.status = #{status}
+            </if>
+            <if test="itemType != null and itemType != '' and itemType != '-1'">
+                and i.type = #{itemType}
+            </if>
+            <if test="searchBeginDate != null and searchBeginDate != ''">
+                and od.eat_date &gt;= #{searchBeginDate}
+            </if>
+            <if test="searchEndDate != null and searchEndDate != ''">
+                and od.eat_date &lt;= #{searchEndDate}
+            </if>
+            <if test="orderUserName != null and orderUserName != ''">
+                and u.real_name like concat('%', #{orderUserName} ,'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectUserDetailCount" resultType="int">
+        select count(0)
+        from bms_order_detail od
+        left join bms_order o on o.id = od.order_id
+        left join bms_item i on i.id = od.item_id
+        left join bms_meal_type mt on mt.id = i.meal_type_id
+        where od.del = 0 and o.del = 0 and od.creator = #{creator} and od.eat_date = #{eatDate} and i.meal_type_id = #{mealTypeId}
+    </select>
+
+    <select id="selectExportDataByOrderId" parameterType="Long"
+            resultType="cn.amigosoft.modules.bms.dinning.excel.BmsOrderDetail2Excel">
+        select od.eat_date as eatDate
+        , case
+            when od.`status` = 0 and od.del = 1 then '已取消'
+            when od.`status` = 0 and od.del = 0 then '未核销'
+            when od.`status` = 1 then '已核销'
+            else '未知' end as statusName
+        , case i.type when 0 then '套餐' when 1 then '自助餐' end as itemTypeName, i.name as itemName
+        , c.name as canteenName
+        , mt.name as mealTypeName
+        from bms_order_detail od
+        inner join bms_order o on od.order_id = o.id and o.del = 0
+        left join bms_item i on od.item_id = i.id
+        left join bms_canteen c on i.canteen_id = c.id
+        left join bms_meal_type mt on i.meal_type_id = mt.id
+        where od.order_id = #{orderId}
+    </select>
+
+    <update id="updateStatus">
+        update bms_order_detail d, bms_verification_statistics v
+        set d.status = 1
+        where d.del = 0 and d.status = 0 and v.del = 0 and d.id = v.order_detail_id
+    </update>
+
+    <select id="selectCountPageList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsOrderDetailDTO">
+        SELECT a.*,@rank:=@rank + 1 AS id
+        FROM (
+          select x.eatDate, x.orderCount, c.name as canteenName, mt.name as mealTypeName, x.item_name as itemName
+          from(
+          select od.eat_date as eatDate, od.canteen_id, od.meal_type_id, i.`name` AS item_name, count(0) as orderCount
+          from bms_order_detail od, bms_order o, bms_item i
+          <where>
+              o.id = od.order_id and od.del = 0 and o.del = 0 and i.del = 0 and i.id = od.item_id
+              <if test="params.mealTypeId != null and params.mealTypeId != '' and params.mealTypeId != '-1'">
+                  and od.meal_type_id = #{params.mealTypeId}
+              </if>
+              <if test="params.canteenId != null and params.canteenId != '' and params.canteenId != '-1'">
+                  and od.canteen_id = #{params.canteenId}
+              </if>
+              <if test="params.itemName != null and params.itemName != ''">
+                  and i.`name` = #{params.itemName}
+              </if>
+              <if test="params.searchBeginDate != null and params.searchBeginDate != ''">
+                  and od.eat_date &gt;= #{params.searchBeginDate}
+              </if>
+              <if test="params.searchEndDate != null and params.searchEndDate != ''">
+                  and od.eat_date &lt;= #{params.searchEndDate}
+              </if>
+          </where>
+          group by od.eat_date,od.canteen_id,od.meal_type_id, i.`name`
+          ) x
+          left join bms_canteen c on x.canteen_id = c.id
+          left join bms_meal_type mt on x.meal_type_id = mt.id
+        ) a, (SELECT @rank:= 0) b
+    </select>
+
+    <select id="selectCountExportList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsOrderDetailDTO">
+        SELECT a.*,@rank:=@rank + 1 AS id
+        FROM (
+          select x.eatDate, x.orderCount, c.name as canteenName, mt.name as mealTypeName, x.item_name as itemName
+          from(
+          select od.eat_date as eatDate, od.canteen_id, od.meal_type_id, i.`name` AS item_name, count(0) as orderCount
+          from bms_order_detail od, bms_order o, bms_item i
+          <where>
+              o.id = od.order_id and od.del = 0 and o.del = 0 and i.del = 0 and i.id = od.item_id
+              <if test="mealTypeId != null and mealTypeId != '' and mealTypeId != '-1'">
+                  and od.meal_type_id = #{mealTypeId}
+              </if>
+              <if test="canteenId != null and canteenId != '' and canteenId != '-1'">
+                  and od.canteen_id = #{canteenId}
+              </if>
+              <if test="itemName != null and itemName != ''">
+                  and i.`name` = #{itemName}
+              </if>
+              <if test="searchBeginDate != null and searchBeginDate != ''">
+                  and od.eat_date &gt;= #{searchBeginDate}
+              </if>
+              <if test="searchEndDate != null and searchEndDate != ''">
+                  and od.eat_date &lt;= #{searchEndDate}
+              </if>
+          </where>
+          group by od.eat_date,od.canteen_id,od.meal_type_id
+          ) x
+          left join bms_canteen c on x.canteen_id = c.id
+          left join bms_meal_type mt on x.meal_type_id = mt.id
+          order by x.eatDate desc
+        ) a, (SELECT @rank:= 0) b
+    </select>
+
+    <delete id="deleteByOrderIds">
+        update bms_order_detail
+        set del = 1
+        where order_id in
+        <foreach item="orderId" collection="orderIds" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+
+    <select id="selectMonthCancelList" parameterType="Long" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsOrderDetailDTO">
+        select od.id, od.eat_date as eatDate, od.update_date as updateDate
+        , m.advance_order_time as advanceOrderTime, m.begin_time as beginTime
+        from bms_order_detail od
+        left join bms_meal_type m on od.meal_type_id = m.id
+        where od.del = 1 and date_format(od.create_date, '%Y%m') = date_format(curdate( ), '%Y%m')
+        and od.creator = #{creator}
+    </select>
+
+</mapper>

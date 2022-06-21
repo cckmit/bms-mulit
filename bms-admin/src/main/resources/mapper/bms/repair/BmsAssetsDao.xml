@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.repair.dao.BmsAssetsDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.repair.entity.BmsAssetsEntity" id="bmsAssetsMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="assetsTypeId" column="assets_type_id"/>
+        <result property="vendor" column="vendor"/>
+        <result property="model" column="model"/>
+        <result property="position" column="position"/>
+        <result property="imgs" column="imgs"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="dutyUserId" column="duty_user_id"/>
+        <result property="enableDate" column="enable_date"/>
+        <result property="useLimit" column="use_limit"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.repair.dto.BmsAssetsDTO">
+        select a.id, a.name, a.code, a.enable_date as enableDate
+        , t.name as assetsTypeName
+        , d.name as deptName
+        from bms_assets a
+        left join sys_dept d on a.dept_id = d.id
+        left join bms_assets_type t on a.assets_type_id = t.id
+        <where>
+            a.del = 0
+            <if test="params.name != null and params.name != ''">
+                and a.name like concat('%', #{params.name} ,'%')
+            </if>
+            <if test="params.code != null and params.code != ''">
+                and a.code like concat('%', #{params.code} ,'%')
+            </if>
+            <if test="params.deptId != null and params.deptId != '' and params.deptId != '-1'">
+                and a.dept_id = #{params.deptId}
+            </if>
+            <if test="params.assetsTypeId != null and params.assetsTypeId != '' and params.assetsTypeId != '-1'">
+                and a.assets_type_id = #{params.assetsTypeId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectExportList" resultType="cn.amigosoft.modules.bms.repair.dto.BmsAssetsDTO">
+        select a.id, a.name, a.code, a.enable_date as enableDate
+        , t.name as assetsTypeName
+        , d.name as deptName
+        from bms_assets a
+        left join sys_dept d on a.dept_id = d.id
+        left join bms_assets_type t on a.assets_type_id = t.id
+        <where>
+            a.del = 0
+            <if test="name != null and name != ''">
+                and a.name like concat('%', #{name} ,'%')
+            </if>
+            <if test="code != null and code != ''">
+                and a.code like concat('%', #{code} ,'%')
+            </if>
+            <if test="deptId != null and deptId != '' and deptId != '-1'">
+                and a.dept_id = #{deptId}
+            </if>
+            <if test="assetsTypeId != null and assetsTypeId != '' and assetsTypeId != '-1'">
+                and a.assets_type_id = #{assetsTypeId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAssetsById" parameterType="Long" resultType="cn.amigosoft.modules.bms.repair.dto.BmsAssetsDTO">
+        select a.id, a.name, a.code, a.assets_type_id as assetsTypeId, a.vendor, model
+        , a.position, a.imgs, a.dept_id as deptId, a.duty_user_id as dutyUserId
+        , a.enable_date as enableDate, a.use_limit as useLimit, a.remark
+        , u.real_name as dutyUserName, u.work_no as dutyUserWorkNo
+        , t.name as assetsTypeName
+        from bms_assets a
+        left join sys_user u on a.duty_user_id = u.id
+        left join bms_assets_type t on a.assets_type_id = t.id
+        where a.id = #{id}
+    </select>
+
+</mapper>

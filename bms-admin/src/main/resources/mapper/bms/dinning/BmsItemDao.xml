@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.dinning.dao.BmsItemDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.dinning.entity.BmsItemEntity" id="bmsItemMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="mealTypeId" column="meal_type_id"/>
+        <result property="canteenId" column="canteen_id"/>
+        <result property="img" column="img"/>
+        <result property="richtext" column="richText"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsItemDTO">
+        select i.id, i.name, i.img, i.status
+        , i.canteen_id as canteenId, c.name as canteenName
+        , i.meal_type_id as mealTypeId, m.name as mealTypeName
+        , case i.type when 0 then '套餐' when 1 then '自助餐' end as typeName
+        from bms_item i
+        left join bms_canteen c on i.canteen_id = c.id
+        left join bms_meal_type m on i.meal_type_id = m.id
+        <where>
+            i.del = 0
+            <if test="params.name != null and params.name != ''">
+                and i.name like concat('%', #{params.name} ,'%')
+            </if>
+            <if test="params.type != null and params.type != '' and params.type != '-1'">
+                and i.type = #{params.type}
+            </if>
+            <if test="params.canteenId != null and params.canteenId != '' and params.canteenId != '-1'">
+                and i.canteen_id = #{params.canteenId}
+            </if>
+            <if test="params.mealTypeId != null and params.mealTypeId != '' and params.mealTypeId != '-1'">
+                and i.meal_type_id = #{params.mealTypeId}
+            </if>
+            <if test="params.status != null and params.status != '' and params.status != '-1'">
+                and i.status = #{params.status}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectItemById" parameterType="Long" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsItemDTO">
+        select i.id, i.name, i.type, i.meal_type_id, i.canteen_id, i.img, i.remark, c.name as canteenName, m.name as mealTypeName
+        , case i.type when 0 then '套餐' when 1 then '自助餐' end as typeName, i.status
+        from bms_item i
+        left join bms_canteen c on i.canteen_id = c.id
+        left join bms_meal_type m on i.meal_type_id = m.id
+        where i.id = #{id} and i.del = 0
+    </select>
+
+    <select id="selectExportList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsItemDTO">
+        select i.id, i.name, i.img, i.status
+        , i.canteen_id as canteenId, c.name as canteenName
+        , i.meal_type_id as mealTypeId, m.name as mealTypeName
+        , case i.type when 0 then '套餐' when 1 then '自助餐' end as typeName
+        , (select group_concat(y.name) from bms_item_dishes x, bms_dishes y where i.id = x.item_id and x.del = 0 and y.id = x.dishes_id) as dishesName
+        from bms_item i
+        left join bms_canteen c on i.canteen_id = c.id
+        left join bms_meal_type m on i.meal_type_id = m.id
+        <where>
+            i.del = 0
+            <if test="name != null and name != ''">
+                and i.name like concat('%', #{name} ,'%')
+            </if>
+            <if test="type != null and type != '' and type != '-1'">
+                and i.type = #{type}
+            </if>
+            <if test="canteenId != null and canteenId != '' and canteenId != '-1'">
+                and i.canteen_id = #{canteenId}
+            </if>
+            <if test="mealTypeId != null and mealTypeId != '' and mealTypeId != '-1'">
+                and i.meal_type_id = #{mealTypeId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getItemList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsItemDTO">
+        select distinct name, meal_type_id
+        from bms_item
+        where del = 0
+        order by meal_type_id
+    </select>
+</mapper>

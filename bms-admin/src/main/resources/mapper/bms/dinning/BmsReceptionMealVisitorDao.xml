@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.dinning.dao.BmsReceptionMealVisitorDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.dinning.entity.BmsReceptionMealVisitorEntity" id="bmsReceptionMealVisitorMap">
+        <result property="id" column="id"/>
+        <result property="receptionMealId" column="reception_meal_id"/>
+        <result property="visitorName" column="visitor_name"/>
+        <result property="visitorPhone" column="visitor_phone"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectByReceptionMealId" parameterType="Long" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsReceptionMealVisitorDTO">
+        select id, visitor_name as visitorName, visitor_phone as visitorPhone
+        from bms_reception_meal_visitor
+        where del = 0 and reception_meal_id = #{receptionMealId}
+    </select>
+
+    <select id="selectExcelInfoByReceptionMealId" parameterType="Long" resultType="cn.amigosoft.modules.bms.dinning.excel.BmsReceptionMealVisitorExcel">
+        select visitor_name as visitorName, visitor_phone as visitorPhone
+        from bms_reception_meal_visitor
+        where del = 0 and reception_meal_id = #{receptionMealId}
+    </select>
+</mapper>

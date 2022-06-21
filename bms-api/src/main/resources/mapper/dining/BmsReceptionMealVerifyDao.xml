@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.dining.dao.BmsReceptionMealVerifyDao">
+
+    <resultMap type="cn.amigosoft.modules.dining.entity.BmsReceptionMealVerifyEntity" id="bmsReceptionMealVerifyMap">
+        <result property="id" column="id"/>
+        <result property="receptionMealId" column="reception_meal_id"/>
+        <result property="opinion" column="opinion"/>
+        <result property="replyContent" column="reply_content"/>
+        <result property="level" column="level"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectVerifyList" parameterType="Long"
+            resultType="cn.amigosoft.modules.dining.dto.BmsReceptionMealVerifyDTO">
+        select v.create_date, v.level, v.opinion, v.reply_content as replyContent, v.next_user_id as nextUserId
+        , u.real_name as creatorName, u.work_no as creatorWorkNo,
+        w.real_name AS nextUserName,w.work_no AS nextUserWorkNo
+        from bms_reception_meal_verify v
+        left join sys_user u on v.creator = u.id
+        LEFT JOIN sys_user w ON v.next_user_id = w.id
+        where v.del = 0 and reception_meal_id = #{receptionMealId}
+        order by v.create_date
+    </select>
+
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.visit.dao.BmsVisitApplyVisitorDao">
+
+    <resultMap type="cn.amigosoft.modules.visit.entity.BmsVisitApplyVisitorEntity" id="bmsVisitApplyVisitorMap">
+        <result property="id" column="id"/>
+        <result property="applyId" column="apply_id"/>
+        <result property="name" column="name"/>
+        <result property="idCard" column="id_card"/>
+        <result property="mobile" column="mobile"/>
+        <result property="company" column="company"/>
+        <result property="sourceProvince" column="source_province"/>
+        <result property="sourceCity" column="source_city"/>
+        <result property="sourceCounty" column="source_county"/>
+        <result property="imgs" column="imgs"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+
+    <select id="getVisitorList" resultType="cn.amigosoft.modules.visit.dto.BmsVisitApplyVisitorDTO">
+        SELECT a.id,a.`name`,a.id_card,a.mobile,a.company
+        ,a.source_province
+        ,a.source_city
+        ,CONCAT(a.source_province, IFNULL(a.source_city,'')) source_area,a.imgs
+        FROM bms_visit_apply_visitor a
+        WHERE a.apply_id = #{applyId}
+    </select>
+
+    <select id="getVisitorHistoryList" resultType="cn.amigosoft.modules.visit.dto.BmsVisitApplyVisitorDTO">
+        SELECT `name`,mobile
+        FROM bms_visit_apply_visitor
+        WHERE creator = #{creator} AND del = 0
+        GROUP BY `name`,mobile
+    </select>
+
+    <select id="getVisitorInfo" resultType="cn.amigosoft.modules.visit.dto.BmsVisitApplyVisitorDTO">
+        SELECT `name`,id_card,mobile,company,source_province,IFNULL(source_city,'') source_city,
+        CONCAT(source_province,IFNULL(source_city,'')) source_area
+        FROM bms_visit_apply_visitor
+        WHERE `name` = #{name} AND mobile = #{mobile} AND creator = #{creator}
+        AND del = 0
+        ORDER BY id DESC
+        LIMIT 1
+    </select>
+</mapper>

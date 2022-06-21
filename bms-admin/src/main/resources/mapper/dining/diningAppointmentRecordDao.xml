@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.dining.dao.DiningAppointmentRecordDao">
+
+    <resultMap type="cn.amigosoft.modules.dining.entity.DiningAppointmentRecordEntity" id="diningAppointmentRecordMap">
+        <result property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="personStaffId" column="person_staff_id"/>
+        <result property="diningRoomId" column="dining_room_id"/>
+        <result property="appointPickUpTime" column="appoint_pick_up_time"/>
+        <result property="realPickUpTime" column="real_pick_up_time"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <!--菜品预约记录分页查询-->
+    <select id="getList" resultType="cn.amigosoft.modules.dining.dto.DiningAppointmentRecordPageDTO">
+        SELECT
+        idar.*,
+        sd.name AS dept_name,
+        ip.name AS name,
+        ip.phone,
+        idr.name AS dining_name,
+        GROUP_CONCAT(CONCAT(idfl.name, '*', idarfl.num)) as food_name
+        FROM
+        iotsaas_dining_appointment_record AS idar
+        LEFT JOIN iotsaas_person_staff AS ips ON idar.person_staff_id = ips.id
+        LEFT JOIN iotsaas_person AS ip ON ips.person_id = ip.id
+        LEFT JOIN sys_dept sd ON ips.dept_id = sd.id
+        LEFT JOIN iotsaas_dining_room AS idr ON idar.dining_room_id = idr.id
+        LEFT JOIN iotsaas_dining_appointment_record_food_lib AS idarfl ON idar.id = idarfl.dining_appointment_record_id
+        LEFT JOIN iotsaas_dining_food_lib AS idfl ON idarfl.dining_food_lib_id = idfl.id
+        <where>
+            <if test="params.diningRoomId != null and params.diningRoomId.trim()!=''">
+                AND idar.dining_room_id = #{params.diningRoomId}
+            </if>
+            <if test="params.status != null and params.status.trim()!=''">
+                AND idar.status = #{params.status}
+            </if>
+            <if test="params.beginTime != null and params.beginTime.trim()!=''">
+                and idar.create_date >= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime.trim()!=''">
+                <![CDATA[and idar.create_date <= #{params.endTime}]]>
+            </if>
+        </where>
+        GROUP BY idar.id
+    </select>
+    <!--菜品预约记录详细-->
+    <select id="getInfo" resultType="cn.amigosoft.modules.dining.dto.DiningAppointmentRecordInfoDTO">
+        SELECT
+            idar.*,
+            sd.name AS dept_name,
+            ip.name AS name,
+            ip.phone,
+            idr.name AS dining_name,
+            GROUP_CONCAT(CONCAT(idfl.name, '*', idarfl.num)) AS food_name
+        FROM
+            iotsaas_dining_appointment_record AS idar
+        LEFT JOIN iotsaas_person_staff AS ips ON idar.person_staff_id = ips.id
+        LEFT JOIN iotsaas_person AS ip ON ips.person_id = ip.id
+        LEFT JOIN sys_dept sd ON ips.dept_id = sd.id
+        LEFT JOIN iotsaas_dining_room AS idr ON idar.dining_room_id = idr.id
+        LEFT JOIN iotsaas_dining_appointment_record_food_lib AS idarfl ON idar.id = idarfl.dining_appointment_record_id
+        LEFT JOIN iotsaas_dining_food_lib AS idfl ON idarfl.dining_food_lib_id = idfl.id
+        WHERE idar.id = #{id}
+        GROUP BY
+            idar.id
+    </select>
+    <select id="getByStatusAndNoTenantIdAndCreateDate"
+            resultType="cn.amigosoft.modules.dining.dto.DiningAppointmentRemindDTO">
+        SELECT
+            d.phone,b.`name`
+        FROM
+            iotsaas_dining_appointment_record  AS a
+            LEFT JOIN iotsaas_dining_room AS b ON a.dining_room_id = b.id
+            LEFT JOIN iotsaas_person_staff AS c ON c.id = a.person_staff_id
+            LEFT JOIN iotsaas_person AS d ON d.id = c.person_id
+        WHERE
+            a.`status` = #{status}
+            AND d.del = 0
+            AND DATE_FORMAT( a.create_date, '%Y-%m-%d' ) = #{pickUpTime}
+
+    </select>
+
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.dinning.dao.BmsCardLogDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.dinning.entity.BmsCardLogEntity" id="bmsCardLogMap">
+        <result property="id" column="id"/>
+        <result property="serialNum" column="serial_num"/>
+        <result property="account" column="account"/>
+        <result property="realName" column="real_name"/>
+        <result property="userCode" column="user_code"/>
+        <result property="cardType" column="card_type"/>
+        <result property="businessArea" column="business_area"/>
+        <result property="businessSite" column="business_site"/>
+        <result property="businessAddress" column="business_address"/>
+        <result property="terminalCode" column="terminal_code"/>
+        <result property="businessType" column="business_type"/>
+        <result property="businessPurse" column="business_purse"/>
+        <result property="businessMoney" column="business_money"/>
+        <result property="cardBalance" column="card_balance"/>
+        <result property="stockBalance" column="stock_balance"/>
+        <result property="purseSerial" column="purse_serial"/>
+        <result property="businessDate" column="business_date"/>
+        <result property="transferredDate" column="transferred_date"/>
+        <result property="businessCode" column="business_code"/>
+        <result property="businessName" column="business_name"/>
+        <result property="discountMoney" column="discount_money"/>
+        <result property="deposit" column="deposit"/>
+        <result property="cardFees" column="card_fees"/>
+        <result property="charges" column="charges"/>
+        <result property="operatorCode" column="operator_code"/>
+        <result property="accountDept" column="account_dept"/>
+        <result property="transactionMode" column="transaction_mode"/>
+        <result property="paymentChannel" column="payment_channel"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <insert id="batchInsertCardLog" parameterType="cn.amigosoft.modules.bms.dinning.entity.BmsCardLogEntity">
+        insert into bms_card_log
+        (id, serial_num, account, real_name, user_code, card_type, business_area, business_site, business_address
+        , terminal_code, business_type, business_purse, business_money, card_balance, stock_balance, purse_serial
+        , business_date, transferred_date, business_code, business_name, discount_money, deposit, card_fees, charges
+        , operator_code, account_dept, transaction_mode, payment_channel, import_code, creator, create_date)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.serialNum}, #{item.account}, #{item.realName}, #{item.userCode}, #{item.cardType}, #{item.businessArea}
+            , #{item.businessSite}, #{item.businessAddress}, #{item.terminalCode}, #{item.businessType}, #{item.businessPurse}
+            , #{item.businessMoney}, #{item.cardBalance}, #{item.stockBalance}, #{item.purseSerial}, #{item.businessDate}
+            , #{item.transferredDate}, #{item.businessCode}, #{item.businessName}, #{item.discountMoney}, #{item.deposit}
+            , #{item.cardFees}, #{item.charges}, #{item.operatorCode}, #{item.accountDept}, #{item.transactionMode}
+            , #{item.paymentChannel}, #{item.importCode}, #{item.creator}, #{item.createDate})
+        </foreach>
+    </insert>
+
+    <delete id="deleteDuplicateData">
+        update bms_card_log
+        set del = 1
+        where del = 0 and id not in (
+		select t.max_id from
+		(select max(id) as max_id from bms_card_log where del = 0 group by serial_num) as t
+		)
+    </delete>
+
+    <update id="updateMealTypeId">
+        update bms_card_log c, bms_meal_type m
+        set c.meal_type_id = m.id
+        where c.del = 0 and c.meal_type_id is null
+        and date_format(c.business_date,'%T') &gt; m.begin_time
+        and date_format(c.business_date,'%T') &lt; m.end_time
+    </update>
+
+</mapper>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.dining.dao.BmsOrderDetailDao">
+
+    <resultMap type="cn.amigosoft.modules.dining.entity.BmsOrderDetailEntity" id="bmsOrderDetailMap">
+        <result property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="canteenId" column="canteen_id"/>
+        <result property="mealTypeId" column="meal_type_id"/>
+        <result property="eatDate" column="eat_date"/>
+        <result property="status" column="status"/>
+        <result property="scanStatus" column="scan_status"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="getOrderStatusList" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDetailDTO">
+        SELECT
+        a.id,a.`status`,a.scan_status,a.eat_date, a.del,
+        c.advance_order_time,c.begin_time
+        FROM bms_order_detail a
+        LEFT JOIN bms_item b ON b.id = a.item_id
+        LEFT JOIN bms_meal_type c ON c.id = b.meal_type_id
+        <where>
+            <if test="order_id != null">
+                AND a.order_id = #{order_id}
+            </if>
+        </where>
+    </select>
+
+    <select id="getOrderDetailStatus" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDetailDTO">
+        SELECT
+        a.id,a.`status`,a.scan_status,a.eat_date, b.name as itemName,
+        c.advance_order_time,c.begin_time, c.name as typeName,
+        d.name as canteenName
+        FROM bms_order_detail a
+        LEFT JOIN bms_item b ON b.id = a.item_id
+        LEFT JOIN bms_meal_type c ON c.id = b.meal_type_id
+        LEFT JOIN bms_canteen d ON d.id = a.canteen_id
+        <where>
+            <if test="id != null">
+                AND a.id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="getOrderDateList" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDetailInfoDTO">
+        SELECT a.order_id, a.eat_date
+        FROM bms_order_detail a
+        <where>
+            <if test="order_id != null">
+                AND a.order_id = #{order_id}
+            </if>
+        </where>
+        GROUP BY a.eat_date
+    </select>
+
+    <select id="getOrderDetailList" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDetailDTO">
+        SELECT
+        a.id,a.order_id,a.eat_date,a.`status`,a.scan_status,a.del,
+        b.`name` canteen_name,
+        c.img, c.`name` item_name,
+        d.`name` type_name,d.end_time,
+        GROUP_CONCAT(f.`name` SEPARATOR '、') dishes_name
+        FROM bms_order_detail a
+        LEFT JOIN bms_item c ON c.id = a.item_id
+        LEFT JOIN bms_canteen b ON b.id = c.canteen_id
+        LEFT JOIN bms_meal_type d ON d.id = c.meal_type_id
+        LEFT JOIN bms_item_dishes e ON e.item_id = c.id
+        LEFT JOIN bms_dishes f ON f.id = e.dishes_id
+        <where>
+            <if test="order_id != null">
+                AND a.order_id = #{order_id}
+            </if>
+            <if test="eat_date != null">
+                AND a.eat_date = #{eat_date}
+            </if>
+        </where>
+        GROUP BY a.id
+        ORDER BY a.eat_date
+    </select>
+
+    <select id="paidPage" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDetailDTO">
+        SELECT
+        a.id,a.order_id,eat_date,a.`status`,a.scan_status,
+        b.`name` canteen_name,
+        c.img, c.`name` item_name,
+        d.`name` type_name,d.end_time,
+        GROUP_CONCAT(f.`name` SEPARATOR '、') dishes_name
+        FROM bms_order_detail a
+        LEFT JOIN bms_item c ON c.id = a.item_id
+        LEFT JOIN bms_canteen b ON b.id = c.canteen_id
+        LEFT JOIN bms_meal_type d ON d.id = c.meal_type_id
+        LEFT JOIN bms_item_dishes e ON e.item_id = c.id
+        LEFT JOIN bms_dishes f ON f.id = e.dishes_id
+        LEFT JOIN bms_order g ON g.id = a.order_id
+        WHERE a.del = 0 AND g.del = 0
+        AND a.creator = #{creator}
+        <if test="orderId != null and orderId != ''">
+            AND a.order_id LIKE CONCAT('%',#{orderId},'%')
+        </if>
+        <if test="realStatus != null and realStatus == 0">
+            AND a.`status` = 0 AND CONCAT(a.eat_date,' ',d.end_time,':00') &gt; NOW()
+        </if>
+        <if test="realStatus != null and realStatus == 1">
+            AND a.`status` = 1
+        </if>
+        <if test="realStatus != null and realStatus == 2">
+            AND a.`status` = 0 AND CONCAT(a.eat_date,' ',d.end_time,':00') &lt; NOW()
+        </if>
+        GROUP BY a.id
+    </select>
+
+    <select id="scanPaidPage" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDetailDTO">
+        SELECT
+        a.id,a.order_id,eat_date,a.`status`,a.scan_status,
+        b.`name` canteen_name,
+        c.img, c.`name` item_name,
+        d.`name` type_name,d.end_time,
+        GROUP_CONCAT(f.`name` SEPARATOR '、') dishes_name
+        FROM bms_order_detail a
+        LEFT JOIN bms_item c ON c.id = a.item_id
+        LEFT JOIN bms_canteen b ON b.id = c.canteen_id
+        LEFT JOIN bms_meal_type d ON d.id = c.meal_type_id
+        LEFT JOIN bms_item_dishes e ON e.item_id = c.id
+        LEFT JOIN bms_dishes f ON f.id = e.dishes_id
+        LEFT JOIN bms_order g ON g.id = a.order_id
+        WHERE a.del = 0 AND g.del = 0
+        AND a.creator = #{creator}
+        <if test="orderId != null and orderId != ''">
+            AND a.order_id LIKE CONCAT('%',#{orderId},'%')
+        </if>
+        <if test="realStatus != null and realStatus == 0">
+            AND a.`scan_status` = 0 AND CONCAT(a.eat_date,' ',d.end_time,':00') &gt; NOW()
+        </if>
+        <if test="realStatus != null and realStatus == 1">
+            AND a.`scan_status` = 1
+        </if>
+        <if test="realStatus != null and realStatus == 2">
+            AND a.`scan_status` = 0 AND CONCAT(a.eat_date,' ',d.end_time,':00') &lt; NOW()
+        </if>
+        GROUP BY a.id
+    </select>
+
+    <select id="getPaidDetailInfo" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDetailDTO">
+        SELECT
+        a.id,a.order_id,a.eat_date,
+        a.`status`,a.scan_status,a.del,
+        b.`name` canteen_name,
+        c.img, c.`name` item_name,
+        d.`name` type_name,d.end_time,
+        GROUP_CONCAT(f.`name` SEPARATOR '、') dishes_name,
+        g.create_date,h.work_no, h.real_name staff_name, i.`name` dept_name,
+        s.create_date scan_date
+        FROM bms_order_detail a
+        LEFT JOIN bms_item c ON c.id = a.item_id
+        LEFT JOIN bms_canteen b ON b.id = c.canteen_id
+        LEFT JOIN bms_meal_type d ON d.id = c.meal_type_id
+        LEFT JOIN bms_item_dishes e ON e.item_id = c.id
+        LEFT JOIN bms_dishes f ON f.id = e.dishes_id
+        LEFT JOIN bms_order g ON g.id = a.order_id
+        LEFT JOIN sys_user h ON h.id = g.creator
+        LEFT JOIN sys_dept i ON i.id = h.dept_id
+        LEFT JOIN bms_scan_verification s ON s.order_detail_id = a.id
+        <where>
+            <if test="id != null">
+                AND a.id = #{id}
+            </if>
+        </where>
+        GROUP BY s.create_date
+    </select>
+
+    <select id="getScanDetailInfo" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDetailDTO">
+        SELECT
+        a.id,a.order_id,a.eat_date,
+        a.`status`,a.scan_status,a.del,
+        b.`name` canteen_name,
+        c.img, c.`name` item_name,
+        d.`name` type_name,d.end_time
+        ,GROUP_CONCAT(f.`name` SEPARATOR '、') dishes_name
+        ,a.create_date,h.work_no, h.real_name staff_name, i.`name` dept_name
+        ,s.create_date scan_date
+        FROM bms_order_detail a
+        LEFT JOIN bms_item c ON c.id = a.item_id
+        LEFT JOIN bms_canteen b ON b.id = c.canteen_id
+        LEFT JOIN bms_meal_type d ON d.id = c.meal_type_id
+        LEFT JOIN bms_item_dishes e ON e.item_id = c.id
+        LEFT JOIN bms_dishes f ON f.id = e.dishes_id
+        LEFT JOIN sys_user h ON h.id = a.creator
+        LEFT JOIN sys_dept i ON i.id = h.dept_id
+        LEFT JOIN bms_scan_verification s ON s.order_detail_id = a.id
+        WHERE a.del = 0
+        <if test="canteenId != null and canteenId != ''">
+            AND a.canteen_id = #{canteenId}
+        </if>
+        <if test="mealTypeId != null and mealTypeId != ''">
+            AND a.meal_type_id = #{mealTypeId}
+        </if>
+        <if test="eatDate != null and eatDate != ''">
+            AND a.eat_date = #{eatDate}
+        </if>
+        <if test="creator != null and creator != ''">
+            AND a.creator = #{creator}
+        </if>
+        GROUP BY a.id,s.create_date
+        ORDER BY a.id DESC LIMIT 1
+    </select>
+
+    <select id="countPage" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDetailDTO">
+        select x.eatDate, x.orderCount, c.name as canteenName, mt.name as mealTypeName, x.item_name as itemName
+        from(
+        select od.eat_date as eatDate, od.canteen_id, od.meal_type_id, i.`name` AS item_name, count(0) as orderCount
+        from bms_order_detail od, bms_order o, bms_item i
+        where
+        o.id = od.order_id and od.del = 0 and o.del = 0 and i.del = 0 and i.id = od.item_id
+        <if test="mealTypeId != null and mealTypeId != ''">
+            and od.meal_type_id = #{mealTypeId}
+        </if>
+        <if test="canteenId != null and canteenId != ''">
+            and od.canteen_id = #{canteenId}
+        </if>
+        <if test="itemName != null and itemName != ''">
+            and i.`name` = #{itemName}
+        </if>
+        <if test="searchDate != null and searchDate != ''">
+            and od.eat_date = #{searchDate}
+        </if>
+        group by od.eat_date,od.canteen_id,od.meal_type_id, i.`name`
+        ) x
+        left join bms_canteen c on x.canteen_id = c.id
+        left join bms_meal_type mt on x.meal_type_id = mt.id
+        ORDER BY x.eatDate DESC
+    </select>
+
+    <select id="onOrderItemIds" resultType="Long">
+        select item_id
+        from bms_order_detail
+        where del = 0 and creator = #{creator} and eat_date in
+        <foreach item="eatDate" collection="eatDateList" open="(" separator="," close=")">
+            #{eatDate}
+        </foreach>
+    </select>
+
+    <select id="lastCanteen" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDetailDTO">
+        SELECT a.canteen_id, b.`name` canteen_name
+        FROM bms_order_detail a
+        LEFT JOIN bms_canteen b ON b.id = a.canteen_id
+        WHERE a.creator = #{creator}
+        ORDER BY a.create_date DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectUserDetailCount" resultType="int">
+        select count(0)
+        from bms_order_detail od
+        left join bms_order o on o.id = od.order_id
+        left join bms_item i on i.id = od.item_id
+        left join bms_meal_type mt on mt.id = i.meal_type_id
+        where od.del = 0 and o.del = 0 and od.creator = #{creator} and od.eat_date = #{eatDate} and i.meal_type_id = #{mealTypeId}
+    </select>
+
+    <select id="selectMonthCancelList" parameterType="Long" resultType="cn.amigosoft.modules.dining.dto.BmsOrderDetailDTO">
+        select od.id, od.eat_date as eatDate, od.update_date as updateDate
+        , m.advance_order_time as advanceOrderTime, m.begin_time as beginTime
+        from bms_order_detail od
+        left join bms_meal_type m on od.meal_type_id = m.id
+        where od.del = 1 and date_format(od.create_date, '%Y%m') = date_format(curdate( ), '%Y%m')
+        and od.creator = #{creator}
+    </select>
+
+</mapper>

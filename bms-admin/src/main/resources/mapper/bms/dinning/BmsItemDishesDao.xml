@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.dinning.dao.BmsItemDishesDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.dinning.entity.BmsItemDishesEntity" id="bmsItemDishesMap">
+        <result property="id" column="id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="dishesId" column="dishes_id"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectItemDishesByItemId" parameterType="Long" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsItemDishesDTO">
+        select i.dishes_id as dishesId, d.name as dishesName
+        from bms_item_dishes i
+        left join  bms_dishes d on i.dishes_id = d.id
+        where i.del = 0 and i.item_id = #{itemId}
+    </select>
+
+    <select id="selectIdByItemId" parameterType="Long" resultType="String">
+        select dishes_id
+        from bms_item_dishes
+        where del = 0 and item_id = #{itemId}
+    </select>
+
+    <delete id="deleteByItemIdAndDishesId">
+        update bms_item_dishes
+        set del = 1
+        where item_id = #{itemId} and dishes_id = #{dishesId}
+    </delete>
+</mapper>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.assets.dao.AssetsEquipmentTypeDao">
+
+    <resultMap type="cn.amigosoft.modules.assets.entity.AssetsEquipmentTypeEntity" id="assetsEquipmentTypeMap">
+        <result property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="pid" column="pid"/>
+        <result property="pids" column="pids"/>
+        <result property="typeNo" column="type_no"/>
+        <result property="name" column="name"/>
+        <result property="level" column="level"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+    <update id="updateDelByPid">
+        UPDATE iotsaas_assets_equipment_type
+        SET del = 1
+        WHERE pid = #{id}
+    </update>
+    <select id="countByTypeNo" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM iotsaas_assets_equipment_type
+        WHERE del = 0
+          AND type_no = #{typeNo}
+    </select>
+    <select id="countByPid" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM iotsaas_assets_equipment_type
+        WHERE del = 0
+          AND pid = #{pid}
+    </select>
+    <select id="getByPid" resultType="cn.amigosoft.modules.assets.entity.AssetsEquipmentTypeEntity">
+        SELECT *
+        FROM iotsaas_assets_equipment_type
+        WHERE del = 0
+          AND pid = #{pid}
+    </select>
+    <select id="pageList" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentTypeTreeDTO">
+        SELECT id,
+               pid,
+               type_no,
+               `name`,
+               `level`,
+               remark
+        FROM iotsaas_assets_equipment_type
+        WHERE (`level` = 1 OR tenant_id is null)
+          AND del = 0
+          AND id != #{id}
+    </select>
+    <select id="listTreeSelect" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentTypeTreeDTO">
+        SELECT id,
+               pid,
+               `name`
+        FROM iotsaas_assets_equipment_type
+        WHERE `level` = 1
+          AND del = 0
+          AND id != #{id}
+        UNION
+        SELECT id,
+               pid,
+               `name`
+        FROM iotsaas_assets_equipment_type
+        WHERE `level` = 2
+          AND del = 0
+          AND tenant_id is null
+    </select>
+    <select id="selectByPid" resultType="cn.amigosoft.modules.assets.entity.AssetsEquipmentTypeEntity">
+        SELECT *
+        FROM iotsaas_assets_equipment_type
+        WHERE id = #{pid}
+          AND del = 0
+    </select>
+    <select id="allTypeTree" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentTypeTreeDTO">
+        SELECT id,
+               pid,
+               `name`,
+               type_no
+        FROM iotsaas_assets_equipment_type
+        WHERE tenant_id is null
+          AND del = 0
+        UNION
+        SELECT id,
+               pid,
+               `name`,
+               type_no
+        FROM iotsaas_assets_equipment_type
+        WHERE del = 0
+          AND `level` = 1
+        UNION
+        SELECT id,
+               #{id}          AS pid,
+               NAME,
+               device_type_id AS type_no
+
+        FROM iotsaas_device_type
+    </select>
+    <select id="universalTypeTree" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentTypeTreeDTO">
+        SELECT id,
+               pid,
+               `name`,
+               type_no
+        FROM iotsaas_assets_equipment_type
+        WHERE id = #{typeId}
+          AND del = 0
+        UNION
+        SELECT id,
+               pid,
+               `name`,
+               type_no
+        FROM iotsaas_assets_equipment_type
+        WHERE tenant_id is null
+          AND FIND_IN_SET(#{typeId}, pids)
+          AND del = 0
+    </select>
+    <select id="countByNameAndId" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM iotsaas_assets_equipment_type
+        WHERE `name` = #{name}
+        AND (tenant_id is null OR `level` = 1)
+        <if test="id != null and id != '' ">
+            AND id != #{id}
+        </if>
+        AND del=0
+    </select>
+
+
+</mapper>

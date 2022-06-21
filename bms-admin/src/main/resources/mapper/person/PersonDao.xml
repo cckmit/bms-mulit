@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.person.dao.PersonDao">
+
+    <resultMap type="cn.amigosoft.modules.person.entity.PersonEntity" id="personMap">
+        <result property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="areaId" column="area_id"/>
+        <result property="headImg" column="head_img"/>
+        <result property="guardFaceImageId" column="guard_face_image_id"/>
+        <result property="faceImageId" column="face_image_id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="birthday" column="birthday"/>
+        <result property="licenseType" column="license_type"/>
+        <result property="licenseNo" column="license_no"/>
+        <result property="gender" column="gender"/>
+        <result property="category" column="category"/>
+        <result property="type" column="type"/>
+        <result property="blacklist" column="blacklist"/>
+        <result property="objectId" column="object_id"/>
+        <result property="mobileFlag" column="mobile_flag"/>
+        <result property="del" column="del"/>
+        <result property="warnFlag" column="warn_flag"/>
+        <result property="remark" column="remark"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.sys.dao.SysAppMenuDao">
+
+    <resultMap type="cn.amigosoft.modules.sys.entity.SysAppMenuEntity" id="sysAppMenuMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="url" column="url"/>
+        <result property="pid" column="pid"/>
+        <result property="permission" column="permission"/>
+        <result property="type" column="type"/>
+        <result property="icon" column="icon"/>
+        <result property="sort" column="sort"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="getAppMenuList" resultMap="sysAppMenuMap">
+        select id, name, url, pid, permission, type, icon, sort
+        from sys_app_menu
+        <where>
+            del = 0
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+        order by sort asc
+    </select>
+
+    <select id="getAppUserMenuList" resultMap="sysAppMenuMap">
+        select m.id, m.name, m.url, m.pid, m.permission, m.type, m.icon, m.sort
+        from sys_app_menu m, sys_role_app_menu am, sys_role_user ru
+        <where>
+            m.id = am.app_menu_id and ru.role_id = am.role_id and m.del = 0 and am.del = 0
+            and ru.user_id = #{userId}
+            <if test="type != null">
+                and m.type = #{type}
+            </if>
+        </where>
+        order by m.sort asc
+    </select>
+
+    <select id="getAppMenuIdList" resultType="Long">
+		select app_menu_id from sys_role_app_menu where del = 0 and role_id = #{roleId}
+	</select>
+
+    <delete id="deleteRoleAppMenuByRoleId" parameterType="Long">
+        delete from sys_role_app_menu
+        where role_id = #{roleId}
+    </delete>
+
+    <delete id="deleteByRoleIds">
+        delete from sys_role_app_menu where role_id in
+        <foreach item="roleId" collection="array" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+
+</mapper>

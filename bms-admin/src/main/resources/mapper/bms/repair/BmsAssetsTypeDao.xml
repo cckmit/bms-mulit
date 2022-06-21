@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.repair.dao.BmsAssetsTypeDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.repair.entity.BmsAssetsTypeEntity" id="bmsAssetsTypeMap">
+        <result property="id" column="id"/>
+        <result property="pid" column="pid"/>
+        <result property="pids" column="pids"/>
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="level" column="level"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectExportList" resultType="cn.amigosoft.modules.bms.repair.dto.BmsAssetsTypeDTO">
+        select name, remark
+        from bms_assets_type
+        where del = 0
+    </select>
+
+</mapper>

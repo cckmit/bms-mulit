@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.sys.dao.SysDeptDao">
+
+    <select id="getList" resultType="cn.amigosoft.modules.sys.entity.SysDeptEntity">
+        select t1.*,(select t2.name from sys_dept t2 where t2.id=t1.pid)parentName from sys_dept t1
+        <where>
+            <if test="deptIdList != null">
+                t1.id in
+                <foreach item="id" collection="deptIdList" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        order by t1.sort asc
+    </select>
+
+    <select id="getById" resultType="cn.amigosoft.modules.sys.entity.SysDeptEntity">
+		select t1.*,(select t2.name from sys_dept t2 where t2.id=t1.pid)parentName
+		 ,(select count(1) from sys_user t3 where t3.dept_id=#{value})userAcount
+		 from sys_dept t1
+		where t1.id = #{value}
+	</select>
+
+    <select id="getIdAndPidList" resultType="cn.amigosoft.modules.sys.entity.SysDeptEntity">
+		select t1.id, t1.pid from sys_dept t1
+	</select>
+
+    <select id="getSubDeptIdList" resultType="long">
+		select id from sys_dept where pids like #{id}
+	</select>
+    <insert id="insertManger">
+   insert  sys_dept_position(dept_id,position_type,position_name,user_id,creator,updater,update_date)
+    values('1067246875800000014',1,'zhangsan1','1067246875800000014',1067246875800000014,
+    1067246875800000014,NOW()
+    )
+    </insert>
+    <select id="getMangerAcount" resultType="long">
+        SELECT COUNT(1) FROM sys_dept_position  WHERE  dept_id=#{id}
+	</select>
+
+    <select id="getDeptByAllName" resultType="cn.amigosoft.modules.sys.entity.SysDeptEntity">
+        select a.detNames as name,a.id from (
+SELECT
+DISTINCT
+CONCAT_WS(',',a1.name,
+case when a1.id=a2.id then null else a2.name end,
+case when a2.id=a3.id then null else a3.name end,
+case when a3.id=a4.id then null else a4.name end
+) detNames,
+if(a4.id is not null,a4.id,if(a3.id is not null,a3.id,if(a2.id is not null,a2.id,if(a1.id is not null,a1.id,null)))) id
+FROM sys_dept a1
+left join sys_dept a2 on (a2.pid = a1.id ) or a1.id=a2.id
+left join sys_dept a3 on (a3.pid = a2.id ) or a2.id=a3.id
+left join sys_dept a4 on (a4.pid = a3.id ) or a3.id=a4.id
+where  a1.pid = 0 ) a
+where a.detNames = #{allName}
+    </select>
+
+    <select id="selectBaseDeptInfoList" resultType="cn.amigosoft.modules.sys.dto.SysDeptDTO">
+        select id, name
+        from sys_dept
+        where id in
+        <foreach item="id" collection="array"  open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

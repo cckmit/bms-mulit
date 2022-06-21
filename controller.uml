@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>cn.amigosoft.modules.bms.dinning.controller</OriginalElement>
+  <nodes>
+    <node x="1373.875" y="472.0">cn.amigosoft.modules.sys.entity.SysDictEntity</node>
+    <node x="1836.757936507936" y="1290.0">cn.amigosoft.modules.log.service.impl.SysLogErrorServiceImpl</node>
+    <node x="1012.1641865079359" y="1290.0">cn.amigosoft.modules.sys.service.impl.SysDictServiceImpl</node>
+    <node x="1194.5" y="1449.0">org.springframework.web.bind.annotation.RequestMapping</node>
+    <node x="452.1111111111111" y="951.0">cn.amigosoft.modules.sys.service.SysRoleService</node>
+    <node x="1874.0" y="1715.5">cn.amigosoft.modules.sys.controller.SysDictController</node>
+    <node x="305.0" y="1715.5">cn.amigosoft.modules.log.controller.SysLogErrorController</node>
+    <node x="2297.590277777778" y="963.5">cn.amigosoft.modules.log.service.SysLogOperationService</node>
+    <node x="376.16418650793594" y="1290.0">cn.amigosoft.modules.log.service.impl.SysLogLoginServiceImpl</node>
+    <node x="972.3059210526316" y="149.5">com.baomidou.mybatisplus.annotation.TableName</node>
+    <node x="199.0277777777776" y="963.5">cn.amigosoft.modules.log.service.SysLogLoginService</node>
+    <node x="602.0" y="1715.5">cn.amigosoft.modules.log.controller.SysLogOperationController</node>
+    <node x="1178.875" y="506.5">cn.amigosoft.modules.sys.entity.SysRoleEntity</node>
+    <node x="1494.673611111111" y="963.5">org.springframework.stereotype.Service</node>
+    <node x="707.375" y="472.0">cn.amigosoft.modules.log.entity.SysLogOperationEntity</node>
+    <node x="4.694444444444343" y="1290.0">cn.amigosoft.common.service.impl.CrudServiceImpl</node>
+    <node x="1099.5" y="1449.0">io.swagger.annotations.Api</node>
+    <node x="1579.757936507936" y="1277.5">cn.amigosoft.modules.sys.service.impl.SysParamsServiceImpl</node>
+    <node x="638.1641865079359" y="1208.0">cn.amigosoft.modules.sys.service.impl.SysRoleServiceImpl</node>
+    <node x="34.0277777777776" y="963.5">cn.amigosoft.common.service.CrudService</node>
+    <node x="907.9047619047618" y="951.0">cn.amigosoft.common.service.impl.BaseServiceImpl</node>
+    <node x="0.0" y="1715.5">cn.amigosoft.modules.log.controller.SysLogLoginController</node>
+    <node x="1334.0" y="1704.0">cn.amigosoft.modules.sys.controller.SysMenuController</node>
+    <node x="2047.2569444444443" y="963.5">cn.amigosoft.modules.log.service.SysLogErrorService</node>
+    <node x="736.125" y="102.0">cn.amigosoft.common.entity.BaseEntity</node>
+    <node x="1624.673611111111" y="963.5">cn.amigosoft.modules.sys.service.SysMenuService</node>
+    <node x="404.0140977443609" y="149.5">lombok.EqualsAndHashCode</node>
+    <node x="907.5" y="1449.0">org.springframework.web.bind.annotation.RestController</node>
+    <node x="2098.757936507936" y="1290.0">cn.amigosoft.modules.log.service.impl.SysLogOperationServiceImpl</node>
+    <node x="218.0" y="506.5">cn.amigosoft.modules.log.entity.SysLogErrorEntity</node>
+    <node x="693.125" y="0.0">java.io.Serializable</node>
+    <node x="960.0" y="1681.0">cn.amigosoft.modules.sys.controller.SysRoleController</node>
+    <node x="436.0" y="495.0">cn.amigosoft.modules.sys.entity.SysParamsEntity</node>
+    <node x="983.875" y="449.0">cn.amigosoft.modules.sys.entity.SysMenuEntity</node>
+    <node x="103.4975198412692" y="829.0">com.baomidou.mybatisplus.core.mapper.BaseMapper</node>
+    <node x="715.9047619047618" y="963.5">cn.amigosoft.modules.sys.service.SysDictService</node>
+    <node x="983.375" y="0.0">lombok.Data</node>
+    <node x="1816.673611111111" y="963.5">cn.amigosoft.modules.sys.service.SysParamsService</node>
+    <node x="0.0" y="518.0">cn.amigosoft.modules.log.entity.SysLogLoginEntity</node>
+    <node x="1239.164186507936" y="1266.0">cn.amigosoft.modules.sys.service.impl.SysMenuServiceImpl</node>
+    <node x="1596.0" y="1715.5">cn.amigosoft.modules.sys.controller.SysParamsController</node>
+    <node x="1174.664186507936" y="829.0">cn.amigosoft.common.service.BaseService</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="cn.amigosoft.modules.log.entity.SysLogErrorEntity" target="lombok.EqualsAndHashCode">
+      <point x="-24.75" y="-110.0" />
+      <point x="292.25" y="349.0" />
+      <point x="446.44266917293237" y="349.0" />
+      <point x="-56.571428571428555" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.impl.SysDictServiceImpl" target="cn.amigosoft.common.service.impl.BaseServiceImpl">
+      <point x="0.0" y="-16.0" />
+      <point x="1115.664186507936" y="1098.0" />
+      <point x="987.0922619047618" y="1098.0" />
+      <point x="-11.3125" y="28.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysRoleEntity" target="cn.amigosoft.common.entity.BaseEntity">
+      <point x="-21.875" y="-110.0" />
+      <point x="1244.5" y="299.0" />
+      <point x="842.9821428571429" y="299.0" />
+      <point x="38.85714285714289" y="63.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.service.impl.SysLogLoginServiceImpl" target="org.springframework.stereotype.Service">
+      <point x="80.66666666666674" y="-16.0" />
+      <point x="577.8308531746027" y="1148.0" />
+      <point x="1502.530753968254" y="1148.0" />
+      <point x="-47.14285714285711" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.service.SysLogErrorService" target="cn.amigosoft.common.service.BaseService">
+      <point x="0.0" y="-16.0" />
+      <point x="2150.7569444444443" y="911.0" />
+      <point x="1295.4975198412694" y="911.0" />
+      <point x="48.33333333333326" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.service.impl.SysLogOperationServiceImpl" target="org.springframework.stereotype.Service">
+      <point x="0.0" y="-16.0" />
+      <point x="2237.257936507936" y="1028.0" />
+      <point x="1596.8164682539682" y="1028.0" />
+      <point x="47.14285714285711" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.service.impl.SysLogLoginServiceImpl" target="cn.amigosoft.modules.log.service.SysLogLoginService">
+      <point x="-80.66666666666674" y="-16.0" />
+      <point x="416.4975198412692" y="1108.0" />
+      <point x="302.5277777777776" y="1108.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.controller.SysMenuController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="80.66666666666663" y="-40.0" />
+      <point x="1535.6666666666667" y="1561.0" />
+      <point x="1305.0714285714287" y="1561.0" />
+      <point x="24.571428571428555" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.common.service.impl.CrudServiceImpl" target="cn.amigosoft.common.service.CrudService">
+      <point x="0.0" y="-16.0" />
+      <point x="95.19444444444434" y="1188.0" />
+      <point x="106.5277777777776" y="1188.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.entity.SysLogLoginEntity" target="lombok.Data">
+      <point x="-74.25" y="-98.5" />
+      <point x="24.75" y="329.0" />
+      <point x="158.98731203007526" y="329.0" />
+      <point x="158.98731203007526" y="52.0" />
+      <point x="988.625" y="52.0" />
+      <point x="-36.75" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.controller.SysLogOperationController" target="io.swagger.annotations.Api">
+      <point x="0.0" y="-28.5" />
+      <point x="771.0" y="1621.0" />
+      <point x="1126.2857142857144" y="1621.0" />
+      <point x="-10.714285714285666" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.common.service.impl.CrudServiceImpl" target="cn.amigosoft.common.service.impl.BaseServiceImpl">
+      <point x="60.33333333333334" y="-16.0" />
+      <point x="155.52777777777771" y="1118.0" />
+      <point x="919.2172619047618" y="1118.0" />
+      <point x="-79.1875" y="28.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.SysDictService" target="cn.amigosoft.common.service.BaseService">
+      <point x="0.0" y="-16.0" />
+      <point x="801.9047619047618" y="921.0" />
+      <point x="1231.053075396825" y="921.0" />
+      <point x="-16.111111111111086" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysMenuEntity" target="lombok.EqualsAndHashCode">
+      <point x="-65.625" y="-167.5" />
+      <point x="1005.75" y="329.0" />
+      <point x="531.2998120300753" y="329.0" />
+      <point x="28.285714285714334" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.SysParamsService" target="cn.amigosoft.common.service.BaseService">
+      <point x="0.0" y="-16.0" />
+      <point x="1911.173611111111" y="921.0" />
+      <point x="1279.386408730158" y="921.0" />
+      <point x="32.22222222222217" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysDictEntity" target="com.baomidou.mybatisplus.annotation.TableName">
+      <point x="21.875" y="-144.5" />
+      <point x="1483.25" y="259.0" />
+      <point x="1091.1630639097746" y="259.0" />
+      <point x="54.857142857143" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.controller.SysLogOperationController" target="org.springframework.web.bind.annotation.RestController">
+      <point x="-112.66666666666674" y="-28.5" />
+      <point x="658.3333333333333" y="1591.0" />
+      <point x="968.9285714285713" y="1591.0" />
+      <point x="-24.57142857142867" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.controller.SysMenuController" target="io.swagger.annotations.Api">
+      <point x="0.0" y="-40.0" />
+      <point x="1455.0" y="1571.0" />
+      <point x="1147.7142857142858" y="1571.0" />
+      <point x="10.71428571428578" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysParamsEntity" target="lombok.Data">
+      <point x="-67.875" y="-121.5" />
+      <point x="458.625" y="329.0" />
+      <point x="393.5140977443609" y="329.0" />
+      <point x="393.5140977443609" y="72.0" />
+      <point x="1009.625" y="72.0" />
+      <point x="-15.75" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.impl.SysRoleServiceImpl" target="cn.amigosoft.common.service.impl.BaseServiceImpl">
+      <point x="0.0" y="-98.0" />
+      <point x="815.1641865079359" y="1138.0" />
+      <point x="964.4672619047618" y="1138.0" />
+      <point x="-33.9375" y="28.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.service.SysLogOperationService" target="cn.amigosoft.common.service.BaseService">
+      <point x="0.0" y="-16.0" />
+      <point x="2418.590277777778" y="901.0" />
+      <point x="1311.6086309523803" y="901.0" />
+      <point x="64.44444444444434" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysRoleEntity" target="lombok.Data">
+      <point x="65.625" y="-110.0" />
+      <point x="1332.0" y="429.0" />
+      <point x="1303.3533834586465" y="429.0" />
+      <point x="1303.3533834586465" y="62.0" />
+      <point x="1051.625" y="62.0" />
+      <point x="26.25" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.entity.SysLogLoginEntity" target="lombok.EqualsAndHashCode">
+      <point x="-24.75" y="-98.5" />
+      <point x="74.25" y="339.0" />
+      <point x="418.15695488721803" y="339.0" />
+      <point x="-84.85714285714289" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.SysMenuService" target="cn.amigosoft.common.service.BaseService">
+      <point x="0.0" y="-16.0" />
+      <point x="1710.673611111111" y="931.0" />
+      <point x="1263.2752976190473" y="931.0" />
+      <point x="16.111111111111086" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.controller.SysLogErrorController" target="io.swagger.annotations.Api">
+      <point x="0.0" y="-28.5" />
+      <point x="443.5" y="1611.0" />
+      <point x="1115.5714285714287" y="1611.0" />
+      <point x="-21.428571428571445" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.impl.SysRoleServiceImpl" target="cn.amigosoft.modules.sys.service.SysRoleService">
+      <point x="-118.0" y="-98.0" />
+      <point x="697.1641865079359" y="1108.0" />
+      <point x="557.1111111111111" y="1108.0" />
+      <point x="0.0" y="28.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.controller.SysLogLoginController" target="org.springframework.web.bind.annotation.RestController">
+      <point x="-95.0" y="-28.5" />
+      <point x="47.5" y="1571.0" />
+      <point x="919.7857142857142" y="1571.0" />
+      <point x="-73.71428571428578" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.entity.SysLogLoginEntity" target="cn.amigosoft.common.entity.BaseEntity">
+      <point x="24.75" y="-98.5" />
+      <point x="123.75" y="359.0" />
+      <point x="745.8392857142858" y="359.0" />
+      <point x="-58.28571428571422" y="63.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysRoleEntity" target="com.baomidou.mybatisplus.annotation.TableName">
+      <point x="21.875" y="-110.0" />
+      <point x="1288.25" y="289.0" />
+      <point x="1072.8773496240601" y="289.0" />
+      <point x="36.571428571428555" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.entity.SysLogErrorEntity" target="lombok.Data">
+      <point x="-74.25" y="-110.0" />
+      <point x="242.75" y="329.0" />
+      <point x="273.23731203007526" y="329.0" />
+      <point x="273.23731203007526" y="62.0" />
+      <point x="999.125" y="62.0" />
+      <point x="-26.25" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysParamsEntity" target="lombok.EqualsAndHashCode">
+      <point x="-22.625" y="-121.5" />
+      <point x="503.875" y="349.0" />
+      <point x="474.72838345864665" y="349.0" />
+      <point x="-28.285714285714278" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysMenuEntity" target="cn.amigosoft.common.entity.BaseEntity">
+      <point x="-21.875" y="-167.5" />
+      <point x="1049.5" y="319.0" />
+      <point x="823.5535714285714" y="319.0" />
+      <point x="19.428571428571445" y="63.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.impl.SysParamsServiceImpl" target="cn.amigosoft.common.service.impl.BaseServiceImpl">
+      <point x="-79.0" y="-28.5" />
+      <point x="1619.257936507936" y="1078.0" />
+      <point x="1032.342261904762" y="1078.0" />
+      <point x="33.9375" y="28.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysDictEntity" target="cn.amigosoft.common.entity.BaseEntity">
+      <point x="-21.875" y="-144.5" />
+      <point x="1439.5" y="269.0" />
+      <point x="862.4107142857143" y="269.0" />
+      <point x="58.285714285714334" y="63.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.service.impl.SysLogErrorServiceImpl" target="cn.amigosoft.modules.log.service.SysLogErrorService">
+      <point x="80.66666666666663" y="-16.0" />
+      <point x="2038.4246031746027" y="1188.0" />
+      <point x="2150.7569444444443" y="1188.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.common.service.impl.BaseServiceImpl" target="cn.amigosoft.common.service.BaseService">
+      <point x="45.25" y="-28.5" />
+      <point x="1043.654761904762" y="931.0" />
+      <point x="1247.164186507936" y="931.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.controller.SysDictController" target="org.springframework.web.bind.annotation.RestController">
+      <point x="-73.66666666666669" y="-28.5" />
+      <point x="1910.8333333333333" y="1521.0" />
+      <point x="1067.2142857142858" y="1521.0" />
+      <point x="73.71428571428578" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.service.impl.SysLogErrorServiceImpl" target="cn.amigosoft.common.service.impl.BaseServiceImpl">
+      <point x="-80.66666666666674" y="-16.0" />
+      <point x="1877.0912698412694" y="1058.0" />
+      <point x="1054.967261904762" y="1058.0" />
+      <point x="56.5625" y="28.5" />
+    </edge>
+    <edge source="cn.amigosoft.common.entity.BaseEntity" target="lombok.Data">
+      <point x="34.0" y="-63.5" />
+      <point x="838.125" y="82.0" />
+      <point x="1020.125" y="82.0" />
+      <point x="-5.25" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.controller.SysLogErrorController" target="org.springframework.web.bind.annotation.RestController">
+      <point x="-92.33333333333326" y="-28.5" />
+      <point x="351.16666666666674" y="1581.0" />
+      <point x="944.3571428571429" y="1581.0" />
+      <point x="-49.14285714285711" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.service.SysLogLoginService" target="cn.amigosoft.common.service.BaseService">
+      <point x="0.0" y="-16.0" />
+      <point x="302.5277777777776" y="901.0" />
+      <point x="1198.830853174603" y="901.0" />
+      <point x="-48.33333333333326" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.controller.SysParamsController" target="io.swagger.annotations.Api">
+      <point x="0.0" y="-28.5" />
+      <point x="1725.0" y="1541.0" />
+      <point x="1158.4285714285716" y="1541.0" />
+      <point x="21.428571428571445" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.common.service.impl.BaseServiceImpl" target="com.baomidou.mybatisplus.core.mapper.BaseMapper">
+      <point x="-45.25" y="-28.5" />
+      <point x="953.1547619047618" y="881.0" />
+      <point x="205.4975198412692" y="881.0" />
+      <point x="34.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.entity.SysLogErrorEntity" target="cn.amigosoft.common.entity.BaseEntity">
+      <point x="24.75" y="-110.0" />
+      <point x="341.75" y="369.0" />
+      <point x="765.2678571428571" y="369.0" />
+      <point x="-38.85714285714289" y="63.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.entity.SysLogOperationEntity" target="com.baomidou.mybatisplus.annotation.TableName">
+      <point x="29.125" y="-144.5" />
+      <point x="853.0" y="419.0" />
+      <point x="1036.3059210526317" y="419.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.controller.SysDictController" target="io.swagger.annotations.Api">
+      <point x="-1.4210854715202004E-14" y="-28.5" />
+      <point x="1984.5" y="1511.0" />
+      <point x="1169.142857142857" y="1511.0" />
+      <point x="32.14285714285711" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.common.service.CrudService" target="cn.amigosoft.common.service.BaseService">
+      <point x="0.0" y="-16.0" />
+      <point x="106.5277777777776" y="891.0" />
+      <point x="1182.7197420634916" y="891.0" />
+      <point x="-64.44444444444434" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.service.impl.SysLogOperationServiceImpl" target="cn.amigosoft.common.service.impl.BaseServiceImpl">
+      <point x="-92.33333333333331" y="-16.0" />
+      <point x="2144.9246031746025" y="1038.0" />
+      <point x="1077.592261904762" y="1038.0" />
+      <point x="79.1875" y="28.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.entity.SysLogOperationEntity" target="lombok.Data">
+      <point x="87.375" y="-144.5" />
+      <point x="911.25" y="429.0" />
+      <point x="1110.8059210526317" y="429.0" />
+      <point x="1110.8059210526317" y="82.0" />
+      <point x="1030.625" y="82.0" />
+      <point x="5.25" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.impl.SysParamsServiceImpl" target="cn.amigosoft.modules.sys.service.SysParamsService">
+      <point x="79.0" y="-28.5" />
+      <point x="1777.257936507936" y="1188.0" />
+      <point x="1911.173611111111" y="1188.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.controller.SysParamsController" target="org.springframework.web.bind.annotation.RestController">
+      <point x="-86.0" y="-28.5" />
+      <point x="1639.0" y="1551.0" />
+      <point x="1042.642857142857" y="1551.0" />
+      <point x="49.14285714285711" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysParamsEntity" target="com.baomidou.mybatisplus.annotation.TableName">
+      <point x="67.875" y="-121.5" />
+      <point x="594.375" y="409.0" />
+      <point x="1018.0202067669172" y="409.0" />
+      <point x="-18.285714285714334" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysRoleEntity" target="lombok.EqualsAndHashCode">
+      <point x="-65.625" y="-110.0" />
+      <point x="1200.75" y="309.0" />
+      <point x="559.5855263157895" y="309.0" />
+      <point x="56.571428571428555" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.controller.SysRoleController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="118.0" y="-63.0" />
+      <point x="1255.0" y="1661.0" />
+      <point x="1280.5" y="1661.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysDictEntity" target="lombok.Data">
+      <point x="65.625" y="-144.5" />
+      <point x="1527.0" y="249.0" />
+      <point x="1406.1033834586465" y="249.0" />
+      <point x="1406.1033834586465" y="52.0" />
+      <point x="1062.125" y="52.0" />
+      <point x="36.75" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysMenuEntity" target="lombok.Data">
+      <point x="65.625" y="-167.5" />
+      <point x="1137.0" y="429.0" />
+      <point x="1165.1480263157896" y="429.0" />
+      <point x="1165.1480263157896" y="72.0" />
+      <point x="1041.125" y="72.0" />
+      <point x="15.75" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.entity.SysLogErrorEntity" target="com.baomidou.mybatisplus.annotation.TableName">
+      <point x="74.25" y="-110.0" />
+      <point x="391.25" y="399.0" />
+      <point x="999.734492481203" y="399.0" />
+      <point x="-36.571428571428555" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.controller.SysLogLoginController" target="io.swagger.annotations.Api">
+      <point x="0.0" y="-28.5" />
+      <point x="142.5" y="1601.0" />
+      <point x="1104.857142857143" y="1601.0" />
+      <point x="-32.14285714285711" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.impl.SysDictServiceImpl" target="cn.amigosoft.modules.sys.service.SysDictService">
+      <point x="-69.0" y="-16.0" />
+      <point x="1046.664186507936" y="1108.0" />
+      <point x="801.9047619047618" y="1108.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.impl.SysMenuServiceImpl" target="org.springframework.stereotype.Service">
+      <point x="0.0" y="-40.0" />
+      <point x="1386.164186507936" y="1178.0" />
+      <point x="1549.673611111111" y="1178.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.service.impl.SysLogLoginServiceImpl" target="cn.amigosoft.common.service.impl.BaseServiceImpl">
+      <point x="0.0" y="-16.0" />
+      <point x="497.16418650793594" y="1128.0" />
+      <point x="941.8422619047618" y="1128.0" />
+      <point x="-56.5625" y="28.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.entity.SysLogOperationEntity" target="lombok.EqualsAndHashCode">
+      <point x="-87.375" y="-144.5" />
+      <point x="736.5" y="339.0" />
+      <point x="503.0140977443609" y="339.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.controller.SysLogOperationController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="112.66666666666674" y="-28.5" />
+      <point x="883.6666666666667" y="1651.0" />
+      <point x="1255.9285714285716" y="1651.0" />
+      <point x="-24.571428571428555" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.controller.SysDictController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="73.66666666666669" y="-28.5" />
+      <point x="2058.166666666667" y="1501.0" />
+      <point x="1354.2142857142858" y="1501.0" />
+      <point x="73.71428571428578" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.service.impl.SysLogErrorServiceImpl" target="org.springframework.stereotype.Service">
+      <point x="0.0" y="-16.0" />
+      <point x="1957.757936507936" y="1048.0" />
+      <point x="1581.1021825396824" y="1048.0" />
+      <point x="31.42857142857133" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.common.service.impl.CrudServiceImpl" target="com.baomidou.mybatisplus.core.mapper.BaseMapper">
+      <point x="-60.33333333333326" y="-16.0" />
+      <point x="34.861111111111086" y="1188.0" />
+      <point x="0.0" y="1188.0" />
+      <point x="0.0" y="881.0" />
+      <point x="137.4975198412692" y="881.0" />
+      <point x="-34.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.entity.SysLogOperationEntity" target="cn.amigosoft.common.entity.BaseEntity">
+      <point x="-29.125" y="-144.5" />
+      <point x="794.75" y="379.0" />
+      <point x="804.125" y="379.0" />
+      <point x="0.0" y="63.5" />
+    </edge>
+    <edge source="cn.amigosoft.common.entity.BaseEntity" target="java.io.Serializable">
+      <point x="-34.0" y="-63.5" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysParamsEntity" target="cn.amigosoft.common.entity.BaseEntity">
+      <point x="22.625" y="-121.5" />
+      <point x="549.125" y="379.0" />
+      <point x="784.6964285714286" y="379.0" />
+      <point x="-19.428571428571445" y="63.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysMenuEntity" target="com.baomidou.mybatisplus.annotation.TableName">
+      <point x="21.875" y="-167.5" />
+      <point x="1093.25" y="419.0" />
+      <point x="1054.591635338346" y="419.0" />
+      <point x="18.285714285714334" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.controller.SysRoleController" target="org.springframework.web.bind.annotation.RestController">
+      <point x="-118.0" y="-63.0" />
+      <point x="1019.0" y="1591.0" />
+      <point x="993.5" y="1591.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.impl.SysParamsServiceImpl" target="org.springframework.stereotype.Service">
+      <point x="0.0" y="-28.5" />
+      <point x="1698.257936507936" y="1068.0" />
+      <point x="1565.3878968253969" y="1068.0" />
+      <point x="15.71428571428578" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.controller.SysMenuController" target="org.springframework.web.bind.annotation.RestController">
+      <point x="-80.66666666666674" y="-40.0" />
+      <point x="1374.3333333333333" y="1581.0" />
+      <point x="1018.0714285714284" y="1581.0" />
+      <point x="24.57142857142844" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.controller.SysParamsController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="86.0" y="-28.5" />
+      <point x="1811.0" y="1531.0" />
+      <point x="1329.642857142857" y="1531.0" />
+      <point x="49.14285714285711" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.service.impl.SysLogOperationServiceImpl" target="cn.amigosoft.modules.log.service.SysLogOperationService">
+      <point x="92.33333333333337" y="-16.0" />
+      <point x="2329.5912698412694" y="1188.0" />
+      <point x="2418.590277777778" y="1188.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.impl.SysMenuServiceImpl" target="cn.amigosoft.common.service.impl.BaseServiceImpl">
+      <point x="-98.0" y="-40.0" />
+      <point x="1288.164186507936" y="1088.0" />
+      <point x="1009.7172619047618" y="1088.0" />
+      <point x="11.3125" y="28.5" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.impl.SysDictServiceImpl" target="org.springframework.stereotype.Service">
+      <point x="69.0" y="-16.0" />
+      <point x="1184.664186507936" y="1168.0" />
+      <point x="1533.9593253968253" y="1168.0" />
+      <point x="-15.71428571428578" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.controller.SysLogLoginController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="95.0" y="-28.5" />
+      <point x="237.5" y="1631.0" />
+      <point x="1206.7857142857142" y="1631.0" />
+      <point x="-73.71428571428578" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.impl.SysRoleServiceImpl" target="org.springframework.stereotype.Service">
+      <point x="118.0" y="-98.0" />
+      <point x="933.1641865079359" y="1158.0" />
+      <point x="1518.2450396825398" y="1158.0" />
+      <point x="-31.42857142857133" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.SysRoleService" target="cn.amigosoft.common.service.BaseService">
+      <point x="0.0" y="-28.5" />
+      <point x="557.1111111111111" y="911.0" />
+      <point x="1214.9419642857138" y="911.0" />
+      <point x="-32.22222222222217" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.service.impl.SysMenuServiceImpl" target="cn.amigosoft.modules.sys.service.SysMenuService">
+      <point x="98.0" y="-40.0" />
+      <point x="1484.164186507936" y="1188.0" />
+      <point x="1710.673611111111" y="1188.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.entity.SysDictEntity" target="lombok.EqualsAndHashCode">
+      <point x="-65.625" y="-144.5" />
+      <point x="1395.75" y="279.0" />
+      <point x="587.8712406015038" y="279.0" />
+      <point x="84.85714285714289" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.sys.controller.SysRoleController" target="io.swagger.annotations.Api">
+      <point x="0.0" y="-63.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.entity.SysLogLoginEntity" target="com.baomidou.mybatisplus.annotation.TableName">
+      <point x="74.25" y="-98.5" />
+      <point x="173.25" y="389.0" />
+      <point x="981.4487781954887" y="389.0" />
+      <point x="-54.85714285714289" y="16.0" />
+    </edge>
+    <edge source="cn.amigosoft.modules.log.controller.SysLogErrorController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="92.33333333333326" y="-28.5" />
+      <point x="535.8333333333333" y="1641.0" />
+      <point x="1231.357142857143" y="1641.0" />
+      <point x="-49.14285714285711" y="16.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.330859375" x="1270.0" y="903.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

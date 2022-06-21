@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.dinning.dao.BmsScanVerificationDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.dinning.entity.BmsScanVerificationEntity" id="bmsScanVerificationMap">
+        <result property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="orderDetailId" column="order_detail_id"/>
+        <result property="canteenId" column="canteen_id"/>
+        <result property="scanLogId" column="scan_log_id"/>
+        <result property="remark" column="remark"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsScanVerificationDTO">
+        select v.id, v.create_date as createDate, u.real_name as creatorName, u.work_no as creatorWorkNo, d.name as creatorDeptName
+        , m.name as mealTypeName, i.name as itemName, c.name as canteenName, u.card_account as cardAccount
+        from bms_scan_verification v
+        left join sys_user u on u.id = v.creator
+        left join sys_dept d on d.id = u.dept_id
+        left join bms_order_detail od on od.id = v.order_detail_id
+        left join bms_meal_type m on m.id = od.meal_type_id
+        left join bms_item i on i.id = od.item_id
+        left join bms_canteen c on c.id = v.canteen_id
+        <where>
+            <if test="params.mealTypeId != null and params.mealTypeId != '' and params.mealTypeId != '-1'">
+                and i.meal_type_id = #{params.mealTypeId}
+            </if>
+            <if test="params.canteenId != null and params.canteenId != '' and params.canteenId != '-1'">
+                and c.id = #{params.canteenId}
+            </if>
+            <if test="params.searchBeginDate != null and params.searchBeginDate != ''">
+                and od.eat_date &gt;= #{params.searchBeginDate}
+            </if>
+            <if test="params.searchEndDate != null and params.searchEndDate != ''">
+                and od.eat_date &lt;= #{params.searchEndDate}
+            </if>
+            <if test="params.creatorName != null and params.creatorName != ''">
+                and u.real_name like concat('%', #{params.creatorName} ,'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectExportList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsScanVerificationDTO">
+        select v.id, v.create_date as createDate, u.real_name as creatorName, u.work_no as creatorWorkNo, d.name as creatorDeptName
+        , m.name as mealTypeName, i.name as itemName, c.name as canteenName, u.card_account as cardAccount
+        from bms_scan_verification v
+        left join sys_user u on u.id = v.creator
+        left join sys_dept d on d.id = u.dept_id
+        left join bms_order_detail od on od.id = v.order_detail_id
+        left join bms_meal_type m on m.id = od.meal_type_id
+        left join bms_item i on i.id = od.item_id
+        left join bms_canteen c on c.id = v.canteen_id
+        <where>
+            <if test="mealTypeId != null and mealTypeId != '' and mealTypeId != '-1'">
+                and i.meal_type_id = #{mealTypeId}
+            </if>
+            <if test="canteenId != null and canteenId != '' and canteenId != '-1'">
+                and c.id = #{canteenId}
+            </if>
+            <if test="searchBeginDate != null and searchBeginDate != ''">
+                and od.eat_date &gt;= #{searchBeginDate}
+            </if>
+            <if test="searchEndDate != null and searchEndDate != ''">
+                and od.eat_date &lt;= #{searchEndDate}
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                and u.real_name like concat('%', #{creatorName} ,'%')
+            </if>
+        </where>
+        order by v.create_date desc
+    </select>
+
+</mapper>

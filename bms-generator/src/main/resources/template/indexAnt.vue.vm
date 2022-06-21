@@ -1,0 +1,144 @@
+<template>
+    <a-card :bordered="false" class="aui-card--fill">
+        <div class="mod-${moduleName}__${pathName}}">
+            <!--//查询表单-->
+            <div class="table-page-search-wrapper">
+                <a-form layout="inline">
+                    <a-row :gutter="48">
+                        #foreach($column in $columns)
+                            #if($velocityCount <= 2 && ${column.attrname} != "creator" && ${column.attrname} != "updater" && ${column.attrname} != "del" && ${column.attrname} != "deptId" )
+                                <a-col :md="8" :sm="24">
+                                    <a-form-item label="${column.comments}">
+                                        <a-input placeholder="请输入${column.comments}" v-model="dataForm.${column.attrname}"/>
+                                    </a-form-item>
+                                </a-col>
+                            #end
+                        #end
+                        #if($columns.size() > 2)
+                            <template v-if="advanced">
+                                #foreach($column in $columns)
+                                    #if($!{velocityCount} > 2 && ${column.attrname} != "creator" && ${column.attrname} != "updater" && ${column.attrname} != "del" && ${column.attrname} != "deptId" )
+                                        <a-col :md="8" :sm="24">
+                                            <a-form-item label="${column.comments}">
+                                                <a-input placeholder="请输入${column.comments}" v-model="dataForm.${column.attrname}"/>
+                                            </a-form-item>
+                                        </a-col>
+                                    #end
+                                #end
+                            </template>
+                        #end
+                        <a-col :md="!advanced && 8 || 24" :sm="24">
+                            <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+                                <a-button @click="getDataList" icon="search" type="primary">{{ $t('query') }}</a-button>
+                              <a-button style="margin-left: 16px" @click="resetSearchFormHandle()" icon="reload">{{ $t('reset') }}</a-button>
+                                #if($columns.size() > 2)
+                                    <a @click="toggleAdvanced" style="margin-left: 16px">
+                                {{ advanced ? '收起' : '展开' }}
+                                <a-icon :type="advanced ? 'up' : 'down'"/>
+                              </a>
+                                #end
+                            </span>
+                        </a-col>
+                    </a-row>
+                </a-form>
+            </div>
+            <!--新建操作-->
+            <div class="table-operator">
+                <a-button v-if="$hasPermission('${moduleName}:${pathName}:save')" type="primary" icon="plus" @click="addOrUpdateHandle()">{{ $t('add') }}</a-button>
+                <a-button v-if="$hasPermission('${moduleName}:${pathName}:export')" type="primary" icon="download" @click="exportHandle()">{{ $t('export') }}</a-button>
+                <a-dropdown v-if="dataListSelections.length > 0">
+                    <a-menu slot="overlay">
+                        <a-menu-item v-if="$hasPermission('${moduleName}:${pathName}:delete')" key="1" @click="deleteHandle()"><a-icon type="delete" />删除</a-menu-item>
+                        <!-- lock | unlock -->
+                    </a-menu>
+                    <a-button style="margin-left: 8px">
+                        批量操作 <a-icon type="down" />
+                    </a-button>
+                </a-dropdown>
+            </div>
+            <!--多选提示-->
+            <selectMore :num="dataListSelections.length" @clear="clearSelectedHandle"></selectMore>
+            <a-table
+                    :data-source="dataList"
+                    :pagination="pagination"
+                    :loading="loading"
+                    :row-selection="{selectedRowKeys: dataListSelections, onChange: dataListSelectionChangeHandle}"
+                    row-key="id"
+                    @change="handleTableChange"
+            >
+                #foreach($column in $columns)
+                    #if(${column.attrname} != "updater" && ${column.attrname} != "creator" && ${column.attrname} != "del" && ${column.attrname} != "deptId" )
+                        <a-table-column key="${column.attrname}" title="${column.comments}" data-index="${column.attrname}" align="center" ></a-table-column>
+                    #end
+                        #end
+                <a-table-column
+                        key="action"
+                        title="操作"
+                        fixed="right"
+                        width="180px"
+                        align="center"
+                >
+                    <template slot-scope="scope">
+                <span>
+                  <a @click="detailHandle(scope.id)">{{ $t('detail') }}</a>
+                  <a-divider type="vertical" />
+                  <a-dropdown v-if="$hasPermission('${moduleName}:${pathName}:update')">
+                    <a class="ant-dropdown-link">
+                      更多 <a-icon type="down" />
+                    </a>
+                    <a-menu slot="overlay">
+                      <a-menu-item>
+                        <a @click="addOrUpdateHandle(scope.id)">{{ $t('update') }}</a>
+                      </a-menu-item>
+                      <a-menu-item>
+                        <a href="javascript:;" @click="deleteHandle(scope.id)">{{ $t('delete') }}</a>
+                      </a-menu-item>
+                    </a-menu>
+                  </a-dropdown>
+                </span>
+                    </template>
+                </a-table-column>
+            </a-table>
+            <!-- 弹窗, 新增 / 修改 -->
+            <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+            <!-- 弹窗,详情 -->
+            <detail v-if="detailVisible" ref="detail"/>
+        </div>
+    </a-card>
+</template>
+
+<script>
+    import mixinViewModule from '@/mixins/view-module-ant'
+    import AddOrUpdate from './${pathName}-add-or-update'
+    import Detail from './${pathName}-detail'
+    import AFormItem from 'ant-design-vue/es/form/FormItem'
+    import selectMore from '@/components/selectMore/selectMore'
+    export default {
+        components: {
+            AFormItem,
+            AddOrUpdate,
+            Detail,
+            selectMore
+        },
+        mixins: [mixinViewModule],
+        data() {
+            return {
+                mixinViewModuleOptions: {
+                    getDataListURL: '/${moduleName}/${pathName}/page',
+                    getDataListIsPage: true,
+                    exportURL: '/${moduleName}/${pathName}/export',
+                    deleteURL: '/${moduleName}/${pathName}',
+                    deleteIsBatch: true
+                },
+                dataForm: {
+            ${pk.attrname}: ''
+        }
+        }
+        },
+        methods: {
+            resetSearchFormHandle() {
+                this.dataForm.${pk.attrname} = ''
+            }
+        }
+    }
+</script>

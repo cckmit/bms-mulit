@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.dining.dao.BmsEvaluationDao">
+
+    <resultMap type="cn.amigosoft.modules.dining.entity.BmsEvaluationEntity" id="bmsEvaluationMap">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="endDate" column="end_date"/>
+        <result property="canteenId" column="canteen_id"/>
+        <result property="richText" column="rich_text"/>
+        <result property="img" column="img"/>
+        <result property="deptIdList" column="dept_id_list"/>
+        <result property="userIdList" column="user_id_list"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.dining.dto.BmsEvaluationDTO">
+        select e.id, e.title, e.end_date as endDate
+        , c.name as canteenName
+        , eu.content
+        from bms_evaluation_user eu
+        left join bms_evaluation e on eu.evaluation_id = e.id
+        left join bms_canteen c on e.canteen_id = c.id
+        where eu.del = 0 and e.del = 0
+        <if test="params.status != null and params.status == 0">
+            and e.end_date > NOW() and eu.content is null
+        </if>
+        <if test="params.status != null and params.status == 1">
+            and eu.content is not null
+        </if>
+        AND eu.user_id = #{params.userId}
+    </select>
+
+    <select id="getDetail" resultType="cn.amigosoft.modules.dining.dto.BmsEvaluationDTO">
+        SELECT
+        a.user_id, a.content, a.update_date
+        , b.id, b.title, b.end_date as endDate, b.canteen_id as canteenId
+        , c.name as canteenName
+        FROM bms_evaluation_user a
+        LEFT JOIN bms_evaluation b ON a.evaluation_id = b.id
+        LEFT JOIN bms_canteen c on b.canteen_id = c.id
+        WHERE a.del = 0 AND b.id = #{id} and a.user_id = #{userId}
+    </select>
+
+    <update id="evaluate">
+        UPDATE bms_evaluation_user
+        SET content = #{content},
+        update_date = #{updateDate}
+        WHERE
+        evaluation_id = #{id} and user_id = #{userId}
+    </update>
+</mapper>

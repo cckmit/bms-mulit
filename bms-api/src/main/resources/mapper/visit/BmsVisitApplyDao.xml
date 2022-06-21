@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.visit.dao.BmsVisitApplyDao">
+
+    <resultMap type="cn.amigosoft.modules.visit.entity.BmsVisitApplyEntity" id="bmsVisitApplyMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="matter" column="matter"/>
+        <result property="beginDate" column="begin_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="addressId" column="address_id"/>
+        <result property="verifyUserId" column="verify_user_id"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creatorOpenId" column="creator_open_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="queryPage" resultType="cn.amigosoft.modules.visit.dto.BmsVisitApplyDTO">
+        SELECT a.id,a.status,a.create_date,
+        c.real_name,c.mobile,
+        GROUP_CONCAT(DISTINCT b.`name` separator '、') address_name,
+        d.visitors
+        FROM bms_visit_apply a
+        LEFT JOIN bms_visit_apply_address e ON e.apply_id = a.id
+        LEFT JOIN bms_visit_address b ON b.id = e.address_id
+        LEFT JOIN sys_user c ON c.id = a.user_id
+        LEFT JOIN
+            (SELECT apply_id, GROUP_CONCAT(`name` separator '、') visitors,
+            GROUP_CONCAT( `mobile` separator '、') visitors_mobile
+            FROM bms_visit_apply_visitor
+            GROUP BY apply_id) d ON d.apply_id = a.id
+        WHERE a.del = 0 AND a.status != 4
+        AND a.user_id = #{userId}
+        <if test="nameOrPhone != null and nameOrPhone != ''">
+            AND (
+            (d.visitors LIKE CONCAT('%',#{nameOrPhone},'%'))
+            OR (d.visitors_mobile LIKE CONCAT('%',#{nameOrPhone},'%'))
+            OR (c.real_name LIKE CONCAT('%',#{nameOrPhone},'%'))
+            OR (c.mobile LIKE CONCAT('%',#{nameOrPhone},'%'))
+            )
+        </if>
+        <if test="status != null and status == 0">
+            AND a.status = 3
+        </if>
+        <if test="status != null and status == 1">
+            AND a.status = 0
+        </if>
+        <if test="status != null and status == 2">
+            AND (a.status = 1 OR a.status = 2)
+        </if>
+        GROUP BY a.id,d.visitors
+    </select>
+
+    <select id="queryDraftPage" resultType="cn.amigosoft.modules.visit.dto.BmsVisitApplyDTO">
+        SELECT a.id, a.matter, a.create_date
+            ,GROUP_CONCAT(DISTINCT b.`name` separator '、') address_name
+            ,d.visitors
+        FROM bms_visit_apply a
+        LEFT JOIN bms_visit_apply_address e ON e.apply_id = a.id
+        LEFT JOIN bms_visit_address b ON b.id = e.address_id
+        LEFT JOIN
+            (SELECT apply_id, GROUP_CONCAT(`name` separator '、') visitors,
+            GROUP_CONCAT( `mobile` separator '、') visitors_mobile
+            FROM bms_visit_apply_visitor
+            GROUP BY apply_id) d ON d.apply_id = a.id
+        WHERE a.del = 0
+        AND a.status = 4
+        AND a.creator = #{creator}
+        GROUP BY a.id,d.visitors
+    </select>
+
+    <select id="queryVerifyPage" resultType="cn.amigosoft.modules.visit.dto.BmsVisitApplyDTO">
+        SELECT a.id,a.status,a.create_date,
+        c.real_name,c.mobile,
+        GROUP_CONCAT(DISTINCT b.`name` separator '、') address_name,
+        d.visitors
+        FROM bms_visit_apply a
+        LEFT JOIN bms_visit_apply_address e ON e.apply_id = a.id
+        LEFT JOIN bms_visit_address b ON b.id = e.address_id
+        LEFT JOIN sys_user c ON c.id = a.user_id
+        LEFT JOIN
+            (SELECT apply_id, GROUP_CONCAT(`name` separator '、') visitors,
+            GROUP_CONCAT( `mobile` separator '、') visitors_mobile
+            FROM bms_visit_apply_visitor
+            GROUP BY apply_id) d ON d.apply_id = a.id
+        WHERE a.del = 0
+        AND a.id IN (SELECT apply_id FROM bms_visit_apply_verify WHERE next_user_id = #{verifyUserId})
+        <if test="nameOrPhone != null and nameOrPhone != ''">
+            AND (
+            (d.visitors LIKE CONCAT('%',#{nameOrPhone},'%'))
+            OR (d.visitors_mobile LIKE CONCAT('%',#{nameOrPhone},'%'))
+            OR (c.real_name LIKE CONCAT('%',#{nameOrPhone},'%'))
+            OR (c.mobile LIKE CONCAT('%',#{nameOrPhone},'%'))
+            )
+        </if>
+        <if test="status != null and status == 0">
+            AND a.status = #{status}
+        </if>
+        <if test="status != null and status == 1">
+            AND a.status != 0
+        </if>
+        GROUP BY a.id,d.visitors
+    </select>
+
+    <select id="queryAppliedPage" resultType="cn.amigosoft.modules.visit.dto.BmsVisitApplyDTO">
+        SELECT a.id,a.status,a.create_date,a.begin_date,
+        c.real_name,c.mobile,
+        GROUP_CONCAT(DISTINCT b.`name` separator '、') address_name,
+        d.visitors
+        FROM bms_visit_apply a
+        LEFT JOIN bms_visit_apply_address e ON e.apply_id = a.id
+        LEFT JOIN bms_visit_address b ON b.id = e.address_id
+        LEFT JOIN sys_user c ON c.id = a.user_id
+        LEFT JOIN
+        (SELECT apply_id, GROUP_CONCAT(`name` separator '、') visitors,
+        GROUP_CONCAT( `mobile` separator '、') visitors_mobile
+        FROM bms_visit_apply_visitor
+        GROUP BY apply_id) d ON d.apply_id = a.id
+        WHERE a.del = 0 AND a.status = 1
+        <if test="addressId != null and addressId != ''">
+            AND b.id = #{addressId}
+        </if>
+        <if test="nameOrPhone != null and nameOrPhone != ''">
+            AND (
+            (d.visitors LIKE CONCAT('%',#{nameOrPhone},'%'))
+            OR (d.visitors_mobile LIKE CONCAT('%',#{nameOrPhone},'%'))
+            OR (c.real_name LIKE CONCAT('%',#{nameOrPhone},'%'))
+            OR (c.mobile LIKE CONCAT('%',#{nameOrPhone},'%'))
+            )
+        </if>
+        GROUP BY a.id,d.visitors
+    </select>
+
+    <select id="getDetail" resultType="cn.amigosoft.modules.visit.dto.BmsVisitApplyDTO">
+        SELECT a.id,a.matter,a.status,a.begin_date,a.end_date,a.creator,
+        GROUP_CONCAT(DISTINCT b.`name` separator '、') address_name,
+        c.real_name,c.mobile
+        FROM bms_visit_apply a
+        LEFT JOIN bms_visit_apply_address f ON f.apply_id = a.id
+        LEFT JOIN bms_visit_address b ON b.id = f.address_id
+        LEFT JOIN sys_user c ON c.id = a.user_id
+        WHERE a.id = #{id}
+        GROUP BY a.id
+    </select>
+
+    <select id="getDetailNew" resultType="cn.amigosoft.modules.visit.dto.BmsVisitApplyDTO">
+        SELECT a.id,a.matter,a.status,a.begin_date,a.end_date,a.creator,a.user_id,
+        a.verify_user_id,
+        b.id address_id, b.name address_name,
+        c.real_name,c.mobile
+        FROM bms_visit_apply a
+        LEFT JOIN bms_visit_apply_address f ON f.apply_id = a.id
+        LEFT JOIN bms_visit_address b ON b.id = f.address_id
+        LEFT JOIN sys_user c ON c.id = a.user_id
+        WHERE a.id = #{id}
+    </select>
+</mapper>

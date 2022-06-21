@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.assets.dao.AssetsEquipmentDao">
+
+    <resultMap type="cn.amigosoft.modules.assets.entity.AssetsEquipmentEntity" id="assetsEquipmentMap">
+        <result property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="areaId" column="area_id"/>
+        <result property="liabilityPersonStaffId" column="liability_person_staff_id"/>
+        <result property="currentPersonStaffId" column="current_person_staff_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="assetsEquipmentTypeId" column="assets_equipment_type_id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="equipmentNo" column="equipment_no"/>
+        <result property="vendor" column="vendor"/>
+        <result property="model" column="model"/>
+        <result property="qrCodeUrl" column="qrCodeUrl"/>
+        <result property="position" column="position"/>
+        <result property="purchaseTime" column="purchase_time"/>
+        <result property="purchaseAmount" column="purchase_amount"/>
+        <result property="enableTime" column="enable_time"/>
+        <result property="useLimit" column="use_limit"/>
+        <result property="yearsRemind" column="years_remind"/>
+        <result property="advanceNums" column="advance_nums"/>
+        <result property="imgs" column="imgs"/>
+        <result property="manual" column="manual"/>
+        <result property="completeAcceptance" column="complete_acceptance"/>
+        <result property="status" column="status"/>
+        <result property="maintainStatus" column="maintain_status"/>
+        <result property="del" column="del"/>
+        <result property="remark" column="remark"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+
+    <select id="getAssetsPage" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        SELECT
+        iae.id,
+        iae.id recordId,
+        iae.CODE,
+        iae.`name`,
+        iaet.`name` assets_type,
+        sd.`name` dept,
+        iae.qr_code_url,
+        iae.enable_time,
+        iae.use_limit,
+        iae.area_id,
+        (SELECT
+        GROUP_CONCAT( p.area_name  ORDER BY LENGTH(p.pids) asc ) area_names
+        FROM
+        iotsaas_area a
+        LEFT JOIN (SELECT id,pids,area_name FROM iotsaas_area WHERE tenant_id is null) p ON FIND_IN_SET( p.id, concat( a.pids, ',', a.id ) )
+        WHERE a.tenant_id is null and a.id = iae.area_id
+        GROUP BY
+        a.id ) area_name,
+        iae.`status`,
+        iae.maintain_status
+        FROM
+        iotsaas_assets_equipment iae
+        LEFT JOIN iotsaas_assets_equipment_type iaet ON iaet.id = iae.assets_equipment_type_id
+        LEFT JOIN sys_dept sd ON sd.id = iae.dept_id
+        WHERE iae.tenant_id is null AND
+        iae.del = '0'
+        <if test="name != null and name.trim() != ''">
+            AND iae.name LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="code != null and code.trim() != ''">
+            AND iae.code LIKE CONCAT('%',#{code},'%')
+        </if>
+        <if test="status != null and status.trim() != ''">
+            AND iae.status = #{status}
+        </if>
+        <if test="deptId != null and deptId.trim() != ''">
+            AND sd.id = #{deptId}
+        </if>
+        <if test="selectNodeId != null and selectNodeId.trim() != ''">
+            AND FIND_IN_SET( #{selectNodeId}, concat(iaet.pids,',',iaet.id))
+        </if>
+        ORDER BY
+        ifnull( iae.update_date, iae.create_date ) DESC, iae.id DESC
+    </select>
+
+    <select id="getIotPage" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        SELECT
+        d.id,
+        e.id recordId,
+        e.device_id,
+        e.`code`,
+        d.device_name `name`,
+        dt.`name` assets_type,
+        e.dept_id,
+        sd.`name` dept,
+        e.qr_code_url,
+        e.enable_time,
+        e.use_limit,
+        d.area_id,
+        (SELECT
+        GROUP_CONCAT( p.area_name  ORDER BY LENGTH(p.pids) asc ) area_names
+        FROM
+        iotsaas_area a
+        LEFT JOIN (SELECT id,pids,area_name FROM iotsaas_area WHERE tenant_id is null) p ON FIND_IN_SET( p.id, concat( a.pids, ',', a.id ) )
+        WHERE a.tenant_id is null and a.id = d.area_id
+        GROUP BY
+        a.id ) area_name,
+        e.`status`,
+        e.maintain_status
+        FROM
+        iotsaas_device d
+        LEFT JOIN iotsaas_assets_equipment e ON d.id = e.device_id
+        LEFT JOIN iotsaas_device_type dt ON dt.device_type_id = d.device_type_id
+        LEFT JOIN sys_dept sd ON sd.id = e.dept_id
+        WHERE
+        d.tenant_id is null AND d.del = '0'
+            <if test="name != null and name.trim() != ''">
+                AND d.device_name LIKE CONCAT('%',#{name},'%')
+            </if>
+            <if test="code != null and code.trim() != ''">
+                AND e.`code` LIKE CONCAT('%',#{code},'%')
+            </if>
+            <if test="status != null and status.trim() != ''">
+                AND e.`status` = #{status}
+            </if>
+            <if test="deptId != null and deptId.trim() != ''">
+                AND sd.id = #{deptId}
+            </if>
+            <if test="selectNodeId != null and selectNodeId.trim() != ''">
+                AND d.device_type_id = #{selectNodeId}
+            </if>
+        ORDER BY
+        ifnull( d.update_date, d.create_date ) DESC,d.id DESC
+    </select>
+
+    <select id="getDetail" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        SELECT
+        iae.id,iae.id record_id,iae.`code`,iae.`name`,iae.equipment_no,iae.assets_equipment_type_id,iaet.`name` assets_type,iae.vendor,iae.model,
+        iae.area_id,ia.area_name,iae.position,iae.dept_id,sd.`name` dept,iae.purchase_time,
+        iae.purchase_amount,iae.enable_time,iae.use_limit,iae.advance_nums,iae.imgs,iae.manual,iae.complete_acceptance,
+        iae.`status`,iae.maintain_status,iae.create_date,iae.remark,iae.years_remind,iae.qr_code_url
+        FROM
+        iotsaas_assets_equipment iae
+        LEFT JOIN iotsaas_assets_equipment_type iaet ON iaet.id = iae.assets_equipment_type_id
+        LEFT JOIN sys_dept sd ON sd.id = iae.dept_id
+        LEFT JOIN
+        (SELECT
+        a.id,
+        GROUP_CONCAT(p.area_name ORDER BY LENGTH(p.pids) asc) area_name
+        FROM
+        iotsaas_area a
+        LEFT JOIN iotsaas_area p ON FIND_IN_SET( p.id, concat( a.pids, ',', a.id ) )
+        GROUP BY
+        a.id) ia ON ia.id = iae.area_id
+        <where>
+            <if test="id != null">
+                AND iae.id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="getIotDetail" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        SELECT
+        d.id,e.id record_id,e.`code`,d.device_name `name`,d.device_sn equipment_no,d.device_type_id assets_equipment_type_id,dt.`name` assets_type,
+        m.NAME vendor,sp.NAME model,d.area_id,ia.area_name,d.device_install_address position,e.dept_id,sd.`name` dept,
+        e.purchase_time,e.purchase_amount,
+        e.enable_time,e.use_limit,e.advance_nums,d.device_install_image imgs,e.manual,e.complete_acceptance,
+        e.STATUS,e.maintain_status,e.create_date,e.remark,e.years_remind,e.qr_code_url
+        FROM
+        iotsaas_device d
+        LEFT JOIN iotsaas_device_spec sp ON sp.device_spec_id = d.device_spec_id
+        LEFT JOIN iotsaas_manufacturer m ON m.manufacturer_id = d.device_manufacturer_id
+        LEFT JOIN iotsaas_device_type dt ON dt.device_type_id = d.device_type_id
+        LEFT JOIN iotsaas_assets_equipment e ON d.id = e.device_id
+        LEFT JOIN sys_dept sd ON sd.id = e.dept_id
+        LEFT JOIN
+        (SELECT
+        a.id,
+        GROUP_CONCAT(p.area_name ORDER BY LENGTH(p.pids) asc) area_name
+        FROM
+        iotsaas_area a
+        LEFT JOIN iotsaas_area p ON FIND_IN_SET( p.id, concat( a.pids, ',', a.id ) )
+        GROUP BY
+        a.id) ia ON ia.id = d.area_id
+        <where>
+            <if test="id != null">
+                AND d.id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="getRepairRecord" resultType="cn.amigosoft.modules.assets.dto.AssetsRepairDTO">
+        SELECT iar.content,ip1.`name` initiator,iar.create_date,iard.result deal_result,
+        ip2.`name` deal_person,iard.create_date deal_time
+        FROM
+        iotsaas_assets_repair iar
+        LEFT JOIN iotsaas_assets_repair_deal iard ON iard.assets_repair_id = iar.id
+        LEFT JOIN iotsaas_person ip2 ON ip2.id = iard.to_person_id
+        LEFT JOIN (
+        SELECT a.id,a.real_name `name` FROM sys_user a
+        UNION ALL
+        SELECT a.id,b.`name` FROM iotsaas_app_user a
+        LEFT JOIN iotsaas_person b ON a.id = b.app_user_id WHERE b.del = 0
+        ) ip1 ON ip1.id = iar.creator
+        <where>
+            <if test="id != null">
+                AND iar.assets_equipment_id = #{id}
+            </if>
+        </where>
+        ORDER BY iard.create_date DESC
+    </select>
+
+    <select id="getExportList" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        SELECT
+        iae.id,iae.id record_id,iae.`code`,iae.`name`,iae.equipment_no,iae.assets_equipment_type_id,iaet.`name` assets_type,iae.vendor,iae.model,
+        iae.area_id,ia.area_name,iae.position,iae.dept_id,sd.`name` dept,iae.purchase_time,
+        iae.purchase_amount,iae.enable_time,iae.use_limit,iae.advance_nums,iae.imgs,iae.manual,iae.complete_acceptance,
+        iae.`status`,iae.maintain_status,iae.create_date,iae.remark,iae.years_remind,iae.qr_code_url
+        FROM
+        iotsaas_assets_equipment iae
+        LEFT JOIN iotsaas_assets_equipment_type iaet ON iaet.id = iae.assets_equipment_type_id
+        LEFT JOIN iotsaas_area ia ON ia.id = iae.area_id
+        LEFT JOIN sys_dept sd ON sd.id = iae.dept_id
+        WHERE iae.del = '0'
+        <if test="name != null and name.trim() != ''">
+            AND iae.name LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="code != null and code.trim() != ''">
+            AND iae.code LIKE CONCAT('%',#{code},'%')
+        </if>
+        <if test="status != null and status.trim() != ''">
+            AND iae.status = #{status}
+        </if>
+        <if test="deptId != null and deptId.trim() != ''">
+            AND sd.id = #{deptId}
+        </if>
+        <if test="ids != null and ids != ''">
+            AND FIND_IN_SET(iae.id,#{ids})
+        </if>
+        <if test="selectNodeId != null and selectNodeId.trim() != ''">
+            AND FIND_IN_SET( #{selectNodeId}, concat(iaet.pids,',',iaet.id))
+        </if>
+        ORDER BY
+        ifnull( iae.update_date, iae.create_date ) DESC, iae.id DESC
+    </select>
+
+    <select id="getIotExportList" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        SELECT
+        t.send_order,d.id,e.id record_id,e.`code`,d.device_name `name`,d.device_sn equipment_no,d.device_type_id assets_equipment_type_id,dt.`name` assets_type,
+        m.NAME vendor,sp.NAME model,d.area_id,ia.area_name,d.device_install_address position,e.dept_id,sd.`name` dept,
+        a.NAME liability_person,e.purchase_time,e.purchase_amount,
+        e.enable_time,e.use_limit,e.advance_nums,d.device_install_image imgs,e.manual,e.complete_acceptance,
+        e.STATUS,e.maintain_status,e.create_date,e.remark,e.years_remind,e.qr_code_url
+        FROM
+        iotsaas_device d
+        LEFT JOIN iotsaas_device_spec sp ON sp.device_spec_id = d.device_spec_id
+        LEFT JOIN iotsaas_manufacturer m ON m.manufacturer_id = d.device_manufacturer_id
+        LEFT JOIN iotsaas_device_type dt ON dt.device_type_id = d.device_type_id
+        LEFT JOIN iotsaas_assets_equipment e ON d.id = e.device_id
+        LEFT JOIN iotsaas_area ia ON ia.id = d.area_id
+        LEFT JOIN sys_dept sd ON sd.id = e.dept_id
+        LEFT JOIN
+        (SELECT id,device_id,del,send_order,user_id
+        FROM iotsaas_device_duty
+        WHERE del = 0 AND send_order = 1 ) t ON t.device_id = d.id
+        LEFT JOIN iotsaas_person a ON a.sys_user_id = t.user_id
+        WHERE d.del = '0'
+            <if test="name != null and name.trim() != ''">
+                AND d.device_name LIKE CONCAT('%',#{name},'%')
+            </if>
+            <if test="code != null and code.trim() != ''">
+                AND e.`code` LIKE CONCAT('%',#{code},'%')
+            </if>
+            <if test="status != null and status.trim() != ''">
+                AND e.`status` = #{status}
+            </if>
+            <if test="deptId != null and deptId.trim() != ''">
+                AND sd.id = #{deptId}
+            </if>
+            <if test="ids != null and ids != ''">
+                AND FIND_IN_SET(d.id,#{ids})
+            </if>
+            <if test="selectNodeId != null and selectNodeId.trim() != ''">
+                AND d.device_type_id = #{selectNodeId}
+            </if>
+        ORDER BY
+        ifnull( d.update_date, d.create_date ) DESC,d.id DESC
+    </select>
+
+    <select id="getAssetsTypeTree" resultType="cn.amigosoft.modules.assets.dto.AssetsTypeTreeData">
+        SELECT id,pid,`name`,type_no,0 type
+        FROM iotsaas_assets_equipment_type
+        WHERE FIND_IN_SET(20210528001,concat(pids,',',id)) AND del = 0
+        UNION ALL
+        SELECT id,pid,`name`,type_no,1 type
+        FROM iotsaas_assets_equipment_type
+        WHERE FIND_IN_SET(20210528003,concat(pids,',',id)) AND del = 0
+        UNION ALL
+        SELECT id,pid,`name`,type_no,2 type
+        FROM iotsaas_assets_equipment_type
+        WHERE id= 20210528002
+        UNION ALL
+        SELECT device_type_id id,20210528002 AS pid,NAME, device_type_id AS type_no,2 type
+        FROM iotsaas_device_type
+    </select>
+
+    <select id="getAssetsTypeTreeGd" resultType="cn.amigosoft.modules.assets.dto.AssetsTypeTreeData">
+        SELECT id,pid,`name`,type_no,0 type
+        FROM iotsaas_assets_equipment_type
+        WHERE FIND_IN_SET(20210528001,concat(pids,',',id)) AND del = 0 and (tenant_id is null or id= 20210528001)
+
+    </select>
+
+    <select id="getAssetsAddTypeTree" resultType="cn.amigosoft.modules.assets.dto.AssetsTypeTreeData">
+        SELECT id,pid,`name`,type_no,type FROM
+				(SELECT id,pid,`name`,type_no,0 type
+        FROM iotsaas_assets_equipment_type
+        WHERE FIND_IN_SET(20210528001,concat(pids,',',id)) AND del = 0
+        UNION ALL
+        SELECT id,pid,`name`,type_no,1 type
+        FROM iotsaas_assets_equipment_type
+        WHERE FIND_IN_SET(20210528003,concat(pids,',',id)) AND del = 0
+        UNION ALL
+        SELECT id,pid,`name`,type_no,2 type
+        FROM iotsaas_assets_equipment_type
+        WHERE id= 20210528002
+        UNION ALL
+        SELECT device_type_id id,20210528002 AS pid,NAME, device_type_id AS type_no,2 type
+        FROM iotsaas_device_type) a
+				WHERE type = #{type}
+    </select>
+
+    <select id="getExpireEquipmentList" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        select
+        e.id,
+        e.name,
+        e.code,
+        e.tenant_id,
+        ifnull(e.liability_person_staff_id, dp.id) liability_person_staff_id,
+        ifnull(p.name, dp.name) liabilityPerson,
+        ifnull(p.phone, dp.phone) phone,
+        DATE_ADD(e.enable_time, INTERVAL + e.use_limit year) expireDate
+        from iotsaas_assets_equipment e
+        left join iotsaas_person_staff pf on pf.id = e.liability_person_staff_id
+        left join iotsaas_person p on p.id = pf.person_id
+        left join (
+        select t.device_id,a.name, a.phone,ps.id from iotsaas_device_duty t
+        left join iotsaas_person a on t.user_id = a.sys_user_id
+        left join iotsaas_person_staff ps on a.id = ps.person_id
+        where t.del =0 and t.send_order = 1 ) dp on dp.device_id = e.device_id
+        where e.del = 0 and e.years_remind = 0
+        and (TO_DAYS(DATE_ADD(e.enable_time, INTERVAL + e.use_limit year)) - ifnull(e.advance_nums,0) &lt;= TO_DAYS(now()))
+        and e.id not in (select l.assets_equipment_id from iotsaas_assets_remind_log l where l.assets_equipment_id = e.id and TO_DAYS(l.disable) = TO_DAYS(DATE_ADD(e.enable_time, INTERVAL + e.use_limit year)) )
+    </select>
+    <select id="selectAssetsByParamsOnPlan" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        SELECT a.id
+        ,a.code
+        ,a.name
+        ,a.status
+        FROM iotsaas_assets_equipment a
+        LEFT JOIN iotsaas_assets_equipment_type b
+        ON b.id = a.assets_equipment_type_id
+        WHERE a.del = '0'
+        <if test="selectNodeId != null and selectNodeId.trim() != ''">
+            AND FIND_IN_SET( #{selectNodeId}, concat(b.pids,',',b.id))
+        </if>
+        <if test="keyWord != null and keyWord.trim() != ''">
+            AND (a.name LIKE  CONCAT('%',#{keyWord},'%') OR a.code LIKE  CONCAT('%',#{keyWord},'%'))
+        </if>
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+    </select>
+    <select id="selectAssetsIotByParamsOnPlan" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        SELECT a.id
+        ,a.code
+        ,a.name
+        ,a.status
+        FROM iotsaas_assets_equipment a
+        LEFT JOIN iotsaas_device b
+        ON a.device_id = b.id
+        WHERE a.del = '0'
+        AND b.id IS NOT NULL
+        <if test="selectNodeId != null and selectNodeId.trim() != ''">
+            AND b.device_type_id = #{selectNodeId}
+        </if>
+        <if test="keyWord != null and keyWord.trim() != ''">
+            AND (a.name LIKE  CONCAT('%',#{keyWord},'%') OR a.code LIKE  CONCAT('%',#{keyWord},'%'))
+        </if>
+    </select>
+
+    <select id="getPidNamesByAssetsType" resultType="cn.amigosoft.modules.assets.dto.AssetsPidNames">
+        SELECT
+        p.id,
+        p.name as names,
+        concat( p.pids, ',', p.id ) pids
+        FROM iotsaas_assets_equipment_type p
+        where p.del = 0 and (p.tenant_id = 0 or  p.tenant_id is null)
+    </select>
+
+    <select id="getPidNamesByDept" resultType="cn.amigosoft.modules.assets.dto.AssetsPidNames">
+        select
+        d.id,
+        GROUP_CONCAT( dp.name ORDER BY LENGTH(dp.pids) asc) names
+        from sys_dept d
+        left join sys_dept dp on FIND_IN_SET(dp.id,CONCAT(d.pids,',',d.id))
+        GROUP BY d.id
+    </select>
+
+    <select id="getPidNamesByArea" resultType="cn.amigosoft.modules.assets.dto.AssetsPidNames">
+        select
+        d.id,
+        GROUP_CONCAT( dp.area_name ORDER BY LENGTH(dp.pids) asc) names
+        from iotsaas_area d
+        left join iotsaas_area dp on FIND_IN_SET(dp.id,CONCAT(d.pids,',',d.id))
+        GROUP BY d.id
+    </select>
+
+    <select id="getMaxNumByAssets" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        select e.id,e.code from iotsaas_assets_equipment e order by id desc limit 1
+    </select>
+
+    <select id="getAssetsTypesById" resultType="cn.amigosoft.modules.assets.dto.AssetsPidNames">
+        SELECT
+        a.id,
+        GROUP_CONCAT( p.`name`  ORDER BY LENGTH(p.pids) asc) names,
+        concat( a.pids, ',', a.id ) pids
+        FROM
+        iotsaas_assets_equipment_type a
+        LEFT JOIN iotsaas_assets_equipment_type p ON FIND_IN_SET( p.id, concat( a.pids, ',', a.id ) )
+        <where>
+            <if test="id != null">
+                AND a.id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="countByAssetsEquipmentTypeId" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM iotsaas_assets_equipment
+        WHERE assets_equipment_type_id IN
+        (SELECT id FROM iotsaas_assets_equipment_type WHERE del = 0 AND (id = #{typeId} OR pid = #{typeId}))
+    </select>
+    <select id="getEquipmentPage" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        select
+        id,
+        name,
+        code
+        from iotsaas_assets_equipment
+        where assets_equipment_type_id in
+        <foreach item="typeId" collection="params.typeIds" open="(" separator="," close=")">
+            #{typeId}
+        </foreach>
+        and status = #{params.status}
+        and maintain_status =#{params.maintaintStatus}
+        and del = #{params.del}
+        <if test="params.keyWord !=null and params.keyWord.trim() != ''">
+            and ( name like #{params.keyWord} or code like #{params.keyWord} )
+        </if>
+    </select>
+
+    <select id="getAreaName" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        SELECT
+        a.id,
+        GROUP_CONCAT(p.area_name ORDER BY LENGTH(p.pids) asc) area_name
+        FROM
+        iotsaas_area a
+        LEFT JOIN iotsaas_area p ON FIND_IN_SET( p.id, concat( a.pids, ',', a.id ) )
+        <where>
+            <if test="id != null">
+                AND a.id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="getStatus" resultType="cn.amigosoft.modules.assets.dto.AssetsEquipmentDTO">
+        SELECT id,`status`
+        FROM iotsaas_assets_equipment
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+        </where>
+    </select>
+</mapper>

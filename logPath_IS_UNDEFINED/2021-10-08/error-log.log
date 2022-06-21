@@ -1,0 +1,155 @@
+2021-10-08 09:05:18.778 [Druid-ConnectionPool-Create-902348321] ERROR com.alibaba.druid.pool.DruidDataSource - create connection SQLException, url: jdbc:mysql://192.168.0.208:3306/bms?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8, errorCode 0, state 08S01
+com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 9,955 milliseconds ago.  The last packet sent successfully to the server was 9,955 milliseconds ago.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)
+	at com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:981)
+	at com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3465)
+	at com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3365)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3805)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:871)
+	at com.mysql.jdbc.MysqlIO.proceedHandshakeWithPluggableAuthentication(MysqlIO.java:1694)
+	at com.mysql.jdbc.MysqlIO.doHandshake(MysqlIO.java:1215)
+	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2255)
+	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2286)
+	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2085)
+	at com.mysql.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:795)
+	at com.mysql.jdbc.JDBC4Connection.<init>(JDBC4Connection.java:44)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)
+	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:400)
+	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:327)
+	at com.alibaba.druid.filter.FilterChainImpl.connection_connect(FilterChainImpl.java:156)
+	at com.alibaba.druid.filter.stat.StatFilter.connection_connect(StatFilter.java:218)
+	at com.alibaba.druid.filter.FilterChainImpl.connection_connect(FilterChainImpl.java:150)
+	at com.alibaba.druid.pool.DruidAbstractDataSource.createPhysicalConnection(DruidAbstractDataSource.java:1560)
+	at com.alibaba.druid.pool.DruidAbstractDataSource.createPhysicalConnection(DruidAbstractDataSource.java:1623)
+	at com.alibaba.druid.pool.DruidDataSource$CreateConnectionThread.run(DruidDataSource.java:2468)
+Caused by: java.io.EOFException: Can not read response from server. Expected to read 4 bytes, read 0 bytes before connection was unexpectedly lost.
+	at com.mysql.jdbc.MysqlIO.readFully(MysqlIO.java:2957)
+	at com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3375)
+	... 23 common frames omitted
+2021-10-08 09:05:50.672 [http-nio-8061-exec-27] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 1111 millis. SELECT  id,name,advance_order_time,begin_time,end_time,remark,del,tenant_id,updater,update_date,creator,create_date  FROM bms_meal_type 
+ 
+ WHERE del = ? ORDER BY begin_time ASC["0"]
+2021-10-08 09:06:17.378 [http-nio-8061-exec-18] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 1307 millis. SELECT  id,name,qr_code_url,link_user_id,address,remark,del,tenant_id,updater,update_date,creator,create_date  FROM bms_canteen 
+ 
+ WHERE del = ?["0"]
+2021-10-08 09:06:17.378 [http-nio-8061-exec-19] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 1300 millis. select item_id
+        from bms_order_detail
+        where del = 0 and creator is null and eat_date in
+        /*where del = 0 and creator = '1435422255979511811' and eat_date in*/
+         (  
+            ?
+         , 
+            ?
+         , 
+            ?
+         , 
+            ?
+         , 
+            ?
+         , 
+            ?
+         , 
+            ?
+         )["2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10"]
+2021-10-08 09:06:20.073 [http-nio-8061-exec-20] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 2656 millis. select i.id, i.name, i.img
+        , i.canteen_id as canteenId, c.name as canteenName
+        , i.meal_type_id as mealTypeId, m.name as mealTypeName
+        , case i.type when 0 then '套餐' when 1 then '自助餐' end as typeName
+        , (select group_concat(y.name) from bms_item_dishes x, bms_dishes y where i.id = x.item_id and x.del = 0 and y.id = x.dishes_id) as dishesName
+        from bms_item i
+        left join bms_canteen c on i.canteen_id = c.id
+        left join bms_meal_type m on i.meal_type_id = m.id
+         WHERE i.del = 0
+            
+                and i.canteen_id = ?
+            
+            
+                and i.meal_type_id = ?["1442656360844566529","1442661000919187457"]
+2021-10-08 09:06:30.074 [http-nio-8061-exec-23] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 9898 millis. select item_id
+        from bms_order_detail
+        where del = 0 and creator is null and eat_date in
+        /*where del = 0 and creator = '1435422255979511811' and eat_date in*/
+         (  
+            ?
+         , 
+            ?
+         , 
+            ?
+         , 
+            ?
+         , 
+            ?
+         , 
+            ?
+         , 
+            ?
+         )["2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10"]
+2021-10-08 09:06:30.649 [http-nio-8061-exec-24] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 10483 millis. SELECT  id,name,qr_code_url,link_user_id,address,remark,del,tenant_id,updater,update_date,creator,create_date  FROM bms_canteen 
+ 
+ WHERE del = ?["0"]
+2021-10-08 09:06:30.692 [http-nio-8061-exec-21] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 10535 millis. SELECT  id,name,advance_order_time,begin_time,end_time,remark,del,tenant_id,updater,update_date,creator,create_date  FROM bms_meal_type 
+ 
+ WHERE del = ? ORDER BY begin_time ASC["0"]
+2021-10-08 09:06:35.537 [http-nio-8061-exec-30] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 4742 millis. select item_id
+        from bms_order_detail
+        where del = 0 and creator is null and eat_date in
+        /*where del = 0 and creator = '1435422255979511811' and eat_date in*/
+         (  
+            ?
+         , 
+            ?
+         , 
+            ?
+         , 
+            ?
+         , 
+            ?
+         , 
+            ?
+         , 
+            ?
+         )["2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10"]
+2021-10-08 09:06:35.539 [http-nio-8061-exec-22] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 4762 millis. SELECT  id,name,advance_order_time,begin_time,end_time,remark,del,tenant_id,updater,update_date,creator,create_date  FROM bms_meal_type 
+ 
+ WHERE del = ? ORDER BY begin_time ASC["0"]
+2021-10-08 09:06:35.539 [http-nio-8061-exec-27] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 4749 millis. SELECT  id,name,qr_code_url,link_user_id,address,remark,del,tenant_id,updater,update_date,creator,create_date  FROM bms_canteen 
+ 
+ WHERE del = ?["0"]
+2021-10-08 09:06:42.826 [http-nio-8061-exec-29] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 7288 millis. select i.id, i.name, i.img
+        , i.canteen_id as canteenId, c.name as canteenName
+        , i.meal_type_id as mealTypeId, m.name as mealTypeName
+        , case i.type when 0 then '套餐' when 1 then '自助餐' end as typeName
+        , (select group_concat(y.name) from bms_item_dishes x, bms_dishes y where i.id = x.item_id and x.del = 0 and y.id = x.dishes_id) as dishesName
+        from bms_item i
+        left join bms_canteen c on i.canteen_id = c.id
+        left join bms_meal_type m on i.meal_type_id = m.id
+         WHERE i.del = 0
+            
+                and i.canteen_id = ?
+            
+            
+                and i.meal_type_id = ?["1442656360844566529","1442661000919187457"]
+2021-10-08 09:06:46.374 [http-nio-8061-exec-1] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 3541 millis. select i.id, i.name, i.img
+        , i.canteen_id as canteenId, c.name as canteenName
+        , i.meal_type_id as mealTypeId, m.name as mealTypeName
+        , case i.type when 0 then '套餐' when 1 then '自助餐' end as typeName
+        , (select group_concat(y.name) from bms_item_dishes x, bms_dishes y where i.id = x.item_id and x.del = 0 and y.id = x.dishes_id) as dishesName
+        from bms_item i
+        left join bms_canteen c on i.canteen_id = c.id
+        left join bms_meal_type m on i.meal_type_id = m.id
+         WHERE i.del = 0
+            
+                and i.canteen_id = ?
+            
+            
+                and i.meal_type_id = ?["1442656360844566529","1442661000919187457"]

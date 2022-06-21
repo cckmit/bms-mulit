@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.dinning.dao.BmsEvaluationDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.dinning.entity.BmsEvaluationEntity" id="bmsEvaluationMap">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="endDate" column="end_date"/>
+        <result property="canteenId" column="canteen_id"/>
+        <result property="userIdList" column="user_id_list"/>
+        <result property="deptIdList" column="dept_id_list"/>
+        <result property="richText" column="rich_text"/>
+        <result property="img" column="img"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsEvaluationDTO">
+        select e.id, e.title, e.end_date as endDate, e.create_date as createDate
+        , u.real_name as publisher, u.work_no as publisherWorkNo
+        , c.name as canteenName
+        from bms_evaluation e
+        left join sys_user u on e.creator = u.id
+        left join bms_canteen c on e.canteen_id = c.id
+        <where>
+            e.del = 0
+            <if test="params.id != null and params.id != ''">
+                and e.id like concat('%',#{params.id},'%')
+            </if>
+            <if test="params.title != null and params.title != ''">
+                and e.title like concat('%',#{params.title},'%')
+            </if>
+            <if test="params.canteenId != null and params.canteenId != '' and params.canteenId != '-1'">
+                and e.canteen_id = #{params.canteenId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectExportList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsEvaluationDTO">
+        select e.id, e.title, e.end_date as endDate, e.create_date as createDate
+        , u.real_name as publisher, u.work_no as publisherWorkNo
+        , c.name as canteenName
+        from bms_evaluation e
+        left join sys_user u on e.creator = u.id
+        left join bms_canteen c on e.canteen_id = c.id
+        <where>
+            e.del = 0
+            <if test="id != null and id != ''">
+                and e.id like concat('%',#{id},'%')
+            </if>
+            <if test="title != null and title != ''">
+                and e.title like concat('%',#{title},'%')
+            </if>
+            <if test="canteenId != null and canteenId != '' and canteenId != '-1'">
+                and e.canteen_id = #{canteenId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectEvaluationById" parameterType="Long" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsEvaluationDTO">
+        select e.id, e.title, e.canteen_id, e.end_date as endDate, e.create_date as createDate
+        , e.dept_id_list as deptIdList, e.user_id_list as userIdList
+        , u.real_name as publisher, u.work_no as publisherWorkNo
+        , c.name as canteenName
+        from bms_evaluation e
+        left join sys_user u on e.creator = u.id
+        left join bms_canteen c on e.canteen_id = c.id
+        <where>
+            e.del = 0 and e.id = #{id}
+        </where>
+    </select>
+
+    <delete id="deleteEvaluationByIds" parameterType="Long">
+        update bms_evaluation
+        set del = 1
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

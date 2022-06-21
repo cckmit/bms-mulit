@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.dining.dao.DiningAppointmentRecordFoodLibDao">
+
+    <resultMap type="cn.amigosoft.modules.dining.entity.DiningAppointmentRecordFoodLibEntity"
+               id="diningAppointmentRecordFoodLibMap">
+        <result property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="diningFoodLibId" column="dining_food_lib_id"/>
+        <result property="diningAppointmentRecordId" column="dining_appointment_record_id"/>
+        <result property="num" column="num"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+
+</mapper>

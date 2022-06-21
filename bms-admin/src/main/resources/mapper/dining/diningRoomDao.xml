@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.dining.dao.DiningRoomDao">
+
+    <resultMap type="cn.amigosoft.modules.dining.entity.DiningRoomEntity" id="diningRoomMap">
+        <result property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="name" column="name"/>
+        <result property="seats" column="seats"/>
+        <result property="maxCapacity" column="max_capacity"/>
+        <result property="areaId" column="area_id"/>
+        <result property="areaBuildingId" column="area_building_id"/>
+        <result property="areaFloorId" column="area_floor_id"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+    <update id="updateRoomById">
+            UPDATE iotsaas_dining_room
+            SET max_capacity = #{diningRoomEntity.maxCapacity},
+            seats = #{diningRoomEntity.seats},
+            area_id= #{diningRoomEntity.areaId},
+            area_building_id= #{diningRoomEntity.areaBuildingId},
+            area_floor_id= #{diningRoomEntity.areaFloorId},
+            img= #{diningRoomEntity.img},
+            person_staff_id= #{diningRoomEntity.personStaffId},
+            name= #{diningRoomEntity.name},
+            status= #{diningRoomEntity.status},
+            sort= #{diningRoomEntity.sort},
+            remark= #{diningRoomEntity.remark}
+            WHERE
+                id = #{diningRoomEntity.id}
+    </update>
+    <select id="selectPageList" resultType="cn.amigosoft.modules.dining.dto.DiningRoomPageRespDTO">
+        SELECT
+        dr.id,
+        dr.NAME,
+        dr.seats,
+        dr.max_capacity,
+        dr.status,
+        dr.person_staff_id,
+        p.name as manager,
+        concat(buildingArea.area_name , IFNULL(floorArea.area_name,'')) as floorName,
+        dr.area_floor_id AS areaFloorId
+        FROM
+        iotsaas_dining_room dr
+        LEFT JOIN iotsaas_area floorArea ON floorArea.id = dr.area_id
+        LEFT JOIN iotsaas_area buildingArea ON buildingArea.id = floorArea.pid
+        left join iotsaas_person_staff ps on ps.id = dr.person_staff_id
+        left join iotsaas_person p on p.id = ps.person_id
+        <where>
+            <if test="params.name != null and params.name.trim() != ''">
+                and dr.name like concat('%',#{params.name},'%')
+            </if>
+            <if test="params.status != null and params.status.trim() != ''">
+                and dr.status = #{params.status}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

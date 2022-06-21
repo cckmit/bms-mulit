@@ -1,0 +1,83 @@
+<template>
+    <a-drawer
+            :visible="visible"
+            title="详情"
+            :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px'}"
+            width="700"
+            @close="visible=false"
+    >
+        <a-spin :spinning="confirmLoading">
+            <a-form :form="form">
+                <a-row :gutter="48">
+                    #foreach($column in $columns)
+                        #if(!($column.attrname == $pk.attrname || $column.attrname == "creator" || $column.attrname == "updater" || $column.attrname == "updateDate" || $column.attrname == "del" || $column.attrname == "deptId"))
+                            <a-col :md="24" :sm="24">
+                                <a-form-item :label="'${column.comments}'" :label-col="labelCol" :wrapper-col="wrapperCol" >
+                                    <span v-text="dataForm.${column.attrname}"></span>
+                                </a-form-item>
+                            </a-col>
+                        #end
+                    #end
+                </a-row>
+            </a-form>
+            <a-row :style="{textAlign:'right'}">
+                <a-button :style="{marginRight: '8px'}" @click="visible=false">
+                    {{ $t('cancel') }}
+                </a-button>
+            </a-row>
+        </a-spin>
+
+    </a-drawer>
+
+</template>
+
+<script>
+    import AFormItem from 'ant-design-vue/es/form/FormItem'
+    export default {
+        components: { AFormItem },
+        data() {
+            return {
+                visible: false,
+                confirmLoading: false,
+                dataForm: {
+            #foreach($column in $columns)
+                ${column.attrname}: ''#if($velocityCount != $columns.size()),#end
+
+            #end
+        },
+            form: this.$form.createForm(this),
+                    labelCol: {
+                xs: { span: 24 },
+                sm: { span: 5 }
+            },
+            wrapperCol: {
+                xs: { span: 24 },
+                sm: { span: 16 }
+            }
+        }
+        },
+        methods: {
+            init() {
+                this.visible = true
+                this.$nextTick(() => {
+                    this.form.resetFields()
+                if (this.dataForm.${pk.attrname}) {
+                    this.getInfo()
+                }
+            })
+            },
+            // 获取信息-ant
+            getInfo() {
+            #[[this.$http.get(]]#`/${moduleName}/${pathName}/#[[${]]#this.dataForm.${pk.attrname}}`).then(({ data: res }) => {
+                    if (res.code !== 0) {
+                #[[return this.$message.error(res.msg)]]#
+                }
+                this.dataForm = {
+                        ...this.dataForm,
+            ...res.data
+            }
+            }).catch(() => {})
+            }
+        }
+    }
+</script>

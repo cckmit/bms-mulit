@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.sys.dao.SysUserDao">
+
+    <resultMap type="cn.amigosoft.modules.sys.entity.SysUserEntity" id="baseMap">
+        <result property="id" column="id"/>
+        <result property="realName" column="real_name"/>
+        <result property="mobile" column="mobile"/>
+    </resultMap>
+
+    <select id="getList" resultType="cn.amigosoft.modules.sys.entity.SysUserEntity">
+        select t1.*, (select t2.name from sys_dept t2 where t2.id=t1.dept_id) deptName from sys_user t1
+        <where>
+            <if test="name != null and name.trim() != ''">
+                and (t1.real_name like CONCAT('%',#{name},'%'))
+            </if>
+            <if test="phone != null and phone.trim() != ''">
+                and (t1.mobile like CONCAT('%',#{phone},'%'))
+            </if>
+            <if test="usernameorphone != null and usernameorphone.trim() != ''">
+                and (t1.real_name like CONCAT('%',#{usernameorphone},'%'))
+                or (t1.mobile like CONCAT('%',#{usernameorphone},'%'))
+            </if>
+
+            <if test="dept != null and dept.trim() != ''">
+                AND t1.dept_id = #{dept}
+            </if>
+            <if test="deptIdList != null">
+                AND t1.dept_id in
+                <foreach item="id" collection="deptIdList" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="typeList != null and typeList.trim() != ''">
+                AND t1.work_status in
+                <foreach item="id" collection="typeList.split(',')" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="isSuperAdmin != null and isSuperAdmin == 0">
+                AND t1.super_admin != 1
+            </if>
+        </where>
+        ORDER BY t1.STATUS desc
+        ,ifnull(t1.update_date,t1.create_date) desc
+    </select>
+
+    <select id="getById" resultType="cn.amigosoft.modules.sys.entity.SysUserEntity">
+		select t1.*, (select t2.name from sys_dept t2 where t2.id=t1.dept_id) deptName from sys_user t1
+			where t1.id = #{value}
+	</select>
+
+    <select id="getByUsername" resultType="cn.amigosoft.modules.sys.entity.SysUserEntity">
+		select * from sys_user where username = #{value}
+	</select>
+
+    <update id="updatePassword">
+		update sys_user set password = #{newPassword} where id = #{id}
+	</update>
+
+    <select id="getCountByDeptId" resultType="int">
+		select count(*) from sys_user where dept_id = #{value}
+	</select>
+
+    <select id="getUserIdListByDeptId" resultType="long">
+        select id from sys_user where dept_id in
+        <foreach item="deptId" collection="list" open="(" separator="," close=")">
+            #{deptId}
+        </foreach>
+    </select>
+
+    <select id="getUserlist" resultType="cn.amigosoft.modules.sys.entity.SysUserEntity">
+	 SELECT  *  FROM
+	 (SELECT su.username username,
+	 su.real_name realName,
+	 su.mobile mobile,
+     sd.`name` deptName
+     FROM sys_user su
+	LEFT JOIN sys_dept  sd
+	ON  su.dept_id=sd.id)s
+
+	 </select>
+
+    <select id="isMobileExisted" resultType="int">
+        SELECT count(*)
+        FROM sys_user a
+        WHERE a.mobile = #{mobile}
+        <if test="id != null">
+            AND a.id != #{id}
+        </if>
+    </select>
+
+    <select id="isUsernameExisted" resultType="int">
+        SELECT count(*)
+        FROM sys_user a
+        WHERE a.username = #{username}
+        <if test="id != null">
+            AND a.id != #{id}
+        </if>
+    </select>
+
+    <select id="isEmailExisted" resultType="int">
+        SELECT count(*)
+        FROM sys_user a
+        WHERE a.email = #{email}
+        <if test="id != null">
+            AND a.id != #{id}
+        </if>
+    </select>
+
+    <select id="isWorkNoExisted" resultType="int">
+        SELECT count(*)
+        FROM sys_user a
+        WHERE a.work_no = #{workNo}
+        <if test="id != null">
+            AND a.id != #{id}
+        </if>
+    </select>
+
+    <select id="selectMd5Password"  resultType="cn.amigosoft.modules.sys.dto.SysUserDTO">
+        SELECT MD5(u.password) password FROM sys_user u where u.id = #{id}
+    </select>
+
+    <select id="selectUserByRoleKey" parameterType="String" resultType="cn.amigosoft.modules.sys.dto.SysUserDTO">
+        select u.id, u.real_name as realName, u.mobile
+        from sys_user u, sys_role r, sys_role_user ru
+        where u.id = ru.user_id and r.id = ru.role_id
+        and u.status = 1 and r.role_key = #{roleKey}
+    </select>
+
+    <select id="selectBaseUserInfo" resultType="cn.amigosoft.modules.sys.dto.SysUserDTO">
+        select u.id, u.real_name as realName, u.mobile, u.work_no, d.name as deptName
+        from sys_user u, sys_dept d
+        where u.dept_id = d.id
+        and u.status = 1
+        <if test="id != null">
+            and u.id = #{id}
+        </if>
+        <if test="value != null and value != ''">
+            and (u.real_name like concat('%',#{value},'%') or u.work_no like concat('%',#{value},'%'))
+        </if>
+        <if test="deptId != null">
+            and u.dept_id = #{deptId}
+        </if>
+        <if test="mobile != null and mobile != ''">
+            and u.mobile like concat('%',#{mobile},'%')
+        </if>
+    </select>
+
+    <select id="selectBaseUserInfoList" resultType="cn.amigosoft.modules.sys.dto.SysUserDTO">
+        select id, real_name as realName, mobile, work_no
+        from sys_user
+        where status = 1
+        and id in
+        <foreach item="id" collection="array"  open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectUserIdsByDeptId" parameterType="String" resultType="String">
+        select id
+        from sys_user
+        where status = 1
+        and (
+        dept_id = #{deptId}
+        or dept_id in (select id from sys_dept where find_in_set(#{deptId}, pids) > 0)
+        )
+    </select>
+
+    <select id="checkUserHavePermission" resultType="int">
+        select count(0)
+        from sys_menu m, sys_role_menu rm, sys_role_user ru, sys_user u
+        where m.permissions = #{permission}
+        and m.id = rm.menu_id and rm.role_id = ru.role_id and ru.user_id = u.id
+        and u.id = #{userId}
+    </select>
+
+    <select id="selectUserByPermission" parameterType="String" resultType="cn.amigosoft.modules.sys.dto.SysUserDTO">
+      select u.id, u.real_name as realName, u.work_no as workNo, u.mobile, u.dept_id as deptId
+      from sys_user u, sys_role_user ru, sys_role_menu rm, sys_menu m
+      where u.id = ru.user_id and ru.role_id = rm.role_id and rm.menu_id = m.id and m.permissions = #{permissions}
+      GROUP BY u.id
+    </select>
+
+</mapper>

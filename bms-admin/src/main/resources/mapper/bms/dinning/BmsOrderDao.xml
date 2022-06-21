@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.dinning.dao.BmsOrderDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.dinning.entity.BmsOrderEntity" id="bmsOrderMap">
+        <result property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsOrderDTO">
+        select o.id
+        , u.real_name as orderUserName, u.work_no as orderUserWorkNo
+        , d.name as orderUserDept
+        from bms_order o
+        left join sys_user u on o.creator = u.id
+        left join sys_dept d on u.dept_id = d.id
+        <where>
+            o.del = 0
+            <if test="params.currentUser != null and params.currentUser != ''">
+                and o.creator = #{params.currentUser}
+            </if>
+            <if test="params.deptId != null and params.deptId != ''">
+                and o.creator in (select id from sys_user where dept_id = #{params.deptId})
+            </if>
+            <if test="params.id != null and params.id != ''">
+                and o.id like concat('%', #{params.id} ,'%')
+            </if>
+            <if test="params.orderUserName != null and params.orderUserName != ''">
+                and u.real_name like concat('%', #{params.orderUserName} ,'%')
+            </if>
+            <if test="params.orderUserWorkNo != null and params.orderUserWorkNo != ''">
+                and u.work_no like concat('%', #{params.orderUserWorkNo} ,'%')
+            </if>
+            <if test="params.orderDeptId != null and params.orderDeptId != '' and params.orderDeptId != '-1'">
+                and d.id = #{params.orderDeptId}
+            </if>
+            <if test="params.mealTypeId != null and params.mealTypeId != '' and params.mealTypeId != '-1'">
+                and o.id in
+                (select od.order_id
+                  from bms_order_detail od
+                  left join bms_item i on od.item_id = i.id
+                  where od.del = 0
+                  and i.meal_type_id = #{params.mealTypeId})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOrderById" parameterType="Long" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsOrderDTO">
+        select o.id, o.create_date as createDate
+        , u.real_name as orderUserName, u.work_no as orderUserWorkNo
+        from bms_order o
+        left join sys_user u on o.creator = u.id
+        where o.id = #{id}
+    </select>
+
+    <select id="selectExportList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsOrderDTO">
+        select o.id
+        , u.real_name as orderUserName, u.work_no as orderUserWorkNo
+        , d.name as orderUserDept
+        from bms_order o
+        left join sys_user u on o.creator = u.id
+        left join sys_dept d on u.dept_id = d.id
+        <where>
+            o.del = 0
+            <if test="currentUser != null and currentUser != ''">
+                and o.creator = #{currentUser}
+            </if>
+            <if test="deptId != null and deptId != ''">
+                and o.creator in (select id from sys_user where dept_id = #{deptId})
+            </if>
+            <if test="id != null and id != ''">
+                and o.id like concat('%', #{id} ,'%')
+            </if>
+            <if test="orderUserName != null and orderUserName != ''">
+                and u.real_name like concat('%', #{orderUserName} ,'%')
+            </if>
+            <if test="orderUserWorkNo != null and orderUserWorkNo != ''">
+                and u.work_no like concat('%', #{orderUserWorkNo} ,'%')
+            </if>
+            <if test="orderDeptId != null and orderDeptId != '' and orderDeptId != '-1'">
+                and d.id = #{orderDeptId}
+            </if>
+            <if test="mealTypeId != null and mealTypeId != '' and mealTypeId != '-1'">
+                and o.id in
+                (select od.order_id
+                from bms_order_detail od
+                left join bms_item i on od.item_id = i.id
+                where od.del = 0
+                and i.meal_type_id = #{mealTypeId})
+            </if>
+        </where>
+    </select>
+
+</mapper>

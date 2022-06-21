@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.visit.dao.BmsVisitApplyVerifyDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.visit.entity.BmsVisitApplyVerifyEntity" id="bmsVisitApplyVerifyMap">
+        <result property="id" column="id"/>
+        <result property="applyId" column="apply_id"/>
+        <result property="status" column="status"/>
+        <result property="replyContent" column="reply_content"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectVerifyListByApplyId" parameterType="Long" resultType="cn.amigosoft.modules.bms.visit.dto.BmsVisitApplyVerifyDTO">
+        select v.id, v.apply_id as applyId, v.status, v.reply_content as replyContent, v.next_user_id as nextUserId, v.create_date as createDate, v.level
+        , u.real_name as creatorName, u.work_no as creatorWorkNo, u2.real_name as nextUserName, u2.work_no as nextUserWorkNo
+        from bms_visit_apply_verify v
+        left join sys_user u on v.creator = u.id
+        left join sys_user u2 on v.next_user_id = u2.id
+        where v.apply_id = #{applyId}
+        order by v.level asc
+    </select>
+
+</mapper>

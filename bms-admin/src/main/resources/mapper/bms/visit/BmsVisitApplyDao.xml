@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.visit.dao.BmsVisitApplyDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.visit.entity.BmsVisitApplyEntity" id="bmsVisitApplyMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="matter" column="matter"/>
+        <result property="beginDate" column="begin_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="addressId" column="address_id"/>
+        <result property="verifyUserId" column="verify_user_id"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creatorOpenId" column="creator_open_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectAddressNameByApplyId" parameterType="Long" resultType="String">
+        select group_concat(cast(x.`name` as char(10)) separator '、')
+        from
+            (select a.name
+            from bms_visit_address a, bms_visit_apply_address b
+            where a.id = b.address_id and b.apply_id = #{appId}) x
+    </select>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.visit.dto.BmsVisitApplyDTO">
+        select ap.id, ap.create_date as createDate, ap.status
+        , case ap.status when 0 then '待审批' when 1 then '同意' when 2 then '拒绝' end as statusName
+        , u.real_name as userName, u.work_no as userWorkNo
+        from bms_visit_apply ap
+        left join sys_user u on ap.user_id = u.id
+        <where>
+            ap.del = 0
+            <if test="params.status != null and params.status != '' and params.status != '-1'">
+                and ap.status = #{params.status}
+            </if>
+            <if test="params.creator != null and params.creator != ''">
+                and ap.creator = #{params.creator}
+            </if>
+            <if test="params.verifyUserId != null and params.verifyUserId != ''">
+                and ap.id in (select apply_id from bms_visit_apply_verify where next_user_id = #{params.verifyUserId})
+            </if>
+            <if test="params.userId != null and params.userId != ''">
+                and ap.user_id = #{params.userId}
+            </if>
+            <if test="params.userWorkNo != null and params.userWorkNo != ''">
+                and u.work_no like concat('%', #{params.userWorkNo} ,'%')
+            </if>
+            <if test="params.id != null and params.id != ''">
+                and ap.id like concat('%', #{params.id} ,'%')
+            </if>
+            <if test="params.userName != null and params.userName != ''">
+                and u.real_name like concat('%', #{params.userName} ,'%')
+            </if>
+            <if test="params.workNo != null and params.workNo != ''">
+                and u.work_no like concat('%', #{params.workNo} ,'%')
+            </if>
+            <if test="params.addressId != null and params.addressId != -1">
+                and ap.id in (select apply_id from bms_visit_apply_address where address_id = #{params.addressId})
+            </if>
+            <if test="params.createDate != null and params.createDate != ''">
+                and date(ap.create_date) = #{params.createDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectExportList" resultType="cn.amigosoft.modules.bms.visit.dto.BmsVisitApplyDTO">
+        select ap.id, ap.create_date as createDate, ap.begin_date as beginDate, ap.end_date as endDate
+        , case ap.status when 0 then '待审批' when 1 then '同意' when 2 then '拒绝' end as statusName
+        , u.real_name as userName, u.work_no as userWorkNo
+        , u2.real_name as verifyUserName, u2.work_no as verifyUserWorkNo
+        from bms_visit_apply ap
+        left join sys_user u on ap.user_id = u.id
+        left join sys_user u2 on ap.verify_user_id = u2.id
+        <where>
+            ap.del = 0
+            <if test="status != null and status != '' and status != '-1'">
+                and ap.status = #{status}
+            </if>
+            <if test="creator != null and creator != ''">
+                and ap.creator = #{creator}
+            </if>
+            <if test="verifyUserId != null and verifyUserId != ''">
+                and ap.id in (select apply_id from bms_visit_apply_verify where next_user_id = #{verifyUserId})
+            </if>
+            <if test="userId != null and userId != ''">
+                and ap.user_id = #{userId}
+            </if>
+            <if test="userWorkNo != null and userWorkNo != ''">
+                and u.work_no like concat('%', #{userWorkNo} ,'%')
+            </if>
+            <if test="id != null and id != ''">
+                and ap.id like concat('%', #{id} ,'%')
+            </if>
+            <if test="userName != null and userName != ''">
+                and u.real_name like concat('%', #{userName} ,'%')
+            </if>
+            <if test="workNo != null and workNo != ''">
+                and u.work_no like concat('%', #{workNo} ,'%')
+            </if>
+            <if test="addressId != null and addressId != -1">
+                and ap.id in (select apply_id from bms_visit_apply_address where address_id = #{addressId})
+            </if>
+            <if test="createDate != null and createDate != ''">
+                and date(ap.create_date) = #{createDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectVisitApplyById" parameterType="Long" resultType="cn.amigosoft.modules.bms.visit.dto.BmsVisitApplyDTO">
+        select ap.id, ap.create_date as createDate, ap.matter, ap.begin_date as beginDate
+        , ap.end_date as endDate, ap.verify_user_id as verifyUserId, ap.status
+        , case ap.status when 0 then '待审批' when 1 then '同意' when 2 then '拒绝' end as statusName
+        , u.real_name as userName, u.work_no as userWorkNo, u.mobile as userMobile
+        from bms_visit_apply ap
+        left join sys_user u on ap.user_id = u.id
+        where ap.id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,6 @@
+# Project exclude paths
+/bms-admin/target/
+/bms-api/target/
+/bms-common/target/
+/bms-dynamic-datasource/target/
+/bms-generator/target/

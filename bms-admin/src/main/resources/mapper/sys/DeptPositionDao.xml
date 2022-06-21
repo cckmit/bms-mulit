@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.sys.dao.DeptPositionDao">
+
+    <resultMap type="cn.amigosoft.modules.sys.entity.DeptPositionEntity" id="deptPositionMap">
+        <result property="id" column="id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="positionType" column="position_type"/>
+        <result property="positionName" column="position_name"/>
+        <result property="userId" column="user_id"/>
+        <result property="note" column="note"/>
+        <result property="sort" column="sort"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+    <select id="getPositionList" resultMap="deptPositionMap">
+   select t1.*,t2.real_name,t2.mobile FROM sys_dept_position t1
+    LEFT JOIN sys_user t2
+    on t1.user_id=t2.id
+    WHERE t1.dept_id=#{id}
+  </select>
+
+</mapper>

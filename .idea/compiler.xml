@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <option name="BUILD_PROCESS_HEAP_SIZE" value="1000" />
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="bms-api" />
+        <module name="bms-admin" />
+        <module name="bms-dynamic-datasource" />
+        <module name="bms-generator" />
+        <module name="bms-common" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bms-admin" target="1.8" />
+      <module name="bms-api" target="1.8" />
+      <module name="bms-applet" target="1.8" />
+      <module name="bms-common" target="1.8" />
+      <module name="bms-dynamic-datasource" target="1.8" />
+      <module name="bms-generator" target="1.8" />
+      <module name="bms-mulit" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="bms-admin" options="-parameters" />
+      <module name="bms-api" options="-parameters" />
+      <module name="bms-applet" options="-parameters" />
+      <module name="bms-common" options="-parameters" />
+      <module name="bms-dynamic-datasource" options="-parameters" />
+      <module name="bms-generator" options="-parameters" />
+    </option>
+  </component>
+</project>

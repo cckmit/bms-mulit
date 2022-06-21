@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.dinning.dao.BmsEvaluationUserDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.dinning.entity.BmsEvaluationUserEntity" id="bmsEvaluationUserMap">
+        <result property="id" column="id"/>
+        <result property="evaluationId" column="evaluation_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="content" column="content"/>
+        <result property="img" column="img"/>
+        <result property="star" column="star"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsEvaluationUserDTO">
+        select e.id, e.content, e.update_date as updateDate
+        , u.real_name as publisher, u.work_no as publisherWorkNo
+        from bms_evaluation_user e
+        left join sys_user u on e.user_id = u.id
+        <where>
+            e.del = 0 and e.content is not null
+            and e.evaluation_id = #{params.evaluationId}
+        </where>
+    </select>
+
+    <select id="selectEvaluationDetail" resultType="cn.amigosoft.modules.bms.dinning.dto.BmsEvaluationUserDTO">
+        select e.id, e.content, e.update_date as updateDate
+        , u.real_name as publisher, u.work_no as publisherWorkNo
+        , d.name as publisherDept
+        from bms_evaluation_user e
+        left join sys_user u on e.creator = u.id
+        left join sys_dept d on u.dept_id = d.id
+        where e.del = 0 and e.id = #{id}
+    </select>
+
+    <select id="selectUserIdByEvaluationId" parameterType="Long" resultType="String">
+        select user_id
+        from bms_evaluation_user
+        where evaluation_id = #{evaluationId}
+    </select>
+
+    <delete id="deleteByEvaluationIdAndUserId">
+        update bms_evaluation_user
+        set del = 1
+        where evaluation_id = #{evaluationId} and user_id = #{userId}
+    </delete>
+
+    <delete id="deleteByEvaluationIds">
+        update bms_evaluation_user
+        set del = 1
+        where evaluation_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectContentByEvaluationId" parameterType="Long" resultType="String">
+        select content
+        from bms_evaluation_user
+        where del = 0 and content is not null and evaluation_id = #{evaluationId}
+    </select>
+
+</mapper>

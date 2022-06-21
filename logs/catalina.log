@@ -1,0 +1,498 @@
+2022-06-21 08:26:31 [main] INFO  cn.amigosoft.ApiApplication -Starting ApiApplication on SK-20211130MCQQ with PID 30484 (started by Administrator in E:\国家电网项目定位\bms2022\bms-mulit)
+2022-06-21 08:26:31 [main] INFO  cn.amigosoft.ApiApplication -The following profiles are active: dev
+2022-06-21 08:26:33 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate -Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-06-21 08:26:33 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate -Bootstrapping Spring Data repositories in DEFAULT mode.
+2022-06-21 08:26:33 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate -Finished Spring Data repository scanning in 61ms. Found 0 repository interfaces.
+2022-06-21 08:26:33 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'shiroConfig' of type [cn.amigosoft.modules.security.config.ShiroConfig$$EnhancerBySpringCGLIB$$6cb2947d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:33 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'mybatis-plus-com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties' of type [com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:33 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'mybatisPlusConfig' of type [cn.amigosoft.common.config.MybatisPlusConfig$$EnhancerBySpringCGLIB$$87ddb5] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:33 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'dataFilterInterceptor' of type [cn.amigosoft.common.interceptor.DataFilterInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:33 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'paginationInterceptor' of type [com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:33 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'myInterceptor' of type [cn.amigosoft.common.config.MyInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:33 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration' of type [com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration$$EnhancerBySpringCGLIB$$f943b286] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:33 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'dynamic-cn.amigosoft.commons.dynamic.datasource.properties.DynamicDataSourceProperties' of type [cn.amigosoft.commons.dynamic.datasource.properties.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:33 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'dynamicDataSourceConfig' of type [cn.amigosoft.commons.dynamic.datasource.config.DynamicDataSourceConfig$$EnhancerBySpringCGLIB$$c9ef059d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:33 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'dataSourceProperties' of type [cn.amigosoft.commons.dynamic.datasource.properties.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:33 [main] INFO  com.alibaba.druid.pool.DruidDataSource -{dataSource-1} inited
+2022-06-21 08:26:33 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'dynamicDataSource' of type [cn.amigosoft.commons.dynamic.datasource.config.DynamicDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:33 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'fieldMetaObjectHandler' of type [cn.amigosoft.common.handler.FieldMetaObjectHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] WARN  com.baomidou.mybatisplus.core.toolkit.TableInfoHelper -Warn: Could not find @TableId in Class: cn.amigosoft.modules.sys.entity.SysLanguageEntity.
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sysMenuDao' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sysMenuDao' of type [com.sun.proxy.$Proxy74] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sysUserDao' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sysUserDao' of type [com.sun.proxy.$Proxy75] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sysUserTokenDao' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sysUserTokenDao' of type [com.sun.proxy.$Proxy76] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sysRoleDataScopeDao' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sysRoleDataScopeDao' of type [com.sun.proxy.$Proxy77] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sysAppMenuDao' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sysAppMenuDao' of type [com.sun.proxy.$Proxy78] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'shiroServiceImpl' of type [cn.amigosoft.modules.security.service.impl.ShiroServiceImpl] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'oauth2Realm' of type [cn.amigosoft.modules.security.oauth2.Oauth2Realm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:34 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'sessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:35 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:35 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:35 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$bb7b45ec] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-21 08:26:35 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer -Tomcat initialized with port(s): 8061 (http)
+2022-06-21 08:26:35 [main] INFO  org.apache.coyote.http11.Http11NioProtocol -Initializing ProtocolHandler ["http-nio-8061"]
+2022-06-21 08:26:35 [main] INFO  org.apache.catalina.core.StandardService -Starting service [Tomcat]
+2022-06-21 08:26:35 [main] INFO  org.apache.catalina.core.StandardEngine -Starting Servlet engine: [Apache Tomcat/9.0.17]
+2022-06-21 08:26:35 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/bms-applet] -Initializing Spring embedded WebApplicationContext
+2022-06-21 08:26:35 [main] DEBUG org.springframework.web.context.ContextLoader -Published root WebApplicationContext as ServletContext attribute with name [org.springframework.web.context.WebApplicationContext.ROOT]
+2022-06-21 08:26:35 [main] INFO  org.springframework.web.context.ContextLoader -Root WebApplicationContext: initialization completed in 4184 ms
+2022-06-21 08:26:36 [main] INFO  cn.amigosoft.modules.security.config.SignConfig -+++++++++++++++++++SignConfig+++++++SignConfig=>SignConfig{uriIgnoreList=[/sys/dict/listByDictType/**, /sys/dict/list, /bigScreen/**, /cmdb/content/getTypeList, /webjars/**, /druid/**, /login, /swagger/**, /v2/api-docs, /swagger-ui.html, /swagger-resources/**, /service/**, /editor-app/**, /diagram-viewer/**, /modeler.html, /captcha, /favicon.ico, /ecs/**, /common/rsa/publicKey, /common/rsa/transferKey, /logout, /sys/menu/nav, /sys/menu/permissions, /sys/user/info], open=false} 
+2022-06-21 08:26:36 [main] INFO  cn.amigosoft.modules.security.sign.filter.SignAuthFilter -初始化 SignAuthFilter
+2022-06-21 08:26:36 [main] DEBUG org.springframework.web.filter.DelegatingFilterProxy -Filter 'delegatingFilterProxy' configured for use
+2022-06-21 08:26:36 [main] INFO  cn.amigosoft.common.config.FileUploadConfig ------------------------------------------
+2022-06-21 08:26:36 [main] INFO  cn.amigosoft.common.config.FileUploadConfig -上传上件目录：D:\data\bms-mulit\imageUpload\
+2022-06-21 08:26:36 [main] INFO  cn.amigosoft.common.config.FileUploadConfig -如需变更请配置：web.UploadFilePath
+2022-06-21 08:26:36 [main] INFO  cn.amigosoft.common.config.FileUploadConfig ------------------------------------------
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.a.c.BmsAreaController:
+	{GET /bms/area/{id}}: get(Long)
+	{GET /bms/area/list}: get()
+	{GET /bms/area/page}: page(Map)
+	{GET /bms/area/cityList}: getCityList(Long)
+	{GET /bms/area/allCityList}: allCityList()
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.a.c.BmsAssetsRepairController:
+	{PUT /bms/assetsRepair}: update(BmsAssetsRepairDTO)
+	{DELETE /bms/assetsRepair}: delete(Long[])
+	{POST /bms/assetsRepair}: save(BmsAssetsRepairDTO)
+	{GET /bms/assetsRepair/page}: page(Map)
+	{GET /bms/assetsRepair/verifyPage}: verifyPage(Map)
+	{GET /bms/assetsRepair/dealPage}: dealPage(Map)
+	{GET /bms/assetsRepair/verifyList}: getVerifyList()
+	{GET /bms/assetsRepair/serviceDetail}: getServiceDetail(Long)
+	{POST /bms/assetsRepair/evaluation}: evaluation(BmsAssetsRepairDTO)
+	{POST /bms/assetsRepair/serviceResult}: serviceResult(BmsAssetsRepairDTO)
+	{GET /bms/assetsRepair/detail}: getDetail(Long)
+	{GET /bms/assetsRepair/servicePage}: servicePage(Map)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.a.c.BmsAssetsRepairRecordController:
+	{GET /bms/assetsRepairRecord/{id}}: get(Long)
+	{PUT /bms/assetsRepairRecord}: update(BmsAssetsRepairRecordDTO)
+	{DELETE /bms/assetsRepairRecord}: delete(Long[])
+	{GET /bms/assetsRepairRecord/page}: page(Map)
+	{POST /bms/assetsRepairRecord/deal}: saveDeal(BmsAssetsRepairRecordDTO)
+	{POST /bms/assetsRepairRecord/verify}: saveVerify(BmsAssetsRepairRecordDTO)
+	{GET /bms/assetsRepairRecord/repairService}: getRepairServiceList(Map)
+	{GET /bms/assetsRepairRecord/externalService}: getExternalServiceList(Map)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.a.c.BmsAssetsServiceProviderController:
+	{GET /bms/serviceProvider/{id}}: get(Long)
+	{PUT /bms/serviceProvider}: update(BmsAssetsServiceProviderDTO)
+	{DELETE /bms/serviceProvider}: delete(Long[])
+	{POST /bms/serviceProvider}: save(BmsAssetsServiceProviderDTO)
+	{GET /bms/serviceProvider/page}: page(Map)
+	{GET /bms/serviceProvider/detail}: getDetail(Long)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.d.c.BmsCanteenController:
+	{GET /bms/canteen/list}: list()
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.d.c.BmsEvaluationController:
+	{GET /dining/evaluation/detail/{id}}: get(Long)
+	{PUT /dining/evaluation/evaluate}: evaluate(BmsEvaluationDTO)
+	{GET /dining/evaluation/page}: page(Map)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.d.c.BmsItemController:
+	{GET /bms/item/{id}}: get(Long)
+	{GET /bms/item/list}: list(Map)
+	{GET /bms/item/detail}: detail(Long)
+	{GET /bms/item/search/list}: itemList()
+	{GET /bms/item/idsDetail}: idsDetail(Long[])
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.d.c.BmsMealTypeController:
+	{GET /bms/mealType/list}: list()
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.d.c.BmsOrderController:
+	{PUT /dining/order}: update(BmsOrderDTO)
+	{GET /dining/order/delete/{Id}}: delete(Long)
+	{POST /dining/order}: save(BmsOrderDTO)
+	{GET /dining/order/page}: page(Map)
+	{GET /dining/order/{id}}: getBaseInfo(Long)
+	{POST /dining/order/chooseDates}: chooseEatDates(BmsMealTypeDTO)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.d.c.BmsOrderDetailController:
+	{PUT /dining/orderDetail}: update(BmsOrderDetailDTO)
+	{GET /dining/orderDetail/delete/{Id}}: delete(Long)
+	{POST /dining/orderDetail}: save(BmsOrderDetailDTO)
+	{GET /dining/orderDetail/page}: page(Map)
+	{GET /dining/orderDetail/lastCanteen}: lastCanteen()
+	{GET /dining/orderDetail/countPage}: countPage(Map)
+	{GET /dining/orderDetail/paidPage}: paidPage(Map)
+	{GET /dining/orderDetail/scanPaidPage}: scanPaidPage(Map)
+	{GET /dining/orderDetail/onOrderItemIds}: onOrderItemIds()
+	{GET /dining/orderDetail/{id}}: getDetailInfo(Long)
+	{GET /dining/orderDetail/scanDetail}: getScanDetailInfo(Map)
+	{GET /dining/orderDetail/paidDetail/{id}}: getPaidDetailInfo(Long)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.d.c.BmsReceptionMealController:
+	{GET /dining/reception/detail/{id}}: get(Long)
+	{PUT /dining/reception}: update(BmsReceptionMealDTO)
+	{GET /dining/reception/delete/{id}}: delete(Long)
+	{POST /dining/reception}: save(BmsReceptionMealDTO)
+	{GET /dining/reception/page}: page(Map)
+	{GET /dining/reception/verifyPage}: verifyPage(Map)
+	{GET /dining/reception/checkPage}: checkPage(Map)
+	{GET /dining/reception/canteenList}: getCanteenList()
+	{GET /dining/reception/mealTypeList}: getMealTypeList()
+	{GET /dining/reception/managerVerifyList}: getManagerVerifyList()
+	{GET /dining/reception/officeVerifyList}: getOfficeVerifyList()
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.d.c.BmsReceptionMealVerifyController:
+	{POST /dining/receptionMealVerify}: save(BmsReceptionMealVerifyDTO)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.d.c.BmsScanLogController:
+	{GET /dining/scanLog/{id}}: get(Long)
+	{PUT /dining/scanLog}: update(BmsScanLogDTO)
+	{DELETE /dining/scanLog}: delete(Long[])
+	{POST /dining/scanLog}: save(BmsScanLogDTO)
+	{GET /dining/scanLog/page}: page(Map)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.d.c.BmsScanVerificationController:
+	{GET /dining/scanVerification/{id}}: get(Long)
+	{PUT /dining/scanVerification}: update(BmsScanVerificationDTO)
+	{DELETE /dining/scanVerification}: delete(Long[])
+	{POST /dining/scanVerification}: save(BmsScanVerificationDTO)
+	{GET /dining/scanVerification/page}: page(Map)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.l.c.SysLogErrorController:
+	{GET /sys/log/error/export}: export(Map,HttpServletResponse)
+	{GET /sys/log/error/page}: page(Map)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.l.c.SysLogLoginController:
+	{GET /sys/log/login/export}: export(Map,HttpServletResponse)
+	{GET /sys/log/login/page}: page(Map)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.l.c.SysLogOperationController:
+	{GET /sys/log/operation/export}: export(Map,HttpServletResponse)
+	{GET /sys/log/operation/page}: page(Map)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.n.c.BmsNoticeController:
+	{GET /bms/notice/{id}}: get(Long)
+	{PUT /bms/notice}: update(BmsNoticeDTO)
+	{DELETE /bms/notice}: delete(Long[])
+	{POST /bms/notice}: save(BmsNoticeDTO)
+	{GET /bms/notice/page}: page(Map)
+	{GET /bms/notice/list}: noticeList()
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.o.c.SysOssController:
+	{POST /sys/oss/upload}: upload(MultipartFile)
+	{POST /sys/oss/wx-upload}: wxUpload(MultipartFile)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.s.c.LoginController:
+	{POST /login}: login(HttpServletRequest,LoginDTO)
+	{GET /captcha}: captcha(HttpServletResponse,String)
+	{POST /logout}: logout(HttpServletRequest)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.s.c.DeptPositionController:
+	{GET /sys/deptposition/{id}}: get(Long)
+	{PUT /sys/deptposition}: update(DeptPositionDTO)
+	{DELETE /sys/deptposition}: delete(Long[])
+	{POST /sys/deptposition}: save(DeptPositionDTO)
+	{GET /sys/deptposition/page}: page(Map)
+	{GET /sys/deptposition/deptposition/{id}}: getPositionList(Long)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.s.c.SysAppMenuController:
+	{GET /bms/appMenu/{id}}: get(Long)
+	{PUT /bms/appMenu}: update(SysAppMenuDTO)
+	{DELETE /bms/appMenu}: delete(Long[])
+	{POST /bms/appMenu}: save(SysAppMenuDTO)
+	{GET /bms/appMenu/page}: page(Map)
+	{GET /bms/appMenu/userMenu}: userMenu(HttpServletRequest)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.s.c.SysDeptController:
+	{GET /sys/dept/{id}}: get(Long)
+	{PUT /sys/dept}: update(SysDeptDTO)
+	{DELETE /sys/dept/{id}}: delete(Long)
+	{GET /sys/dept/list}: list()
+	{POST /sys/dept}: save(SysDeptDTO)
+	{GET /sys/dept/superList}: superList()
+	{PUT /sys/dept/updateManger}: updateManger(SysDeptDTO)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.s.c.SysDictController:
+	{GET /sys/dict/{id}}: get(Long)
+	{PUT /sys/dict}: update(SysDictDTO)
+	{DELETE /sys/dict}: delete(Long[])
+	{POST /sys/dict/list}: list(Map)
+	{POST /sys/dict}: save(SysDictDTO)
+	{GET /sys/dict/page}: page(Map)
+	{GET /sys/dict/list}: getList(Map)
+	{GET /sys/dict/listByDictType/{dictType}}: listByDictType(String)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.s.c.SysMenuController:
+	{GET /sys/menu/{id}}: get(Long)
+	{PUT /sys/menu}: update(SysMenuDTO)
+	{DELETE /sys/menu/{id}}: delete(Long)
+	{GET /sys/menu/permissions}: permissions()
+	{GET /sys/menu/list}: list(Integer)
+	{POST /sys/menu}: save(SysMenuDTO)
+	{GET /sys/menu/select}: select()
+	{GET /sys/menu/nav}: nav()
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.s.c.SysParamsController:
+	{GET /sys/params/{id}}: get(Long)
+	{PUT /sys/params}: update(SysParamsDTO)
+	{DELETE /sys/params}: delete(Long[])
+	{POST /sys/params}: save(SysParamsDTO)
+	{GET /sys/params/export}: export(Map,HttpServletResponse)
+	{GET /sys/params/page}: page(Map)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.s.c.SysRegionController:
+	{GET /sys/region/{id}}: get(Long)
+	{PUT /sys/region}: update(SysRegionDTO)
+	{DELETE /sys/region/{id}}: delete(Long)
+	{GET /sys/region/list}: list(Map)
+	{POST /sys/region}: save(SysRegionDTO)
+	{GET /sys/region/tree}: tree()
+	{GET /sys/region/region}: region(boolean)
+	{GET /sys/region/getRegionName}: getRegionName(String)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.s.c.SysRoleController:
+	{GET /sys/role/{id}}: get(Long)
+	{PUT /sys/role}: update(SysRoleDTO)
+	{DELETE /sys/role}: delete(Long[])
+	{GET /sys/role/list}: list()
+	{POST /sys/role}: save(SysRoleDTO)
+	{GET /sys/role/page}: page(Map)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.s.c.SysUserController:
+	{GET /bms/sysUser/{id}}: get(Long)
+	{PUT /bms/sysUser}: update(SysUserDTO)
+	{PUT /bms/sysUser/delete}: delete(Long[])
+	{POST /bms/sysUser}: save(SysUserDTO)
+	{GET /bms/sysUser/userInfo}: getUserInfo()
+	{GET /bms/sysUser/export}: export(Map,HttpServletResponse)
+	{GET /bms/sysUser/info}: info()
+	{PUT /bms/sysUser/password}: password(PasswordDTO)
+	{GET /bms/sysUser/page}: page(Map)
+	{GET /bms/sysUser/userDetailInfo}: getUserDetailInfo()
+	{GET /bms/sysUser/selectUserByRoleKey}: selectUserByRoleKey(String)
+	{GET /bms/sysUser/info-chat}: infoChat()
+	{GET /bms/sysUser/getUserList}: getUserList(Map)
+	{POST /bms/sysUser/import}: importExcel(MultipartFile,HttpServletResponse)
+	{GET /bms/sysUser/isSysUser}: isSysUser(String,String)
+	{POST /bms/sysUser/updateAvatar}: updateAvatar(SysUserDTO)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.s.c.SystemController:
+	{GET /sys/info}: info()
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.v.c.BmsVisitAddressController:
+	{GET /bms/visitAddress/list}: get()
+	{GET /bms/visitAddress/chooseList}: getChooseList()
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.v.c.BmsVisitApplyController:
+	{GET /bms/visitApply/{id}}: get(Long)
+	{POST /bms/visitApply/register}: register(BmsVisitApplyDTO)
+	{PUT /bms/visitApply}: update(BmsVisitApplyDTO)
+	{DELETE /bms/visitApply}: delete(Long[])
+	{POST /bms/visitApply}: save(BmsVisitApplyDTO)
+	{GET /bms/visitApply/page}: page(Map)
+	{GET /bms/visitApply/verifyPage}: verifyPage(Map)
+	{GET /bms/visitApply/verifyList}: getVerifyList()
+	{GET /bms/visitApply/detail}: getDetail(Long)
+	{GET /bms/visitApply/guardVerifyList}: getGuardVerifyList()
+	{GET /bms/visitApply/draftPage}: draftPage(Map)
+	{GET /bms/visitApply/draft/delete}: draftDelete(Long)
+	{GET /bms/visitApply/draft/detail}: getDraftDetail(Long)
+	{POST /bms/visitApply/draft}: draft(BmsVisitApplyDTO)
+	{GET /bms/visitApply/appliedPage}: appliedPage(Map)
+	{GET /bms/visitApply/register/delete}: registerDelete(Long)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.v.c.BmsVisitApplyVerifyController:
+	{GET /bms/visitApplyVerify/{id}}: get(Long)
+	{PUT /bms/visitApplyVerify}: update(BmsVisitApplyVerifyDTO)
+	{DELETE /bms/visitApplyVerify}: delete(Long[])
+	{POST /bms/visitApplyVerify}: save(BmsVisitApplyVerifyDTO)
+	{GET /bms/visitApplyVerify/page}: page(Map)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.v.c.BmsVisitApplyVisitorController:
+	{GET /bms/visitApplyVisitor/{id}}: get(Long)
+	{PUT /bms/visitApplyVisitor}: update(BmsVisitApplyVisitorDTO)
+	{DELETE /bms/visitApplyVisitor}: delete(Long[])
+	{POST /bms/visitApplyVisitor}: save(BmsVisitApplyVisitorDTO)
+	{GET /bms/visitApplyVisitor/page}: page(Map)
+	{GET /bms/visitApplyVisitor/visitorHistoryList}: visitorHistoryList()
+	{GET /bms/visitApplyVisitor/visitorInfo}: getVisitorInfo(Map)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.m.w.c.ApiWXController:
+	{POST /api/wx/wxBind}: wxBind(WxappBindDTO)
+	{GET /api/wx/wxLogin}: wxLogin(String)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	c.a.c.u.a.c.RSAController:
+	{POST /common/rsa/transferKey}: tokenAeskeyBind(HttpServletRequest,AesTokenDTO)
+	{POST /common/rsa/publicKey}: publicKeyGet(Map)
+	{POST /common/rsa/decryptTest2}: decryptTest2(TestAesDTO)
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	s.d.s.w.ApiResourceController:
+	{ /swagger-resources/configuration/ui}: uiConfiguration()
+	{ /swagger-resources}: swaggerResources()
+	{ /swagger-resources/configuration/security}: securityConfiguration()
+2022-06-21 08:26:37 [main] TRACE org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -
+	o.s.b.a.w.s.e.BasicErrorController:
+	{ /error}: error(HttpServletRequest)
+	{ /error, produces [text/html]}: errorHtml(HttpServletRequest,HttpServletResponse)
+2022-06-21 08:26:37 [main] DEBUG org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -210 mappings in 'requestMappingHandlerMapping'
+2022-06-21 08:26:38 [main] INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping -Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2022-06-21 08:26:38 [main] TRACE org.springframework.web.servlet.handler.SimpleUrlHandlerMapping -Mapped [/**/favicon.ico] onto ResourceHttpRequestHandler [class path resource [META-INF/resources/], class path resource [resources/], class path resource [static/], class path resource [public/], ServletContext resource [/], class path resource []]
+2022-06-21 08:26:38 [main] DEBUG org.springframework.web.servlet.handler.SimpleUrlHandlerMapping -Patterns [/**/favicon.ico] in 'faviconHandlerMapping'
+2022-06-21 08:26:38 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor -Initializing ExecutorService 'applicationTaskExecutor'
+2022-06-21 08:26:38 [main] DEBUG org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter -ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2022-06-21 08:26:38 [main] DEBUG org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping -Detected 0 mappings in 'beanNameHandlerMapping'
+2022-06-21 08:26:38 [main] TRACE org.springframework.web.servlet.handler.SimpleUrlHandlerMapping -Mapped [/webjars/**] onto ResourceHttpRequestHandler ["classpath:/META-INF/resources/webjars/"]
+2022-06-21 08:26:38 [main] TRACE org.springframework.web.servlet.handler.SimpleUrlHandlerMapping -Mapped [/**] onto ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2022-06-21 08:26:38 [main] TRACE org.springframework.web.servlet.handler.SimpleUrlHandlerMapping -Mapped [/imageUpload/**] onto ResourceHttpRequestHandler ["file:D:\data\bms-mulit\imageUpload\"]
+2022-06-21 08:26:38 [main] DEBUG org.springframework.web.servlet.handler.SimpleUrlHandlerMapping -Patterns [/webjars/**, /**, /imageUpload/**] in 'resourceHandlerMapping'
+2022-06-21 08:26:38 [main] DEBUG org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver -ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2022-06-21 08:26:39 [main] INFO  org.activiti.engine.impl.ProcessEngineImpl -ProcessEngine default created
+2022-06-21 08:26:39 [main] INFO  org.activiti.engine.impl.asyncexecutor.AbstractAsyncJobExecutor -Starting up the default async job executor [org.activiti.spring.SpringAsyncExecutor].
+2022-06-21 08:26:39 [Thread-18] INFO  org.activiti.engine.impl.asyncexecutor.AcquireTimerJobsRunnable -starting to acquire async jobs due
+2022-06-21 08:26:39 [Thread-19] INFO  org.activiti.engine.impl.asyncexecutor.AcquireAsyncJobsDueRunnable -starting to acquire async jobs due
+2022-06-21 08:26:39 [main] DEBUG org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer -Template loader path [class path resource [templates/]] resolved to file path [E:\国家电网项目定位\bms2022\bms-mulit\bms-api\target\classes\templates]
+2022-06-21 08:26:39 [main] INFO  org.quartz.impl.StdSchedulerFactory -Using default implementation for ThreadExecutor
+2022-06-21 08:26:40 [main] INFO  org.quartz.core.SchedulerSignalerImpl -Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2022-06-21 08:26:40 [main] INFO  org.quartz.core.QuartzScheduler -Quartz Scheduler v.2.3.0 created.
+2022-06-21 08:26:40 [main] INFO  org.quartz.simpl.RAMJobStore -RAMJobStore initialized.
+2022-06-21 08:26:40 [main] INFO  org.quartz.core.QuartzScheduler -Scheduler meta-data: Quartz Scheduler (v2.3.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2022-06-21 08:26:40 [main] INFO  org.quartz.impl.StdSchedulerFactory -Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2022-06-21 08:26:40 [main] INFO  org.quartz.impl.StdSchedulerFactory -Quartz scheduler version: 2.3.0
+2022-06-21 08:26:40 [main] INFO  org.quartz.core.QuartzScheduler -JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@688efeb2
+2022-06-21 08:26:40 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler -Initializing ExecutorService 'taskScheduler'
+2022-06-21 08:26:40 [main] DEBUG org.springframework.web.socket.server.standard.ServerEndpointExporter -Registering @ServerEndpoint class: class cn.amigosoft.websocket.WebSocketServer
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper -Context refreshed
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper -Found 1 custom documentation plugin(s)
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner -Scanning for api listing references
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_1
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_1
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_1
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_2
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_2
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_1
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_2
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_3
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getDetailUsingGET_1
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_3
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_1
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_2
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_4
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_4
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_5
+2022-06-21 08:26:40 [main] WARN  springfox.documentation.spring.web.readers.parameter.ParameterDataTypeReader -Trying to infer dataType java.lang.Long[]
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: listUsingGET_1
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: listUsingGET_2
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_3
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_6
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_5
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_2
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_3
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_6
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_3
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_4
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingGET_1
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_7
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_4
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_5
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingGET_2
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_7
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_8
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_5
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_6
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: verifyPageUsingGET_1
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_6
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_4
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_8
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_9
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_7
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_7
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_5
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_9
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_10
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_8
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_8
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_10
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_6
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_11
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getDetailUsingGET_2
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getVerifyListUsingGET_1
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_11
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_9
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_9
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: verifyPageUsingGET_2
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_7
+2022-06-21 08:26:40 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_12
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_12
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_10
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_10
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_8
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_13
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_13
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_11
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_11
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_9
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_14
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_14
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_12
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_12
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_10
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_15
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_15
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_13
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_13
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_11
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_16
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: listUsingGET_3
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_14
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_14
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_12
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_17
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_16
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_15
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_15
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_17
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: exportUsingGET_1
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_18
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: exportUsingGET_2
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_19
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_13
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_18
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: listUsingGET_4
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_16
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_16
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_14
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: exportUsingGET_3
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_19
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_20
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_17
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_17
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_15
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_20
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: listUsingGET_5
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_18
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_18
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: deleteUsingDELETE_16
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_21
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: listUsingGET_6
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_21
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_19
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_19
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: exportUsingGET_4
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: getUsingGET_22
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: pageUsingGET_22
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: saveUsingPOST_20
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: updateUsingPUT_20
+2022-06-21 08:26:41 [main] INFO  springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator -Generating unique operation named: infoUsingGET_1
+2022-06-21 08:26:41 [main] INFO  org.springframework.scheduling.quartz.SchedulerFactoryBean -Starting Quartz Scheduler now
+2022-06-21 08:26:41 [main] INFO  org.quartz.core.QuartzScheduler -Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2022-06-21 08:26:41 [main] INFO  org.apache.coyote.http11.Http11NioProtocol -Starting ProtocolHandler ["http-nio-8061"]
+2022-06-21 08:26:41 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer -Tomcat started on port(s): 8061 (http) with context path '/bms-applet'
+2022-06-21 08:26:41 [main] INFO  cn.amigosoft.ApiApplication -Started ApiApplication in 10.387 seconds (JVM running for 11.772)

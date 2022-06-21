@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.dining.dao.BmsReceptionMealDao">
+
+    <resultMap type="cn.amigosoft.modules.dining.entity.BmsReceptionMealEntity" id="bmsReceptionMealMap">
+        <result property="id" column="id"/>
+        <result property="eatDate" column="eat_date"/>
+        <result property="mealTypeId" column="meal_type_id"/>
+        <result property="canteenId" column="canteen_id"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="queryPage" resultType="cn.amigosoft.modules.dining.dto.BmsReceptionMealDTO">
+        SELECT a.id,a.eat_date, a.status,
+        b.`name` meal_type_name,
+        c.`name` canteen_name
+        FROM bms_reception_meal a
+        LEFT JOIN bms_meal_type b ON b.id = a.meal_type_id
+        LEFT JOIN bms_canteen c ON c.id = a.canteen_id
+        WHERE a.del = 0
+        AND a.creator = #{creator}
+        <if test="id != null and id != ''">
+            AND a.id LIKE CONCAT('%',#{id},'%')
+        </if>
+        <if test="status != null and status != '-1'">
+            AND a.status = #{status}
+        </if>
+        ORDER BY a.create_date DESC
+    </select>
+
+    <select id="queryCheckPage" resultType="cn.amigosoft.modules.dining.dto.BmsReceptionMealDTO">
+        SELECT a.id,a.eat_date, a.status,
+        b.`name` meal_type_name,
+        c.`name` canteen_name
+        FROM bms_reception_meal a
+        LEFT JOIN bms_meal_type b ON b.id = a.meal_type_id
+        LEFT JOIN bms_canteen c ON c.id = a.canteen_id
+        WHERE a.del = 0 AND a.status = 1
+        <if test="id != null and id != ''">
+            AND a.id LIKE CONCAT('%',#{id},'%')
+        </if>
+    </select>
+
+    <select id="queryVerifyPage" resultType="cn.amigosoft.modules.dining.dto.BmsReceptionMealDTO">
+        SELECT r.id, r.eat_date, r.status
+        , t.`name` as mealTypeName
+        , c.`name` as canteenName
+        FROM bms_reception_meal r
+        LEFT JOIN bms_meal_type t ON t.id = r.meal_type_id
+        LEFT JOIN bms_canteen c ON c.id = r.canteen_id
+        WHERE r.del = 0
+        AND r.id in (select reception_meal_id from bms_reception_meal_verify where next_user_id = #{params.nextUserId})
+        <if test="params.id != null and params.id != ''">
+            AND r.id LIKE CONCAT('%',#{params.id},'%')
+        </if>
+        <if test="params.status != null and params.status != '-1'">
+            AND r.status = #{params.status}
+        </if>
+    </select>
+
+    <select id="getDetail" resultType="cn.amigosoft.modules.dining.dto.BmsReceptionMealDTO">
+        SELECT a.id,a.eat_date, a.status,
+        b.`name` meal_type_name,
+        c.`name` canteen_name,
+        d.real_name,d.work_no,d.mobile
+        FROM bms_reception_meal a
+        LEFT JOIN bms_meal_type b ON b.id = a.meal_type_id
+        LEFT JOIN bms_canteen c ON c.id = a.canteen_id
+        LEFT JOIN sys_user d ON d.id = a.creator
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="getVisitors" resultType="cn.amigosoft.modules.dining.dto.BmsReceptionMealVisitorDTO">
+        SELECT a.visitor_name, a.visitor_phone
+        FROM bms_reception_meal_visitor a
+        LEFT JOIN bms_reception_meal b ON b.id = a.reception_meal_id
+        WHERE a.reception_meal_id = #{id}
+    </select>
+
+    <select id="getEatTime" resultType="cn.amigosoft.modules.dining.dto.BmsReceptionMealDTO">
+        SELECT a.eat_date,
+        b.begin_time
+        FROM bms_reception_meal a
+        LEFT JOIN bms_meal_type b ON b.id = a.meal_type_id
+        WHERE a.id = #{id}
+    </select>
+
+    <update id="deleteVisitors">
+        UPDATE bms_reception_meal_visitor
+        SET del = 1
+        WHERE reception_meal_id = #{id}
+    </update>
+
+    <update id="deleteVerifies">
+        UPDATE bms_reception_meal_verify
+        SET del = 1
+        WHERE reception_meal_id = #{id}
+    </update>
+
+    <select id="getCanteenList" resultType="cn.amigosoft.modules.dining.dto.BmsReceptionMealDTO">
+        SELECT id canteenId,`name` canteenName
+        FROM bms_canteen
+        WHERE del = 0
+    </select>
+
+    <select id="getMealTypeList" resultType="cn.amigosoft.modules.dining.dto.BmsReceptionMealDTO">
+        SELECT id mealTypeId,`name` mealTypeName
+        FROM bms_meal_type
+        WHERE del = 0
+    </select>
+
+    <select id="selectReceptionDetail" parameterType="Long" resultType="cn.amigosoft.modules.dining.dto.BmsReceptionMealDTO">
+        select r.id, r.eat_date as eatDate, r.status, r.creator
+        , u.real_name as applyUserName, u.work_no as applyUserWorkNo
+        , c.name as canteenName
+        , t.name as mealTypeName
+        from bms_reception_meal r
+        left join sys_user u on r.creator = u.id
+        left join bms_canteen c on r.canteen_id = c.id
+        left join bms_meal_type t on r.meal_type_id = t.id
+        where r.del = 0 and r.id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,7 @@
+2021-09-17 09:42:35.660 [http-nio-8061-exec-2] ERROR com.alibaba.druid.filter.stat.StatFilter - slow sql 3743 millis. SELECT a.id, a.create_date, u.real_name staff_name, d.`name` dept_name
+        FROM bms_order a
+        LEFT JOIN sys_user u ON u.id = a.creator
+        LEFT JOIN sys_dept d ON d.id = u.dept_id
+        WHERE a.del = 0
+         
+            AND a.id = ?[1]

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.wxapp.dao.WxappQrcodeDao">
+
+    <resultMap type="cn.amigosoft.modules.wxapp.entity.WxappQrcodeEntity" id="wxappQrcodeMap">
+        <result property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="businessType" column="business_type"/>
+        <result property="scene" column="scene"/>
+        <result property="page" column="page"/>
+        <result property="width" column="width"/>
+        <result property="qcodeUrl" column="qcode_url"/>
+        <result property="remark" column="remark"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="getWxappQrcode" resultType="cn.amigosoft.modules.wxapp.dto.WxappQrcodeDTO">
+        SELECT
+        id,
+        tenant_id,
+        business_type,
+        scene,
+        page,
+        width,
+        qcode_url,remark,
+        creator,
+        create_date,
+        updater,
+        update_date
+        FROM iotsaas_wxapp_qrcode where business_type = #{type}
+    </select>
+
+</mapper>

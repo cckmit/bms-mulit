@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.visit.dao.BmsVisitApplyVisitorDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.visit.entity.BmsVisitApplyVisitorEntity" id="bmsVisitApplyVisitorMap">
+        <result property="id" column="id"/>
+        <result property="applyId" column="apply_id"/>
+        <result property="name" column="name"/>
+        <result property="idCard" column="id_card"/>
+        <result property="mobile" column="mobile"/>
+        <result property="company" column="company"/>
+        <result property="sourceProvince" column="source_province"/>
+        <result property="sourceCity" column="source_city"/>
+        <result property="sourceCounty" column="source_county"/>
+        <result property="imgs" column="imgs"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectVisitorNameByApplyId" parameterType="Long" resultType="String">
+        select group_concat(cast(`name` as char(10)) separator '、')
+        from bms_visit_apply_visitor where apply_id = #{applyId} and del = 0
+    </select>
+
+    <select id="selectVisitorExcelDataByApplyId" parameterType="Long" resultType="cn.amigosoft.modules.bms.visit.excel.BmsVisitApplyVisitorExcel">
+        select name, id_card as idCard, mobile, company, concat(source_province, ifnull(source_city, '')) as source
+        from bms_visit_apply_visitor where apply_id = #{applyId} and del = 0
+    </select>
+</mapper>

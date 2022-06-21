@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.bms.other.dao.BmsGoodsDao">
+
+    <resultMap type="cn.amigosoft.modules.bms.other.entity.BmsGoodsEntity" id="bmsGoodsMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="img" column="img"/>
+        <result property="typeId" column="type_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="price" column="price"/>
+        <result property="unit" column="unit"/>
+        <result property="remark" column="remark"/>
+        <result property="del" column="del"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="selectPageList" resultType="cn.amigosoft.modules.bms.other.dto.BmsGoodsDTO">
+        select g.id, g.name, g.code, g.img, g.price, g.unit
+        , t.name as typeName
+        , s.name as shopName
+        from bms_goods g
+        left join bms_goods_type t on g.type_id = t.id
+        left join bms_shop s on g.shop_id = s.id
+        <where>
+            g.del = 0
+            <if test="params.name != null and params.name != ''">
+                and g.name like concat('%', #{params.name} ,'%')
+            </if>
+            <if test="params.code != null and params.code != ''">
+                and g.code like concat('%', #{params.code} ,'%')
+            </if>
+            <if test="params.typeId != null and params.typeId != '' and params.typeId != '-1'">
+                and g.type_id = #{params.typeId}
+            </if>
+            <if test="params.shopId != null and params.shopId != '' and params.shopId != '-1'">
+                and g.shop_id = #{params.shopId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectExportList" resultType="cn.amigosoft.modules.bms.other.dto.BmsGoodsDTO">
+        select g.id, g.name, g.code, g.img, g.price, g.unit
+        , t.name as typeName
+        , s.name as shopName
+        from bms_goods g
+        left join bms_goods_type t on g.type_id = t.id
+        left join bms_shop s on g.shop_id = s.id
+        <where>
+            g.del = 0
+            <if test="name != null and name != ''">
+                and g.name like concat('%', #{name} ,'%')
+            </if>
+            <if test="code != null and code != ''">
+                and g.code like concat('%', #{code} ,'%')
+            </if>
+            <if test="typeId != null and typeId != '' and typeId != '-1'">
+                and g.type_id = #{typeId}
+            </if>
+            <if test="shopId != null and shopId != '' and shopId != '-1'">
+                and g.shop_id = #{shopId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectGoodsById" parameterType="Long" resultType="cn.amigosoft.modules.bms.other.dto.BmsGoodsDTO">
+        select g.id, g.name, g.code, g.img, g.price, g.unit, g.type_id as typeId, g.shop_id as shopId, g.remark
+        , t.name as typeName
+        , s.name as shopName
+        from bms_goods g
+        left join bms_goods_type t on g.type_id = t.id
+        left join bms_shop s on g.shop_id = s.id
+        where g.id = #{id}
+    </select>
+</mapper>

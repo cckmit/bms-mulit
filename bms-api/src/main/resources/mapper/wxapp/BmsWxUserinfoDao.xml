@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.amigosoft.modules.wxapp.dao.BmsWxUserinfoDao">
+
+    <resultMap type="cn.amigosoft.modules.wxapp.entity.BmsWxUserinfoEntity" id="wxappUserinfoMap">
+        <result property="id" column="id"/>
+        <result property="unionId" column="union_id"/>
+        <result property="type" column="type"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="openId" column="open_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="mobile" column="mobile"/>
+        <result property="avatarUrl" column="avatar_url"/>
+        <result property="provice" column="provice"/>
+        <result property="city" column="city"/>
+        <result property="country" column="country"/>
+        <result property="gender" column="gender"/>
+        <result property="language" column="language"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updater" column="updater"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <select id="getwxUserInfoByOpenid" resultType="cn.amigosoft.modules.wxapp.dto.BmsWxUserinfoDTO">
+        select
+        id,
+        union_id,
+        type,
+        tenant_id,
+        open_id,
+        nickname,
+        mobile,
+        avatar_url,
+        provice,
+        city,
+        country,
+        gender,
+        language,
+        creator,
+        create_date,
+        updater,
+        update_date
+        from bms_wx_userinfo where open_id = #{openId}
+    </select>
+
+    <update id="synchronizeData">
+        update bms_wx_userinfo u, bms_wx_bind b
+        set u.mobile = b.mobile, u.user_id = b.user_id
+        where u.union_id = b.union_id and u.union_id is not null and u.type = 1 and b.type = 0
+    </update>
+
+    <select id="selectNeedRemindOrderUser" resultType="cn.amigosoft.modules.wxapp.dto.BmsWxUserinfoDTO">
+        select u.user_id as userId, u.open_id as openId
+        from bms_wx_userinfo u
+        where u.user_id is not null and u.type = 1
+        and u.user_id not in (select distinct creator from bms_order_detail where yearweek(eat_date,1) = yearweek(now()) + 1)
+    </select>
+
+    <select id="selectTomorrowNoOrderUser" resultType="cn.amigosoft.modules.wxapp.dto.BmsWxUserinfoDTO">
+        select u.user_id as userId, u.open_id as openId
+        from bms_wx_userinfo u
+        where u.user_id is not null and u.type = 1
+        and u.user_id not in
+        (select distinct creator from bms_order_detail where eat_date = date_format(date_add(now(), interval 1 day),'%Y-%m-%d'))
+    </select>
+
+</mapper>
